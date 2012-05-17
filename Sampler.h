@@ -46,7 +46,8 @@ class Sampler
 		void initialise();
 
 		// Choose a particle and do one step with it
-		void step();
+		// Return a flag - whether to continue or not
+		bool step();
 
 		// Do a M-H step of a particle
 		void updateParticle(int which);

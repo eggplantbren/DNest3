@@ -50,12 +50,18 @@ void Sampler<ModelType>::run()
 		initialise();
 
 	while(true)
-		step();
+	{
+		bool cont = step();
+		if(!cont)
+			break;
+	}
 }
 
 template<class ModelType>
-void Sampler<ModelType>::step()
+bool Sampler<ModelType>::step()
 {
+	bool cont = true;
+
 	// Move a particle
 	int which = randInt(options.numParticles);
 	if(randomU() <= 0.5)
@@ -103,7 +109,12 @@ void Sampler<ModelType>::step()
 		saveParticle(which);
 		Level::recalculateLogX(levels, options.newLevelInterval);
 		saveLevels();
+		if(options.maxNumSamples > 0 &&
+			count/options.saveInterval == options.maxNumSamples)
+			cont = false;
 	}
+
+	return cont;
 }
 
 template<class ModelType>
