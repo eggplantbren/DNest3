@@ -13,3 +13,11 @@
 
 # Executables
 main
+
+# DNest output
+sample.txt
+sample_info.txt
+levels.txt
+posterior_sample.txt
+weights.txt
+
