@@ -107,7 +107,7 @@ void Sampler<ModelType>::step()
 }
 
 template<class ModelType>
-void Sampler<ModelType>::saveParticle(int which)
+void Sampler<ModelType>::saveParticle(int which) const
 {
 	int N = count/options.saveInterval;
 	cout<<"# Saving a particle to disk. N = "<<N<<"."<<endl;
@@ -140,7 +140,7 @@ void Sampler<ModelType>::saveParticle(int which)
 }
 
 template<class ModelType>
-void Sampler<ModelType>::saveLevels()
+void Sampler<ModelType>::saveLevels() const
 {
 	fstream fout(options.levelsFile.c_str(), ios::out);
 	fout<<"# logX, logLikelihood, tieBreaker, accepts, tries, exceeds, visits."<<endl;
@@ -198,7 +198,7 @@ void Sampler<ModelType>::updateIndex(int which)
 			- levels[proposedIndex].get_logX();
 
 	// Pushing up part
-	// logA += logPush(proposedIndex) - logPush(theIndices[which]);
+	logA += log(push(proposedIndex)) - log(push(indices[which]));
 
 	// Enforce uniform exploration part (if all levels exist)
 	if(static_cast<int>(levels.size()) == options.maxNumLevels)
@@ -213,6 +213,19 @@ void Sampler<ModelType>::updateIndex(int which)
 		// Accept!
 		indices[which] = proposedIndex;
 	}
+}
+
+template<class ModelType>
+double Sampler<ModelType>::push(int index) const
+{
+	assert(index >= 0 && index < static_cast<int>(levels.size()));
+	if(static_cast<int>(levels.size()) == options.maxNumLevels)
+		return 0.;
+
+	double p_exp = exp(index/options.lambda);
+	p_exp *= (1. - exp(-1./options.lambda))/(1. - exp(-static_cast<int>(levels.size())/options.lambda));
+
+	return p_exp;
 }
 
 } // namespace DNest3

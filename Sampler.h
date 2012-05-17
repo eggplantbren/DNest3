@@ -55,8 +55,11 @@ class Sampler
 		void updateIndex(int which);
 
 		// Savers
-		void saveParticle(int which);
-		void saveLevels();
+		void saveParticle(int which) const;
+		void saveLevels() const;
+
+		// Pushing function
+		double push(int index) const;
 };
 
 }
