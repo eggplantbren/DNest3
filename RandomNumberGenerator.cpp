@@ -8,8 +8,9 @@ namespace DNest3
 {
 
 RandomNumberGenerator::RandomNumberGenerator(int seed)
+:rng(gsl_rng_alloc(gsl_rng_taus))
+,initialised(false)
 {
-	rng = gsl_rng_alloc(gsl_rng_taus);
 	gsl_rng_set(rng, seed);
 }
 

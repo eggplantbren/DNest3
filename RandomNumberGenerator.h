@@ -15,6 +15,7 @@ class RandomNumberGenerator
 {
 	private:
 		gsl_rng* rng;
+		bool initialised;
 
 	public:
 		RandomNumberGenerator(int seed);
