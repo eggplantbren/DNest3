@@ -25,21 +25,6 @@ Level::Level(double logX, const LikelihoodType& cutoff)
 
 }
 
-LikelihoodType Level::getCutoff() const
-{
-	return cutoff;
-}
-
-double Level::getLogX() const
-{
-	return logX;
-}
-
-int Level::getTries() const
-{
-	return tries;
-}
-
 void Level::recalculateLogX(vector<Level>& levels, int regularisation)
 {
 	assert(levels.size() > 0);
@@ -78,17 +63,6 @@ void Level::renormaliseVisits(vector<Level>& levels, int regularisation)
 			levels[i].tries = 0;
 			levels[i].visits = 0;
 		}
-	}
-}
-
-void Level::zero(vector<Level>& levels)
-{
-	for(size_t i=0; i<levels.size(); i++)
-	{
-		levels[i].accepts = 0;
-		levels[i].exceeds = 0;
-		levels[i].tries = 0;
-		levels[i].visits = 0;
 	}
 }
 
