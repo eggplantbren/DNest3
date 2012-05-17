@@ -23,13 +23,13 @@ TestModel.o: TestModel.cpp TestModel.h Model.h
 	g++ $(CFLAGS) -c TestModel.cpp
 
 ### Static library
-libnewampler.a: LikelihoodType.o Model.o RandomNumberGenerator.o
-	ar rcs libSampler.a LikelihoodType.o Model.o RandomNumberGenerator.o
+libnewsampler.a: LikelihoodType.o Model.o RandomNumberGenerator.o
+	ar rcs libnewsampler.a LikelihoodType.o Model.o RandomNumberGenerator.o
 
 ### Main executable
-main: main.o TestModel.o libnewampler.a
+main: main.o TestModel.o libnewsampler.a
 	g++ -o main main.o TestModel.o -lnewsampler
 
 clean:
-	rm -f *.o libnewampler.a
+	rm -f *.o libnewsampler.a
 
