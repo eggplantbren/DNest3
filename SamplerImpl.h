@@ -5,6 +5,7 @@
 #include <cassert>
 #include <cmath>
 #include <algorithm>
+#include <iomanip>
 
 using namespace std;
 
@@ -89,24 +90,26 @@ void Sampler<ModelType>::step()
 
 		// Save the particle to file
 		fstream fout;
-		if(N == 0)
+		if(N == 1)
 		{
 			fout.open(options.sampleFile.c_str(), ios::out);
 			fout<<"# Samples file. One sample per line."<<endl;
 		}
 		else
 			fout.open(options.sampleFile.c_str(), ios::out|ios::app);
+		fout<<setprecision(10);
 		particles[which].print(fout); fout<<endl;
 		fout.close();
 
 		// Save the particle's info
-		if(N == 0)
+		if(N == 1)
 		{
 			fout.open(options.sampleInfoFile.c_str(), ios::out);
 			fout<<"# index, logLikelihood, tieBreaker, ID."<<endl;
 		}
 		else
 			fout.open(options.sampleInfoFile.c_str(), ios::out|ios::app);
+		fout<<setprecision(10);
 		fout<<indices[which]<<' '<<logL[which].logL<<' '
 				<<logL[which].tieBreaker<<' '<<which<<endl;
 		fout.close();
