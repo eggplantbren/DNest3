@@ -10,6 +10,10 @@ namespace DNest3
 
 class Options
 {
+	// All Sampler specialisations can access Options members
+	template<class ModelType>
+	friend class Sampler;
+
 	public:
 		unsigned int numParticles;
 		unsigned int newLevelInterval;

@@ -8,7 +8,8 @@ using namespace DNest3;
 
 int main()
 {
-	Sampler<SpikeSlab> sampler;
+	Options options("OPTIONS");
+	Sampler<SpikeSlab> sampler(options);
 	cout<<randomU()<<endl;
 	return 0;
 }
