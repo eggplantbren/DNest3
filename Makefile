@@ -5,8 +5,8 @@ CFLAGS = -O0 -g -Wall -Wextra -ansi -pedantic
 #CFLAGS = -O2 -Wall -Wextra -ansi -pedantic -DNDEBUG
 
 LIBS = -ldnest3 -lgsl -lgslcblas
-SOURCES = LikelihoodType.cpp Model.cpp Options.cpp RandomNumberGenerator.cpp Utils.cpp
-OBJECTS = LikelihoodType.o Model.o Options.o RandomNumberGenerator.o Utils.o
+SOURCES = Level.cpp LikelihoodType.cpp Model.cpp Options.cpp RandomNumberGenerator.cpp Utils.cpp
+OBJECTS = Level.o LikelihoodType.o Model.o Options.o RandomNumberGenerator.o Utils.o
 
 default:
 	# Compile all library components
