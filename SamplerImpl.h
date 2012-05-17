@@ -79,13 +79,29 @@ void Sampler<ModelType>::step()
 	if(static_cast<int>(logLKeep.size()) >= options.newLevelInterval)
 	{
 		sort(logLKeep.begin(), logLKeep.end());
-		// NOT IMPLEMENTED YET
-		logLKeep.clear();
+		int ii = static_cast<int>(0.63212056
+				*static_cast<int>(logLKeep.size()));
+		LikelihoodType cutoff = logLKeep[ii];
+		cout<<"# Creating a new level with logL = "<<cutoff.logL
+			<<"."<<endl;
+		levels.push_back(Level(levels.back().get_logX() - 1., cutoff));
+
+		if(static_cast<int>(levels.size()) == options.maxNumLevels)
+		{
+			logLKeep.clear();
+			Level::renormaliseVisits(levels, options.newLevelInterval);
+		}
+		else
+			logLKeep.erase(logLKeep.begin(), logLKeep.begin() + ii + 1);
+
+		Level::recalculateLogX(levels, options.newLevelInterval);
+		saveLevels();
 	}
 
 	if(count%options.saveInterval == 0)
 	{
 		saveParticle(which);
+		Level::recalculateLogX(levels, options.newLevelInterval);
 		saveLevels();
 	}
 }
