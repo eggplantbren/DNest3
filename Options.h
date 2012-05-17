@@ -1,6 +1,8 @@
 #ifndef _Options_
 #define _Options_
 
+#include <string>
+
 /*
 * Options for the Sampler
 */
@@ -15,12 +17,18 @@ class Options
 	friend class Sampler;
 
 	public:
+		// Numerical options
 		int numParticles;
 		int newLevelInterval;
 		int saveInterval;
 		int maxNumLevels;
 		double lambda, beta;
 		int maxNumSamples;
+
+		// Filenames
+		std::string sampleFile;
+		std::string sampleInfoFile;
+		std::string levelsFile;
 
 	public:
 		Options(int numParticles,

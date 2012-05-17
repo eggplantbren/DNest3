@@ -23,6 +23,9 @@ Options::Options(int numParticles,
 ,lambda(lambda)
 ,beta(beta)
 ,maxNumSamples(maxNumSamples)
+,sampleFile("sample.txt")
+,sampleInfoFile("sample_info.txt")
+,levelsFile("levels.txt")
 {
 	assert( numParticles > 0 && newLevelInterval > 0 &&
 		maxNumLevels > 0 && lambda > 0. &&
@@ -30,6 +33,9 @@ Options::Options(int numParticles,
 }
 
 Options::Options(const char* filename)
+:sampleFile("sample.txt")
+,sampleInfoFile("sample_info.txt")
+,levelsFile("levels.txt")
 {
 	load(filename);
 }
