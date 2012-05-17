@@ -1,5 +1,5 @@
-#ifndef _TestModel_
-#define _TestModel_
+#ifndef _SpikeSlab_
+#define _SpikeSlab_
 
 #include "Model.h"
 #include <vector>
@@ -7,13 +7,13 @@
 namespace NewSampler
 {
 
-class TestModel:public Model
+class SpikeSlab:public Model
 {
 	private:
 		std::vector<double> params;
 
 	public:
-		TestModel();
+		SpikeSlab();
 
 		// Generate the point from the prior
 		void fromPrior();

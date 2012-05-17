@@ -1,13 +1,13 @@
 #include <iostream>
 #include "Sampler.h"
-#include "TestModel.h"
+#include "Models/SpikeSlab/SpikeSlab.h"
 
 using namespace std;
 using namespace NewSampler;
 
 int main()
 {
-	Sampler<TestModel> sampler;
+	Sampler<SpikeSlab> sampler;
 	return 0;
 }
 
