@@ -10,6 +10,9 @@ default: libnewsampler.a main
 main.o: main.cpp NewSampler.h
 	g++ $(CFLAGS) -c main.cpp
 
+LikelihoodType.o: LikelihoodType.cpp LikelihoodType.h
+	g++ $(CFLAGS) -c LikelihoodType.cpp
+
 Model.o: Model.cpp Model.h
 	g++ $(CFLAGS) -c Model.cpp
 
@@ -17,8 +20,8 @@ RandomNumberGenerator.o: RandomNumberGenerator.cpp RandomNumberGenerator.h
 	g++ $(CFLAGS) -c RandomNumberGenerator.cpp
 
 ### Static library
-libnewsampler.a: Model.o RandomNumberGenerator.o
-	ar rcs libnewsampler.a Model.o RandomNumberGenerator.o
+libnewsampler.a: LikelihoodType.o Model.o RandomNumberGenerator.o
+	ar rcs libnewsampler.a LikelihoodType.o Model.o RandomNumberGenerator.o
 
 ### Main executable
 main: main.o libnewsampler.a
