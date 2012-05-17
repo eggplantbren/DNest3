@@ -7,7 +7,7 @@ CFLAGS = -O0 -g -Wall -Wextra -ansi -pedantic
 default: libnewsampler.a main
 
 ### Object files
-main.o: main.cpp Sampler.h LikelihoodType.h
+main.o: main.cpp Sampler.h SamplerImpl.h TestModel.h LikelihoodType.h
 	g++ $(CFLAGS) -c main.cpp
 
 LikelihoodType.o: LikelihoodType.cpp LikelihoodType.h
