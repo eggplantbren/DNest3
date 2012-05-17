@@ -21,11 +21,23 @@ class Sampler
 		std::vector<int> indices;
 
 		// Stuff pertaining to the level structure
+	//	std::vector<Level> levels;
 		std::vector<LikelihoodType> logLKeep;
 
+		bool initialised;
+
 	public:
+		// Constructor: Pass in Options object
 		Sampler(const Options& options);
 
+		// Initialise all objects from the prior
+		void initialise();
+
+		// Do the sampling!
+		void run();
+
+		// Do one step
+		void step();
 };
 
 }

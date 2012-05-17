@@ -10,7 +10,7 @@ int main()
 {
 	Options options("OPTIONS");
 	Sampler<SpikeSlab> sampler(options);
-	cout<<randomU()<<endl;
+	sampler.run();
 	return 0;
 }
 
