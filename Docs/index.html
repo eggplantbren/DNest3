@@ -48,7 +48,6 @@
     <br>
     * <a href="http://www.gnu.org/software/gsl/">The GNU Scientific
       Library</a><br>
-    * <a href="http://www.boost.org/">Boost C++ Libraries</a><br>
     * <a href="http://www.python.org/">Python 2</a> + <a
       href="http://numpy.scipy.org/">NumPy</a> + <a
       href="matplotlib.sourceforge.net">matplotlib</a><br>
@@ -73,20 +72,7 @@
       style="font-family: monospace;">/usr/local/lib</span>. It will
     also compile the examples in the <span style="font-family:
       monospace;">Examples/</span> directory, creating executable files
-    that you can use to run the examples.<br style="color: red;">
-    <br style="color: red;">
-    <span style="color: rgb(0, 0, 153);">Note: On some systems, the
-      Boost.Thread library files are named <span style="font-family:
-        monospace;">libboost_thread-mt</span>, rather than <span
-        style="font-family: monospace;">libboost_thread</span>. If you
-      get linker errors about not being able to find <span
-        style="font-family: monospace;">-lboost_thread</span>, and
-      you're sure you've installed Boost correctly, this is probably the
-      cause. To fix this problem, edit the <span style="font-family:
-        monospace;">Makefile</span>s (the one from the root directory,
-      and the one for each example) and replace <span
-        style="font-family: monospace;">-lboost_thread</span> with <span
-        style="font-family: monospace;">-lboost_thread-mt</span>.</span><br>
+    that you can use to run the examples.<br>
     <h3>Running the Examples</h3>
     Two examples are provided with DNest. I will now explain how DNest
     is used through the first example, <span style="font-style:
@@ -97,6 +83,7 @@
       href="http://arxiv.org/abs/0912.2380">paper</a>, and is a slight
     modification of one of the examples in <a
 href="http://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.117.5542&amp;rep=rep1&amp;type=pdf">John
+
 
 
       Skilling's Nested Sampling Paper</a>. It is a problem with 20
@@ -202,57 +189,8 @@ href="http://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.117.5542&amp;rep=
     <a href="tutorial.html">Here</a> is a tutorial explaining how to
     implement "fitting a straight line" in DNest.<br>
     <h3>Tips and Tricks</h3>
-    Click <a href="tips_and_tricks.html">here</a>.<br>
-    <h3>Multithreading Disclaimer</h3>
-    I am not an expert at multi-thread programming, which tends to be
-    quite subtle. In fact, I learned it just so that I could parallelise
-    DNest. I have made every effort to ensure that DNest does not
-    produce any race conditions or other errors. For example, each
-    thread gets its own random number generator (seeded with different
-    values, of course), and each thread updates its own models. The
-    occasional communication between threads is protected with mutexes
-    (these allow you to create blocks of code that are guaranteed to be
-    exectuted by only one thread at a time).<br>
-    <br>
-    However, I have read on the web that a lot of libraries, such as the
-    C++ Standard Library, are not guaranteed to be thread-safe, and that
-    this is implementation dependent. What this means, for example, is
-    that if thread 1 is modifying some data in a C++ std::vector v1, and
-    thread 2 is working on a <span style="font-style: italic;">completely
-
-      different</span> vector v2, errors might still occur, maybe
-    because the std::vector implementation might contain static
-    variables.<br>
-    <br>
-    To check for threading errors, I have run DNest (compiled against
-    recent versions of the GNU C++ library, GSL and Boost) through
-    thread error checkers such as <a href="http://www.valgrind.org/">Valgrind</a>'s
-
-    tools <span style="font-family: monospace;">drd</span> and <span
-      style="font-family: monospace;">helgrind</span>, and they produced
-    no errors*.<br>
-    <br>
-    <span style="font-family: monospace;">valgrind --tool=drd
-      ./SpikeSlab</span><br style="font-family: monospace;">
-    <span style="font-family: monospace;">valgrind --tool=helgrind
-      ./SpikeSlab</span><br style="font-family: monospace;">
-    <span style="font-family: serif;"><br>
-    </span><span style="font-family: serif;">*Apart from the following:
-      1) <span style="font-family: monospace;">helgrind</span> produces
-      false positives when using <span style="font-family: monospace;">boost::barrier</span>
-      with older versions of Valgrind</span>. 2) Errors are reported
-    when the program is terminated from <span style="font-family:
-      monospace;">&lt;cstdlib&gt;</span>'s <span style="font-family:
-      monospace;">exit(int)</span>. I doubt this is a real problem.<br>
-    <br>
-    If any of this worries you, you can always execute DNest in legacy
-    mode, which will run the old serial version:<br>
-    <br>
-    <span style="font-family: monospace;">./SpikeSlab --legacy<br>
-      <br>
-    </span><span style="font-family: serif;">If you are an expert in
-      multithreaded programming in C++, I would be interested in hearing
-      from you.<br>
+    Click <a href="tips_and_tricks.html">here</a>.<span
+      style="font-family: serif;"><br>
     </span>
     <h3>Other Recommended Samplers</h3>
     While DNest is a very effective sampler and works on a wide range of
