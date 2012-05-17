@@ -28,7 +28,7 @@ libnewsampler.a: LikelihoodType.o Model.o RandomNumberGenerator.o
 
 ### Main executable
 main: main.o SpikeSlab.o libnewsampler.a
-	g++ -o main main.o SpikeSlab.o -lnewsampler
+	g++ -o main main.o SpikeSlab.o -lnewsampler -lgsl -lgslcblas
 
 clean:
 	rm -f *.o libnewsampler.a
