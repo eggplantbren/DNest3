@@ -4,7 +4,7 @@
 #include <vector>
 #include <ostream>
 
-namespace NewSampler
+namespace DNest3
 {
 
 /* Abstract base class for models */
@@ -27,7 +27,7 @@ class Model
 		virtual void print(std::ostream& out) const = 0;
 };
 
-} // namespace NewSampler
+} // namespace DNest3
 
 #endif
 

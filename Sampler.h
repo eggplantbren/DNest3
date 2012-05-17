@@ -4,7 +4,7 @@
 #include <vector>
 #include "LikelihoodType.h"
 
-namespace NewSampler
+namespace DNest3
 {
 
 template<class ModelType>

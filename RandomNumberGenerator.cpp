@@ -4,8 +4,9 @@
 
 using namespace std;
 
-namespace NewSampler
+namespace DNest3
 {
+
 RandomNumberGenerator::RandomNumberGenerator(int seed)
 {
 	rng = gsl_rng_alloc(gsl_rng_taus);
@@ -32,5 +33,5 @@ int RandomNumberGenerator::randInt(int numPossibilities) const
 	return (int)floor(numPossibilities*this->randomU());
 }
 
-} // namespace NewSampler
+} // namespace DNest3
 

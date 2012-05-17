@@ -1,7 +1,7 @@
 #ifndef _LikelihoodType_
 #define _LikelihoodType_
 
-namespace NewSampler
+namespace DNest3
 {
 
 struct LikelihoodType
@@ -12,7 +12,7 @@ struct LikelihoodType
 
 bool operator < (const LikelihoodType& l1, const LikelihoodType& l2);
 
-} // namespace NewSampler
+} // namespace DNest3
 
 #endif
 

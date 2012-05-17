@@ -1,6 +1,6 @@
 #include "LikelihoodType.h"
 
-namespace NewSampler
+namespace DNest3
 {
 
 bool operator < (const LikelihoodType& l1, const LikelihoodType& l2)
@@ -13,5 +13,5 @@ bool operator < (const LikelihoodType& l1, const LikelihoodType& l2)
 	return result;
 }
 
-} // namespace NewSampler
+} // namespace DNest3
 

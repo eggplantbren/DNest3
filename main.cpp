@@ -3,7 +3,7 @@
 #include "Models/SpikeSlab/SpikeSlab.h"
 
 using namespace std;
-using namespace NewSampler;
+using namespace DNest3;
 
 int main()
 {

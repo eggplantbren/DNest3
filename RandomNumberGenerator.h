@@ -4,7 +4,7 @@
 #include <gsl/gsl_rng.h>
 #include <vector>
 
-namespace NewSampler
+namespace DNest3
 {
 
 /*
@@ -30,7 +30,7 @@ class RandomNumberGenerator
 
 };
 
-} // namespace NewSampler
+} // namespace DNest3
 
 #endif
 

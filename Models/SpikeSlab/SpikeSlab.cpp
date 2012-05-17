@@ -2,9 +2,6 @@
 
 using namespace std;
 
-namespace NewSampler
-{
-
 SpikeSlab::SpikeSlab()
 :params(20)
 {
@@ -30,6 +27,4 @@ void SpikeSlab::print(std::ostream& out) const
 {
 	out<<' ';
 }
-
-} // namespace SpikeSlab
 

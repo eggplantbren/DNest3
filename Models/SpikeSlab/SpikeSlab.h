@@ -4,10 +4,7 @@
 #include "Model.h"
 #include <vector>
 
-namespace NewSampler
-{
-
-class SpikeSlab:public Model
+class SpikeSlab:public DNest3::Model
 {
 	private:
 		std::vector<double> params;
@@ -29,8 +26,6 @@ class SpikeSlab:public Model
 
 
 };
-
-} // namespace NewSampler
 
 #endif
 
