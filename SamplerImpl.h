@@ -1,6 +1,9 @@
 #include "RandomNumberGenerator.h"
+#include "Utils.h"
 #include <iostream>
+#include <fstream>
 #include <cassert>
+#include <cmath>
 
 using namespace std;
 
@@ -16,6 +19,7 @@ Sampler<ModelType>::Sampler(const Options& options)
 ,levels(1, Level(0., -1E300, 0.))
 ,logLKeep(0)
 ,initialised(false)
+,count(0)
 {
 
 }
@@ -62,12 +66,43 @@ void Sampler<ModelType>::step()
 		updateIndex(which);
 		updateParticle(which);
 	}
+	count++;
+
+	if(count%options.saveInterval == 0)
+	{
+		// Save a particle to file
+		int N = count/options.saveInterval;
+		fstream fout;
+		if(N == 0)
+			fout.open(options.sampleFile.c_str(), ios::out);
+		else
+			fout.open(options.sampleFile.c_str(), ios::out|ios::app);
+		particles[which].print(fout); fout<<endl;
+		fout.close();
+	}
 }
 
 template<class ModelType>
 void Sampler<ModelType>::updateParticle(int which)
 {
-	cout<<which;
+	// Copy the particle
+	ModelType proposal = particles[which];
+	LikelihoodType logL_proposal = logL[which];
+
+	// Perturb the proposal particle
+	double logH = proposal.perturb();
+	logL_proposal.tieBreaker += pow(10., 1.5 - 6.*randomU())*randn();
+	logL_proposal.tieBreaker = mod(logL_proposal.tieBreaker, 1.);
+	if(logH > 0.)
+		logH = 0.;
+
+	if(levels[indices[which]].get_cutoff() < logL_proposal
+		&& randomU() <= exp(logH))
+	{
+		// Accept
+		particles[which] = proposal;
+		logL[which] = logL_proposal;
+	}
 }
 
 template<class ModelType>

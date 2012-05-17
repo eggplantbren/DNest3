@@ -25,7 +25,12 @@ class Sampler
 		std::vector<Level> levels;
 		std::vector<LikelihoodType> logLKeep;
 
+		// Whether initialise() has ever been called
 		bool initialised;
+
+		// Number of MCMC steps ever done
+		int count;
+
 
 	public:
 		// Constructor: Pass in Options object
