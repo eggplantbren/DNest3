@@ -1,5 +1,5 @@
 #include <iostream>
-#include "NewSampler.h"
+#include "Sampler.h"
 
 using namespace std;
 

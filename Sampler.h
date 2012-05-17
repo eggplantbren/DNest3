@@ -1,5 +1,5 @@
-#ifndef _NewSampler_
-#define _NewSampler_
+#ifndef _Sampler_
+#define _Sampler_
 
 #include <vector>
 #include "LikelihoodType.h"
@@ -8,7 +8,7 @@ namespace NewSampler
 {
 
 template<class ModelType>
-class NewSampler
+class Sampler
 {
 	private:
 		// Options options;
@@ -16,13 +16,13 @@ class NewSampler
 		std::vector<LikelihoodType> logL;
 
 	public:
-		//NewSampler(Options& options);
+		//Sampler(Options& options);
 
 };
 
 }
 
-#include "NewSamplerImpl.h"
+#include "SamplerImpl.h"
 
 #endif
 

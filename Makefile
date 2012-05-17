@@ -7,7 +7,7 @@ CFLAGS = -O0 -g -Wall -Wextra -ansi -pedantic
 default: libnewsampler.a main
 
 ### Object files
-main.o: main.cpp NewSampler.h LikelihoodType.h
+main.o: main.cpp Sampler.h LikelihoodType.h
 	g++ $(CFLAGS) -c main.cpp
 
 LikelihoodType.o: LikelihoodType.cpp LikelihoodType.h
@@ -20,13 +20,13 @@ RandomNumberGenerator.o: RandomNumberGenerator.cpp RandomNumberGenerator.h
 	g++ $(CFLAGS) -c RandomNumberGenerator.cpp
 
 ### Static library
-libnewsampler.a: LikelihoodType.o Model.o RandomNumberGenerator.o
-	ar rcs libnewsampler.a LikelihoodType.o Model.o RandomNumberGenerator.o
+libnewampler.a: LikelihoodType.o Model.o RandomNumberGenerator.o
+	ar rcs libSampler.a LikelihoodType.o Model.o RandomNumberGenerator.o
 
 ### Main executable
-main: main.o libnewsampler.a
+main: main.o libnewampler.a
 	g++ -o main main.o -lnewsampler
 
 clean:
-	rm -f *.o libnewsampler.a
+	rm -f *.o libnewampler.a
 
