@@ -21,3 +21,6 @@ levels.txt
 posterior_sample.txt
 weights.txt
 
+# Python bytecode
+*.pyc
+
