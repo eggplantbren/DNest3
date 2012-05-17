@@ -53,6 +53,10 @@ class Sampler
 
 		// Do a M-H step of an index
 		void updateIndex(int which);
+
+		// Savers
+		void saveParticle(int which);
+		void saveLevels();
 };
 
 }

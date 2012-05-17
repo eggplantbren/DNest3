@@ -23,7 +23,7 @@ Sampler<ModelType>::Sampler(const Options& options)
 ,initialised(false)
 ,count(0)
 {
-
+	saveLevels();
 }
 
 template<class ModelType>
@@ -85,35 +85,53 @@ void Sampler<ModelType>::step()
 
 	if(count%options.saveInterval == 0)
 	{
-		int N = count/options.saveInterval;
-		cout<<"# Saving a particle to disk. N = "<<N<<"."<<endl;
-
-		// Save the particle to file
-		fstream fout;
-		if(N == 1)
-		{
-			fout.open(options.sampleFile.c_str(), ios::out);
-			fout<<"# Samples file. One sample per line."<<endl;
-		}
-		else
-			fout.open(options.sampleFile.c_str(), ios::out|ios::app);
-		fout<<setprecision(10);
-		particles[which].print(fout); fout<<endl;
-		fout.close();
-
-		// Save the particle's info
-		if(N == 1)
-		{
-			fout.open(options.sampleInfoFile.c_str(), ios::out);
-			fout<<"# index, logLikelihood, tieBreaker, ID."<<endl;
-		}
-		else
-			fout.open(options.sampleInfoFile.c_str(), ios::out|ios::app);
-		fout<<setprecision(10);
-		fout<<indices[which]<<' '<<logL[which].logL<<' '
-				<<logL[which].tieBreaker<<' '<<which<<endl;
-		fout.close();
+		saveParticle(which);
+		saveLevels();
 	}
+}
+
+template<class ModelType>
+void Sampler<ModelType>::saveParticle(int which)
+{
+	int N = count/options.saveInterval;
+	cout<<"# Saving a particle to disk. N = "<<N<<"."<<endl;
+
+	// Save the particle to file
+	fstream fout;
+	if(N == 1)
+	{
+		fout.open(options.sampleFile.c_str(), ios::out);
+		fout<<"# Samples file. One sample per line."<<endl;
+	}
+	else
+		fout.open(options.sampleFile.c_str(), ios::out|ios::app);
+	fout<<setprecision(10);
+	particles[which].print(fout); fout<<endl;
+	fout.close();
+
+	// Save the particle's info
+	if(N == 1)
+	{
+		fout.open(options.sampleInfoFile.c_str(), ios::out);
+		fout<<"# index, logLikelihood, tieBreaker, ID."<<endl;
+	}
+	else
+		fout.open(options.sampleInfoFile.c_str(), ios::out|ios::app);
+	fout<<setprecision(10);
+	fout<<indices[which]<<' '<<logL[which].logL<<' '
+			<<logL[which].tieBreaker<<' '<<which<<endl;
+	fout.close();
+}
+
+template<class ModelType>
+void Sampler<ModelType>::saveLevels()
+{
+	fstream fout(options.levelsFile.c_str(), ios::out);
+	fout<<"# logX, logLikelihood, tieBreaker, accepts, tries, exceeds, visits."<<endl;
+	fout<<setprecision(10);
+	for(size_t i=0; i<levels.size(); i++)
+		fout<<levels[i]<<endl;
+	fout.close();
 }
 
 template<class ModelType>
@@ -125,18 +143,22 @@ void Sampler<ModelType>::updateParticle(int which)
 
 	// Perturb the proposal particle
 	double logH = proposal.perturb();
+	logL_proposal.logL = proposal.logLikelihood();
 	logL_proposal.tieBreaker += pow(10., 1.5 - 6.*randomU())*randn();
 	logL_proposal.tieBreaker = mod(logL_proposal.tieBreaker, 1.);
 	if(logH > 0.)
 		logH = 0.;
 
+	bool accepted = false;
 	if(levels[indices[which]].get_cutoff() < logL_proposal
 		&& randomU() <= exp(logH))
 	{
 		// Accept
 		particles[which] = proposal;
 		logL[which] = logL_proposal;
+		accepted = true;
 	}
+	levels[indices[which]].incrementTries(accepted);
 }
 
 template<class ModelType>
