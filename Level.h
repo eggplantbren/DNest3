@@ -31,7 +31,7 @@ class Level
 		Level(double logX, double logL, double tieBreaker);
 
 		// Getters
-		LikelihoodType get_cutoff() const { return cutoff; }
+		const LikelihoodType& get_cutoff() const { return cutoff; }
 		double get_logX() const { return logX; }
 
 		// Update level statistics
