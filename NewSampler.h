@@ -12,9 +12,7 @@ class NewSampler
 {
 	private:
 		// Options options;
-		ModelType model;
-		std::vector< std::vector<double> > walkers;
-		std::vector<double> logP;
+		std::vector<ModelType> walkers;
 		std::vector<LikelihoodType> logL;
 
 	public:
