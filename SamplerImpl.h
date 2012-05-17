@@ -139,7 +139,39 @@ void Sampler<ModelType>::updateParticle(int which)
 template<class ModelType>
 void Sampler<ModelType>::updateIndex(int which)
 {
-	cout<<which;
+	int proposedIndex = indices[which]
+		+ static_cast<int>(round(pow(10., 2.0*randomU())*randn()));
+
+	if(proposedIndex == indices[which])
+	{
+		proposedIndex = (randomU() < 0.5)?(indices[which]+1)
+				:(indices[which]-1);
+	}
+
+	if(proposedIndex < 0 ||
+		proposedIndex >= static_cast<int>(levels.size()))
+		return;
+
+	// Acceptance probability. logX part
+	double logA = levels[indices[which]].get_logX()
+			- levels[proposedIndex].get_logX();
+
+	// Pushing up part
+	// logA += logPush(proposedIndex) - logPush(theIndices[which]);
+
+	// Enforce uniform exploration part (if all levels exist)
+	if(static_cast<int>(levels.size()) == options.maxNumLevels)
+		logA += options.beta*log((double)(levels[indices[which]].get_tries() + 1)/(double)(levels[proposedIndex].get_tries() + 1));
+
+	// Prevent exponentiation of huge numbers
+	if(logA > 0.)
+		logA = 0.;
+
+	if(randomU() <= exp(logA) && levels[proposedIndex].get_cutoff() < logL[which])
+	{
+		// Accept!
+		indices[which] = proposedIndex;
+	}
 }
 
 } // namespace DNest3

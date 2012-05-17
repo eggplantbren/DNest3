@@ -33,6 +33,7 @@ class Level
 		// Getters
 		const LikelihoodType& get_cutoff() const { return cutoff; }
 		double get_logX() const { return logX; }
+		int get_tries() const { return tries; }
 
 		// Update level statistics
 		void incrementVisits(bool incrementExceeds);
