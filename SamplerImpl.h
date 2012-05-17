@@ -4,6 +4,7 @@
 #include <fstream>
 #include <cassert>
 #include <cmath>
+#include <algorithm>
 
 using namespace std;
 
@@ -54,8 +55,8 @@ void Sampler<ModelType>::run()
 template<class ModelType>
 void Sampler<ModelType>::step()
 {
+	// Move a particle
 	int which = randInt(options.numParticles);
-
 	if(randomU() <= 0.5)
 	{
 		updateParticle(which);
@@ -68,16 +69,46 @@ void Sampler<ModelType>::step()
 	}
 	count++;
 
+	// Accumulate likelihoods for making a new level
+	if(static_cast<int>(levels.size()) < options.maxNumLevels &&
+			levels.back().get_cutoff() < logL[which])
+		logLKeep.push_back(logL[which]);
+
+	// Actually create a new level
+	if(static_cast<int>(logLKeep.size()) >= options.newLevelInterval)
+	{
+		sort(logLKeep.begin(), logLKeep.end());
+		// NOT IMPLEMENTED YET
+		logLKeep.clear();
+	}
+
 	if(count%options.saveInterval == 0)
 	{
-		// Save a particle to file
 		int N = count/options.saveInterval;
+		cout<<"# Saving a particle to disk. N = "<<N<<"."<<endl;
+
+		// Save the particle to file
 		fstream fout;
 		if(N == 0)
+		{
 			fout.open(options.sampleFile.c_str(), ios::out);
+			fout<<"# Samples file. One sample per line."<<endl;
+		}
 		else
 			fout.open(options.sampleFile.c_str(), ios::out|ios::app);
 		particles[which].print(fout); fout<<endl;
+		fout.close();
+
+		// Save the particle's info
+		if(N == 0)
+		{
+			fout.open(options.sampleInfoFile.c_str(), ios::out);
+			fout<<"# index, logLikelihood, tieBreaker, ID."<<endl;
+		}
+		else
+			fout.open(options.sampleInfoFile.c_str(), ios::out|ios::app);
+		fout<<indices[which]<<' '<<logL[which].logL<<' '
+				<<logL[which].tieBreaker<<' '<<which<<endl;
 		fout.close();
 	}
 }
