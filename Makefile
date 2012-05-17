@@ -3,8 +3,11 @@ CFLAGS = -O0 -g -Wall -Wextra -ansi -pedantic # Development
 
 default: libnewsampler tests
 
-libnewsampler: RandomNumberGenerator.o
-	ar rcs libnewsampler.a RandomNumberGenerator.o
+libnewsampler: Model.o RandomNumberGenerator.o
+	ar rcs libnewsampler.a Model.o RandomNumberGenerator.o
+
+Model.o: Model.cpp Model.h
+	g++ $(CFLAGS) -c Model.cpp
 
 RandomNumberGenerator.o: RandomNumberGenerator.cpp RandomNumberGenerator.h
 	g++ $(CFLAGS) -c RandomNumberGenerator.cpp
