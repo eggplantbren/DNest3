@@ -22,9 +22,12 @@ RandomNumberGenerator.o: RandomNumberGenerator.cpp RandomNumberGenerator.h
 SpikeSlab.o: Models/SpikeSlab/SpikeSlab.cpp Models/SpikeSlab/SpikeSlab.h Model.h
 	g++ $(CFLAGS) -c Models/SpikeSlab/SpikeSlab.cpp
 
+Utils.o: Utils.cpp Utils.h
+	g++ $(CFLAGS) -c Utils.cpp
+
 ### Static library
-libnewsampler.a: LikelihoodType.o Model.o RandomNumberGenerator.o
-	ar rcs libnewsampler.a LikelihoodType.o Model.o RandomNumberGenerator.o
+libnewsampler.a: LikelihoodType.o Model.o RandomNumberGenerator.o Utils.o
+	ar rcs libnewsampler.a LikelihoodType.o Model.o RandomNumberGenerator.o Utils.o
 
 ### Main executable
 main: main.o SpikeSlab.o libnewsampler.a
