@@ -3,6 +3,16 @@
 namespace DNest3
 {
 
+LikelihoodType::LikelihoodType()
+{
+}
+
+LikelihoodType::LikelihoodType(double logL, double tieBreaker)
+:logL(logL)
+,tieBreaker(tieBreaker)
+{
+}
+
 bool operator < (const LikelihoodType& l1, const LikelihoodType& l2)
 {
 	bool result = false;

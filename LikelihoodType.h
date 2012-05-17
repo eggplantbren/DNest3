@@ -4,10 +4,14 @@
 namespace DNest3
 {
 
-struct LikelihoodType
+class LikelihoodType
 {
-	double logL;
-	double tieBreaker;
+	public:
+		double logL;
+		double tieBreaker;
+
+		LikelihoodType();
+		LikelihoodType(double logL, double tieBreaker);
 };
 
 bool operator < (const LikelihoodType& l1, const LikelihoodType& l2);
