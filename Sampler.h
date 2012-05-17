@@ -4,6 +4,7 @@
 #include <vector>
 #include "LikelihoodType.h"
 #include "Options.h"
+#include "Level.h"
 
 namespace DNest3
 {
@@ -21,7 +22,7 @@ class Sampler
 		std::vector<int> indices;
 
 		// Stuff pertaining to the level structure
-	//	std::vector<Level> levels;
+		std::vector<Level> levels;
 		std::vector<LikelihoodType> logLKeep;
 
 		bool initialised;
@@ -30,14 +31,23 @@ class Sampler
 		// Constructor: Pass in Options object
 		Sampler(const Options& options);
 
-		// Initialise all objects from the prior
-		void initialise();
-
 		// Do the sampling!
 		void run();
 
-		// Do one step
+	private:
+		// These are helper methods -- not part of the public interface
+
+		// Initialise all objects from the prior
+		void initialise();
+
+		// Choose a particle and do one step with it
 		void step();
+
+		// Do a M-H step of a particle
+		void updateParticle(int which);
+
+		// Do a M-H step of an index
+		void updateIndex(int which);
 };
 
 }
