@@ -15,21 +15,21 @@ class Options
 	friend class Sampler;
 
 	public:
-		unsigned int numParticles;
-		unsigned int newLevelInterval;
-		unsigned int saveInterval;
-		unsigned int maxNumLevels;
+		int numParticles;
+		int newLevelInterval;
+		int saveInterval;
+		int maxNumLevels;
 		double lambda, beta;
-		unsigned int maxNumSamples;
+		int maxNumSamples;
 
 	public:
-		Options(unsigned int numParticles,
-			unsigned int newLevelInterval,
-			unsigned int saveInterval,
-			unsigned int maxNumLevels,
+		Options(int numParticles,
+			int newLevelInterval,
+			int saveInterval,
+			int maxNumLevels,
 			double lambda,
 			double beta,
-			unsigned int maxNumSamples);
+			int maxNumSamples);
 
 		Options(const char* filename);
 		void load(const char* filename);

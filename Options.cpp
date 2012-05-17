@@ -2,19 +2,20 @@
 #include "Utils.h"
 #include <fstream>
 #include <iostream>
+#include <cassert>
 
 using namespace std;
 
 namespace DNest3
 {
 
-Options::Options(	unsigned int numParticles,
-			unsigned int newLevelInterval,
-			unsigned int saveInterval,
-			unsigned int maxNumLevels,
-			double lambda,
-			double beta,
-			unsigned int maxNumSamples)
+Options::Options(int numParticles,
+		 int newLevelInterval,
+		 int saveInterval,
+		 int maxNumLevels,
+		 double lambda,
+		 double beta,
+		 int maxNumSamples)
 :numParticles(numParticles)
 ,newLevelInterval(newLevelInterval)
 ,saveInterval(saveInterval)
@@ -23,7 +24,9 @@ Options::Options(	unsigned int numParticles,
 ,beta(beta)
 ,maxNumSamples(maxNumSamples)
 {
-
+	assert( numParticles > 0 && newLevelInterval > 0 &&
+		maxNumLevels > 0 && lambda > 0. &&
+		beta >= 0. && maxNumSamples >= 0);
 }
 
 Options::Options(const char* filename)
@@ -50,6 +53,10 @@ void Options::load(const char* filename)
 	fin>>maxNumSamples;
 
 	fin.close();
+
+	assert( numParticles > 0 && newLevelInterval > 0 &&
+	maxNumLevels > 0 && lambda > 0. &&
+	beta >= 0. && maxNumSamples >= 0);
 }
 
 } // namespace DNest3
