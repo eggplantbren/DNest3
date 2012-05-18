@@ -7,7 +7,8 @@
   </head>
   <body style=" color: rgb(0, 0, 0); background-color: rgb(255, 255,
     255);" alink="#EE0000" link="#0000EE" vlink="#551A8B">
-    <h1 style="background-color: rgb(255, 255, 255);">DNest</h1>
+    <h1 style="background-color: rgb(255, 255, 255);">DNest<br>
+    </h1>
     DNest is a C++ implementation of Diffusive Nested Sampling, a
     powerful Markov Chain Monte Carlo (MCMC) algorithm that is primarily
     useful for solving Bayesian Inference problems. If you find DNest
@@ -28,7 +29,7 @@
     Please note that I have only ever compiled DNest on GNU/Linux, using
     the GNU C++ compiler. However, I expect it to be straightforward to
     compile it on any other Unix-like OS such as Mac OS X or FreeBSD. It
-    should be possible, albeit probably more tricky, to compile DNest on
+    should be possible, albeit probably more tricky, to compile DNeston
     Microsoft Windows. If you want to try, the&nbsp;<a
       href="http://www.mingw.org/">MinGW</a> compiler is probably your
     best bet. I'd be interested to hear from anyone who has tried this.
@@ -36,7 +37,7 @@
     a different compiler, such as the Intel C++ compiler.<br>
     <h3>Dependencies<br>
     </h3>
-    DNest requires some other software to be installed on your system.
+    DNestrequires some other software to be installed on your system.
     Installing these should be quite straightforward.&nbsp; I highly
     recommend obtaining these programs from your OS's package manager,
     rather than installing them from source. Note that some OSs split up
@@ -52,7 +53,7 @@
       href="http://numpy.scipy.org/">NumPy</a> + <a
       href="matplotlib.sourceforge.net">matplotlib</a><br>
     <br>
-    DNest uses GSL's random number generator, and uses Boost to handle
+    DNestuses GSL's random number generator, and uses Boost to handle
     multithreading (for improved performance on multi-core CPUs) and
     also to handle the command line options. Python, NumPy and
     matplotlib are used for the postprocessing script (<span
@@ -86,6 +87,7 @@ href="http://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.117.5542&amp;rep=
 
 
 
+
       Skilling's Nested Sampling Paper</a>. It is a problem with 20
     unknown parameters, each with a uniform prior between -0.5 and 0.5.
     The priors for all of the parameters are independent. The likelihood
@@ -97,47 +99,33 @@ href="http://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.117.5542&amp;rep=
     that are not variants of Nested Sampling.<br>
     <br>
     To run DNest on the <span style="font-style: italic;">SpikeSlab</span>
-    example, enter the <span style="font-family: monospace;">Examples/SpikeSlab</span>
-    directory and run the executable:<br>
+    example, simply compile DNest and then run <br>
     <br>
-    <code><span style="font-family: monospace;">cd Examples/SpikeSlab</span><br
-        style="font-family: monospace;">
-      <span style="font-family: monospace;">./SpikeSlab</span></code><br
+    <code><span style="font-family: monospace;"></span><span
+        style="font-family: monospace;">./main</span></code><br
       style="font-family: monospace;">
     <br>
     You should see a bunch of output that looks like this:<br>
     <samp><br>
-      <span style="font-family: monospace;"># Running on 8 threads.</span><br
-        style="font-family: monospace;">
-      <span style="font-family: monospace;"># Creating level 1 with logl
-        = -51.66935275</span><br style="font-family: monospace;">
-      <span style="font-family: monospace;"># Creating level 2 with logl
-        = -39.14905425</span><br style="font-family: monospace;">
-      <span style="font-family: monospace;"># Creating level 3 with logl
-        = -30.58965377</span><br style="font-family: monospace;">
-      <span style="font-family: monospace;"># Creating level 4 with logl
-        = -23.99380535</span><br style="font-family: monospace;">
-      <span style="font-family: monospace;"># Creating level 5 with logl
-        = -18.36170088</span><br style="font-family: monospace;">
-      <span style="font-family: monospace;"># Creating level 6 with logl
-        = -13.62243048</span><br style="font-family: monospace;">
-      <span style="font-family: monospace;"># Saving a sample. N = 1.</span><br
-        style="font-family: monospace;">
-      <span style="font-family: monospace;"># Creating level 7 with logl
-        = -9.477274449</span><br style="font-family: monospace;">
-      <span style="font-family: monospace;"># Creating level 8 with logl
-        = -5.862379464</span><br style="font-family: monospace;">
-      <span style="font-family: monospace;"># Creating level 9 with logl
-        = -2.525949929</span><br style="font-family: monospace;">
-      <span style="font-family: monospace;"># Creating level 10 with
-        logl = 0.5035665194</span><br style="font-family: monospace;">
-      <span style="font-family: monospace;"># Saving a sample. N = 2.</span><br
-        style="font-family: monospace;">
+      # Generating 3 particles from the prior...done.<br>
+      # Creating level 1 with logL = -50.20423854.<br>
+      # Creating level 2 with logL = -37.16427172.<br>
+      # Creating level 3 with logL = -28.48168816.<br>
+      # Creating level 4 with logL = -21.73969667.<br>
+      # Creating level 5 with logL = -16.25181887.<br>
+      # Creating level 6 with logL = -11.64071181.<br>
+      # Saving a particle to disk. N = 1.<br>
+      # Creating level 7 with logL = -7.631934788.<br>
+      # Creating level 8 with logL = -4.032597905.<br>
+      # Creating level 9 with logL = -1.01110697.<br>
+      # Creating level 10 with logL = 1.906891509.<br>
+      # Saving a particle to disk. N = 2.<span style="font-family:
+        monospace;"></span><br style="font-family: monospace;">
     </samp><br>
-    and so on. By default, this process will continue forever. At some
-    point, you should kill it with Ctrl-C. Then, it is time to examine
-    and process the output. The executable itself creates the following
-    output files:<br>
+    and so on. By default, this process will continue forever (this can
+    be overridden by using different OPTIONS). At some point, you should
+    kill it with Ctrl-C. Then, it is time to examine and process the
+    output. The executable itself creates the following output files:<br>
     <br style="font-family: monospace;">
     <span style="font-family: monospace;">levels.txt</span><br
       style="font-family: monospace;">
@@ -187,7 +175,7 @@ href="http://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.117.5542&amp;rep=
     </span>
     <h3>Implementing your own Models</h3>
     <a href="tutorial.html">Here</a> is a tutorial explaining how to
-    implement "fitting a straight line" in DNest.<br>
+    implement "fitting multiple sine waves" in DNest.<br>
     <h3>Tips and Tricks</h3>
     Click <a href="tips_and_tricks.html">here</a>.<span
       style="font-family: serif;"><br>
@@ -208,9 +196,10 @@ href="http://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.117.5542&amp;rep=
     if multimodality is expected or if the value of the evidence
     integral is required. These samplers also have the advantage of
     requring less programming from the user. For example, emcee only
-    requires a likelihood function, whereas DNest requires a likelihood
-    function, a function to generate random models from the prior, and a
-    function for generating Metropolis-Hastings proposals.<br>
+    requires a likelihood function, whereas DNest requires that you
+    implement a likelihood function, a function to generate random
+    models from the prior, and a function for generating
+    Metropolis-Hastings proposals.<br>
     <br>
   </body>
 </html>
