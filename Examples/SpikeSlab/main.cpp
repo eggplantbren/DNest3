@@ -20,7 +20,7 @@
 #include <iostream>
 #include <ctime>
 #include "Sampler.h"
-#include "Models/SpikeSlab/SpikeSlab.h"
+#include "SpikeSlab.h"
 #include "RandomNumberGenerator.h"
 
 using namespace std;

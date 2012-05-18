@@ -15,9 +15,10 @@ default:
 	# Make static library
 	ar rcs libdnest3.a $(OBJECTS)
 
-	# Build executable example
-	g++ $(CFLAGS) -o main main.cpp Models/SpikeSlab/SpikeSlab.cpp $(LIBS)
+	# Build executable examples
+	cd Examples/SpikeSlab; $(MAKE)
 
 clean:
 	rm -f *.o libdnest3.a main
+	cd Examples/SpikeSlab; $(MAKE) clean;
 
