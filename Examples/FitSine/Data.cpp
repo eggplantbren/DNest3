@@ -9,6 +9,7 @@ using namespace std;
 Data Data::instance;
 
 Data::Data()
+:loaded(false)
 {
 
 }
@@ -44,6 +45,7 @@ void Data::load(const char* filename)
 	fin.close();
 
 	computeSummaries();
+	loaded = true;
 }
 
 void Data::computeSummaries()

@@ -11,6 +11,9 @@
 class Data
 {
 	private:
+		// A flag
+		bool loaded;
+
 		// The data
 		std::vector<double> t, y, sig, inverseVariance;
 
