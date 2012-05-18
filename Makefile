@@ -17,8 +17,10 @@ default:
 
 	# Build executable examples
 	cd Examples/SpikeSlab; $(MAKE)
+	cd Examples/FitSine; $(MAKE)
 
 clean:
 	rm -f *.o libdnest3.a
 	cd Examples/SpikeSlab; $(MAKE) clean;
+	cd Examples/FitSine; $(MAKE) clean;
 
