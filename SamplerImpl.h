@@ -115,6 +115,7 @@ bool Sampler<ModelType>::step()
 
 		Level::recalculateLogX(levels, options.newLevelInterval);
 		saveLevels();
+		deleteParticle();
 	}
 
 	if(count%options.saveInterval == 0)
@@ -248,6 +249,46 @@ double Sampler<ModelType>::logPush(int index) const
 
 	int i = index - (static_cast<int>(levels.size()) - 1);
 	return static_cast<double>(i)/options.lambda;
+}
+
+template<class ModelType>
+void Sampler<ModelType>::deleteParticle()
+{
+	// Flag each particle as good or bad
+	std::vector<bool> good(options.numParticles, true);
+	int numBad = 0;
+	for(int i=0; i<options.numParticles; i++)
+	{
+		if(logPush(indices[i]) <= -5.)
+		{
+			good[i] = false;
+			numBad++;
+		}
+	}
+
+	if(numBad <= options.numParticles)
+	{
+		// Replace bad particles with copies of good ones
+		for(int i=0; i<options.numParticles; i++)
+		{
+			if(!good[i])
+			{
+				int copy;
+				do
+				{
+					copy = randInt(options.numParticles);
+				}while(!good[copy]);
+
+				particles[i] = particles[copy];
+				indices[i] = indices[copy];
+				logL[i] = logL[copy];
+				cout<<"# Deleting a particle. Replacing"<<
+				" it with a copy of a good survivor."<<endl;
+			}
+		}
+	}
+	else
+		cerr<<"# Warning: all particles lagging! Very rare!"<<endl;
 }
 
 } // namespace DNest3

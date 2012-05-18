@@ -61,6 +61,9 @@ class Sampler
 
 		// Pushing function
 		double logPush(int index) const;
+
+		// Delete any bad particles
+		void deleteParticle();
 };
 
 }
