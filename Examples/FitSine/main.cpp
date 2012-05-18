@@ -23,6 +23,7 @@
 #include "Sampler.h"
 #include "FitSine.h"
 #include "RandomNumberGenerator.h"
+#include "Data.h"
 
 using namespace std;
 using namespace DNest3;
@@ -47,6 +48,9 @@ int main(int argc, char** argv)
 
 	// Load sampler options from file
 	Options samplerOptions("OPTIONS");
+
+	// Load data
+	Data::get_instance().load("fake_data.txt");
 
 	// Create sampler
 	Sampler<FitSine> sampler(samplerOptions);
