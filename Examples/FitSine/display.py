@@ -38,6 +38,8 @@ for i in xrange(0, sample.shape[0]):
 	plt.hold(True)
 	plt.plot(data[:,0], mockData, 'r')
 	plt.axis([-1., 101., -5., 5.])
+	plt.xlabel('Time')
+	plt.ylabel('y')
 	plt.title(i+1)
 	plt.draw()
 
