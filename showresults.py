@@ -45,9 +45,7 @@ sample_info = atleast_2d(loadtxt("sample_info.txt"))
 sample = atleast_2d(loadtxt("sample.txt"))
 
 if sample.shape[0] != sample_info.shape[0]:
-	print('ERROR. Size mismatch. The usual cause is that you\'re still\
-		running DNest and it wrote to the files that showresults loads.\
-		Try suspending DNest temporarily.')
+	print('ERROR. Size mismatch. The usual cause is that you\'re still running DNest and it wrote to the files that showresults loads. Try suspending DNest temporarily.')
 	exit()
 
 ion()
