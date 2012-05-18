@@ -26,7 +26,24 @@
 class FitSine:public DNest3::Model
 {
 	private:
-		std::vector<double> params;
+		// The highest number of frequencies possible
+		static const int maxNumFrequencies;
+
+		// Latent uniforms for amplitudes
+		std::vector<double> u_amplitudes;
+
+		// Amplitudes hyperparameter and its limits
+		double muAmplitudes, minLogMu, maxLogMu, rangeLogMu;
+
+		// Frequency limits
+		double minLogFreq, maxLogFreq, rangeLogFreq;
+
+		// Actual frequencies and phases
+		std::vector<double> frequencies;
+		std::vector<double> phases;
+
+		// Transform latent u_amplitude into an amplitude
+		double transform(double u_amplitude) const;
 
 	public:
 		FitSine();
