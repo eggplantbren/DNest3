@@ -29,6 +29,9 @@ class FitSine:public DNest3::Model
 		// The highest number of frequencies possible
 		static const int maxNumFrequencies;
 
+		// Fraction of nonzero amplitudes
+		double onFraction;
+
 		// Latent uniforms for amplitudes
 		std::vector<double> u_amplitudes;
 
@@ -38,12 +41,24 @@ class FitSine:public DNest3::Model
 		// Frequency limits
 		double minLogFreq, maxLogFreq, rangeLogFreq;
 
-		// Actual frequencies and phases
+		// Actual frequencies
 		std::vector<double> frequencies;
+
+		// Actual phases
 		std::vector<double> phases;
 
 		// Transform latent u_amplitude into an amplitude
 		double transform(double u_amplitude) const;
+
+		// Simulated data for comparison with actual data
+		std::vector<double> mockData;
+
+		// Calculate mock data from scratch
+		void calculateMockData();
+
+		// Add one frequency to mock data
+		void addFrequency(double amplitude, double frequency,
+					double phase);
 
 	public:
 		FitSine();
