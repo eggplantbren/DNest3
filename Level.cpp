@@ -38,12 +38,12 @@ void Level::recalculateLogX(vector<Level>& levels, int regularisation)
 
 void Level::renormaliseVisits(int regularisation)
 {
-	if((int)tries >= regularisation)
+	if(tries >= regularisation)
 	{
 		accepts = ((double)(accepts+1)/(double)(tries+1))*regularisation;
 		tries = regularisation;
 	}
-	if((int)visits >= regularisation)
+	if(visits >= regularisation)
 	{
 		exceeds = ((double)(exceeds+1)/(double)(visits+1))*regularisation;
 		visits = regularisation;
