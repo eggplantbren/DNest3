@@ -1,8 +1,8 @@
 # Development
-CFLAGS = -O0 -g -Wall -Wextra -ansi -pedantic
+#CFLAGS = -O0 -g -Wall -Wextra -ansi -pedantic
 
 # Optimized
-#CFLAGS = -O2 -Wall -Wextra -ansi -pedantic -DNDEBUG
+CFLAGS = -O2 -Wall -Wextra -ansi -pedantic -DNDEBUG
 
 LIBS = -ldnest3 -lgsl -lgslcblas
 SOURCES = Level.cpp LikelihoodType.cpp Model.cpp Options.cpp RandomNumberGenerator.cpp Utils.cpp
