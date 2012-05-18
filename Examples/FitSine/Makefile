@@ -9,6 +9,8 @@ default:
 	# Compile
 	g++ $(CFLAGS) -I ../.. -c main.cpp
 	g++ $(CFLAGS) -I ../.. -c FitSine.cpp
+	g++ $(CFLAGS) -I ../.. -c Data.cpp
+
 	# Link
 	g++ -L ../.. -o main *.o $(LIBS)
 
