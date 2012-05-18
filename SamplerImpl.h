@@ -57,7 +57,8 @@ Sampler<ModelType>::Sampler(const Options& options,
 ,initialised(false)
 ,count(0)
 {
-	Level::recalculateLogX(levels, options.newLevelInterval);
+	Level::renormaliseVisits(this->levels, options.newLevelInterval);
+	Level::recalculateLogX(this->levels, options.newLevelInterval);
 	saveLevels();
 }
 

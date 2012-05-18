@@ -22,6 +22,8 @@
 #include <cassert>
 #include <cmath>
 #include <iomanip>
+#include <fstream>
+#include <iostream>
 
 using namespace std;
 
@@ -44,17 +46,6 @@ Level::Level(double logX, const LikelihoodType& cutoff)
 
 }
 
-void Level::recalculateLogX(vector<Level>& levels, int regularisation)
-{
-	assert(levels.size() > 0);
-
-	levels[0].logX = 0.0;
-	for(size_t i=1; i<levels.size(); i++)
-	{
-		levels[i].logX = levels[i-1].logX + log((double)(levels[i-1].exceeds + exp(-1.0)*regularisation)/(double)(levels[i-1].visits + regularisation));
-	}
-}
-
 void Level::renormaliseVisits(int regularisation)
 {
 	if(tries >= regularisation)
@@ -66,22 +57,6 @@ void Level::renormaliseVisits(int regularisation)
 	{
 		exceeds = ((double)(exceeds+1)/(double)(visits+1))*regularisation;
 		visits = regularisation;
-	}
-}
-
-void Level::renormaliseVisits(vector<Level>& levels, int regularisation)
-{
-	for(size_t i=0; i<levels.size(); i++)
-	{
-		if(i != levels.size() - 1)
-			levels[i].renormaliseVisits(regularisation);
-		else
-		{
-			levels[i].accepts = 0;
-			levels[i].exceeds = 0;
-			levels[i].tries = 0;
-			levels[i].visits = 0;
-		}
 	}
 }
 
@@ -111,6 +86,58 @@ istream& operator >> (istream& in, Level& level)
 	in>>level.logX>>level.cutoff.logL>>level.cutoff.tieBreaker;
 	in>>level.accepts>>level.tries>>level.exceeds>>level.visits;
 	return in;
+}
+
+
+void Level::recalculateLogX(vector<Level>& levels, int regularisation)
+{
+	assert(levels.size() > 0);
+
+	levels[0].logX = 0.0;
+	for(size_t i=1; i<levels.size(); i++)
+	{
+		levels[i].logX = levels[i-1].logX + log((double)(levels[i-1].exceeds + exp(-1.0)*regularisation)/(double)(levels[i-1].visits + regularisation));
+	}
+}
+
+void Level::renormaliseVisits(vector<Level>& levels, int regularisation)
+{
+	for(size_t i=0; i<levels.size(); i++)
+	{
+		if(i != levels.size() - 1)
+			levels[i].renormaliseVisits(regularisation);
+		else
+		{
+			levels[i].accepts = 0;
+			levels[i].exceeds = 0;
+			levels[i].tries = 0;
+			levels[i].visits = 0;
+		}
+	}
+}
+
+vector<Level> loadLevels(const char* filename)
+{
+	Level level(0., -1E300, 0.);
+	vector<Level> levels;
+
+	fstream fin(filename, ios::in);
+	if(!fin)
+	{
+		cerr<<"# WARNING: Couldn't load levels from file "<<filename
+			<<"."<<endl;
+		levels.push_back(level);
+		return levels;
+	}
+
+	while(fin>>level)
+		levels.push_back(level);
+	fin.close();
+
+	cout<<"# Found "<<levels.size()<<" levels in file "
+		<<filename<<"."<<endl;
+
+	return levels;
 }
 
 } // namespace DNest3

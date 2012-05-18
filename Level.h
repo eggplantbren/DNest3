@@ -62,6 +62,7 @@ class Level
 		// Operations on sets of levels
 		static void recalculateLogX(std::vector<Level>& levels, int regularisation);
 		static void renormaliseVisits(std::vector<Level>& levels, int regularisation);
+		static std::vector<Level> loadLevels(const char* filename);
 
 	// Stream I/O
 	friend std::ostream& operator << (std::ostream& out, const Level& level);
