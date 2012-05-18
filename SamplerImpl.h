@@ -46,6 +46,22 @@ Sampler<ModelType>::Sampler(const Options& options)
 }
 
 template<class ModelType>
+Sampler<ModelType>::Sampler(const Options& options,
+		const std::vector<Level> levels)
+:options(options)
+,particles(options.numParticles)
+,logL(options.numParticles)
+,indices(options.numParticles, 0)
+,levels(levels)
+,logLKeep(0)
+,initialised(false)
+,count(0)
+{
+	Level::recalculateLogX(levels, options.newLevelInterval);
+	saveLevels();
+}
+
+template<class ModelType>
 void Sampler<ModelType>::initialise()
 {
 	assert(!initialised);

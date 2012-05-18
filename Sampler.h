@@ -55,6 +55,10 @@ class Sampler
 		// Constructor: Pass in Options object
 		Sampler(const Options& options);
 
+		// Constructor: Pass in Options AND preloaded level structure
+		Sampler(const Options& options,
+				const std::vector<Level> levels);
+
 		// Do the sampling!
 		void run();
 
