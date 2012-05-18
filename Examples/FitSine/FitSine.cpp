@@ -27,12 +27,12 @@
 using namespace std;
 using namespace DNest3;
 
-const int FitSine::maxNumFrequencies = 100;
+const int FitSine::maxNumComponents = 100;
 
 FitSine::FitSine()
-:u_amplitudes(maxNumFrequencies)
-,frequencies(maxNumFrequencies)
-,phases(maxNumFrequencies)
+:u_amplitudes(maxNumComponents)
+,frequencies(maxNumComponents)
+,phases(maxNumComponents)
 {
 
 }
@@ -58,7 +58,7 @@ void FitSine::fromPrior()
 	rangeLogFreq = maxLogFreq - minLogFreq;
 
 	muAmplitudes = exp(minLogMu + rangeLogMu*randomU());
-	for(int i=0; i<maxNumFrequencies; i++)
+	for(int i=0; i<maxNumComponents; i++)
 	{
 		u_amplitudes[i] = randomU();
 		frequencies[i] = exp(minLogFreq + rangeLogFreq*randomU());
@@ -68,7 +68,7 @@ void FitSine::fromPrior()
 
 double FitSine::perturb()
 {
-	int which = randInt(4);
+	int which = randInt(5);
 	if(which == 0)
 	{
 		onFraction = log(onFraction);
@@ -86,17 +86,47 @@ double FitSine::perturb()
 	}
 	else if(which == 2)
 	{
-
+		double chance = pow(10., 0.5 - 4*randomU());
+		double scale = pow(10., 1.5 - 6*randomU());
+		for(int i=0; i<maxNumComponents; i++)
+		{
+			if(randomU() <= chance)
+			{
+				u_amplitudes[i] += scale*randn();
+				u_amplitudes[i] = mod(u_amplitudes[i], 1.);
+			}
+		}
 	}
 	else if(which == 3)
 	{
-
+		double chance = pow(10., 0.5 - 4*randomU());
+		double scale = pow(10., 1.5 - 6*randomU());
+		for(int i=0; i<maxNumComponents; i++)
+		{
+			if(randomU() <= chance)
+			{
+				frequencies[i] = log(frequencies[i]);
+				frequencies[i] += rangeLogFreq*scale*randn();
+				frequencies[i] = mod(frequencies[i]
+						- minLogFreq, rangeLogFreq)
+						+ minLogFreq;
+				frequencies[i] = exp(frequencies[i]);
+			}
+		}
 	}
 	else if(which == 4)
 	{
-
+		double chance = pow(10., 0.5 - 4*randomU());
+		double scale = pow(10., 1.5 - 6*randomU());
+		for(int i=0; i<maxNumComponents; i++)
+		{
+			if(randomU() <= chance)
+			{
+				phases[i] += 2*M_PI*scale*randn();
+				phases[i] = mod(phases[i], 1.);
+			}
+		}
 	}
-
 	calculateMockData();
 	return 0.;
 }
@@ -121,7 +151,7 @@ void FitSine::calculateMockData()
 		mockData[i] = 0.;
 
 	// Add each frequency
-	for(int i=0; i<maxNumFrequencies; i++)
+	for(int i=0; i<maxNumComponents; i++)
 		addFrequency(transform(u_amplitudes[i]), frequencies[i], phases[i]);
 }
 
@@ -138,11 +168,11 @@ void FitSine::addFrequency(double amplitude, double frequency, double phase)
 void FitSine::print(std::ostream& out) const
 {
 	out<<onFraction<<' '<<muAmplitudes<<' ';
-	for(int i=0; i<maxNumFrequencies; i++)
+	for(int i=0; i<maxNumComponents; i++)
 		out<<transform(u_amplitudes[i])<<' ';
-	for(int i=0; i<maxNumFrequencies; i++)
+	for(int i=0; i<maxNumComponents; i++)
 		out<<frequencies[i]<<' ';
-	for(int i=0; i<maxNumFrequencies; i++)
+	for(int i=0; i<maxNumComponents; i++)
 		out<<phases[i]<<' ';
 }
 

@@ -27,7 +27,7 @@ class FitSine:public DNest3::Model
 {
 	private:
 		// The highest number of frequencies possible
-		static const int maxNumFrequencies;
+		static const int maxNumComponents;
 
 		// Fraction of nonzero amplitudes
 		double onFraction;
