@@ -34,6 +34,9 @@ class CommandLineOptions
 		// Convert seed string to an integer and return it
 		int get_seed_int() const;
 
+		// Print help message
+		void printHelp() const;
+
 };
 
 } // namespace DNest3

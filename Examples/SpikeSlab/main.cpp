@@ -32,9 +32,17 @@ int main(int argc, char** argv)
 	// Handle command line options
 	CommandLineOptions options(argc, argv);
 	cout<<"# Seeding random number generator with "<<
-		options.get_seed()<<"."<<endl;
+		options.get_seed_int()<<"."<<endl;
 	RandomNumberGenerator::get_instance().setSeed(options.get_seed_int());
-	cout<<"# Using "<<options.get_numThreads()<<" thread(s)."<<endl;
+
+	// Get number of threads, print messages
+	if(options.get_numThreads() > 1)
+	{
+		cerr<<"Multithreading not supported."<<endl;
+		exit(0);
+	}
+	cout<<"# Using "<<options.get_numThreads()<<" thread"<<
+		((options.get_numThreads() == 1)?("."):("s."))<<endl;
 
 	// Load sampler options from file
 	Options samplerOptions("OPTIONS");
