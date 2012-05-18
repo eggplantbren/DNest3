@@ -31,6 +31,7 @@ class Data
 		void load(const char* filename);
 
 		// Getters
+		bool get_loaded() { return loaded; }
 		double get_t(int i) { return t[i]; }
 		double get_y(int i) { return y[i]; }
 		double get_sig(int i) { return sig[i]; }
