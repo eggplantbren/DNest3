@@ -7,7 +7,7 @@ import matplotlib.pyplot as plt
 
 maxNumComponents = 100
 data = np.atleast_2d(np.loadtxt('fake_data.txt'))
-sample = np.atleast_2d(np.loadtxt('sample.txt'))
+sample = np.atleast_2d(np.loadtxt('posterior_sample.txt'))
 
 start = 0
 
