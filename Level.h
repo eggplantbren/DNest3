@@ -20,10 +20,10 @@ class Level
 		double logX;
 		LikelihoodType cutoff;
 
-		int accepts;
-		int tries;
-		int visits;
-		int exceeds;
+		long accepts;
+		long tries;
+		long visits;
+		long exceeds;
 
 	public:
 		// Constructors
@@ -33,7 +33,7 @@ class Level
 		// Getters
 		const LikelihoodType& get_cutoff() const { return cutoff; }
 		double get_logX() const { return logX; }
-		int get_tries() const { return tries; }
+		long get_tries() const { return tries; }
 
 		// Update level statistics
 		void incrementVisits(bool incrementExceeds);

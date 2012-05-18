@@ -29,7 +29,7 @@ class Sampler
 		bool initialised;
 
 		// Number of MCMC steps ever done
-		int count;
+		long count;
 
 
 	public:
