@@ -19,6 +19,6 @@ default:
 	cd Examples/SpikeSlab; $(MAKE)
 
 clean:
-	rm -f *.o libdnest3.a main
+	rm -f *.o libdnest3.a
 	cd Examples/SpikeSlab; $(MAKE) clean;
 
