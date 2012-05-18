@@ -42,23 +42,23 @@ Sampler<ModelType>::Sampler(const Options& options)
 ,initialised(false)
 ,count(0)
 {
-	saveLevels();
+
 }
 
 template<class ModelType>
-Sampler<ModelType>::Sampler(const Options& options,
-		const std::vector<Level> levels)
-:options(options)
-,particles(options.numParticles)
-,logL(options.numParticles)
-,indices(options.numParticles, 0)
-,levels(levels)
-,logLKeep(0)
-,initialised(false)
-,count(0)
+void Sampler<ModelType>::loadLevels(const char* filename)
 {
-	Level::renormaliseVisits(this->levels, options.newLevelInterval);
-	Level::recalculateLogX(this->levels, options.newLevelInterval);
+	if(initialised)
+		cerr<<"# WARNING: Please load level structure before running sampler."<<endl;
+	levels = Level::loadLevels(filename);
+	if(static_cast<int>(levels.size()) > options.maxNumLevels)
+	{
+		cout<<"# Truncating to "<<options.maxNumLevels<<" levels."<<endl;
+		levels.erase(levels.begin() + options.maxNumLevels, levels.end());
+	} 
+
+	Level::renormaliseVisits(levels, options.newLevelInterval);
+	Level::recalculateLogX(levels, options.newLevelInterval);
 	saveLevels();
 }
 

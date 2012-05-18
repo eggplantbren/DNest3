@@ -116,7 +116,7 @@ void Level::renormaliseVisits(vector<Level>& levels, int regularisation)
 	}
 }
 
-vector<Level> loadLevels(const char* filename)
+vector<Level> Level::loadLevels(const char* filename)
 {
 	Level level(0., -1E300, 0.);
 	vector<Level> levels;
@@ -129,6 +129,9 @@ vector<Level> loadLevels(const char* filename)
 		levels.push_back(level);
 		return levels;
 	}
+	// Read past comment lines at the top of the file
+	while(fin.peek() == '#')
+		fin.ignore(1000000, '\n');
 
 	while(fin>>level)
 		levels.push_back(level);

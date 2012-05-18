@@ -26,12 +26,16 @@
 using namespace std;
 using namespace DNest3;
 
-int main()
+int main(int argc, char** argv)
 {
 	Options options("OPTIONS");
 	RandomNumberGenerator::get_instance().setSeed(-time(0));
+
 	Sampler<SpikeSlab> sampler(options);
+	if(argc >= 2)
+		sampler.loadLevels(argv[1]);
 	sampler.run();
+
 	return 0;
 }
 

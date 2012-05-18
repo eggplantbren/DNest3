@@ -6,8 +6,8 @@ have improved. It has improved performance (in terms of the sampling overhead,
 I still expect likelihood evaluations to dominate) and is cleaner code:
 implementing new models should be even easier.
 
-It has almost all of the features that the older DNest has. Currently missing
-features include loading of a levels.txt file, and multithreading support.
+It has almost all of the features that the older DNest has. Currently the only
+missing feature is multithreading support.
 
 (c) 2009-2012 Brendon J. Brewer.
 
