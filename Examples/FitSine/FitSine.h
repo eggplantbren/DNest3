@@ -53,11 +53,14 @@ class FitSine:public DNest3::Model
 		// Simulated data for comparison with actual data
 		std::vector<double> mockData;
 
+		// How many times since mock data was computed from scratch
+		int staleness;
+
 		// Calculate mock data from scratch
 		void calculateMockData();
 
 		// Add one frequency to mock data
-		void addFrequency(double amplitude, double frequency,
+		void addComponent(double amplitude, double frequency,
 					double phase);
 
 	public:

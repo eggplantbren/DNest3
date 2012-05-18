@@ -75,6 +75,7 @@ double FitSine::perturb()
 		onFraction += log(1E3)*pow(10., 1.5 - 6.*randomU())*randn();
 		onFraction = mod(onFraction - log(1E-3), log(1E3)) + log(1E-3);
 		onFraction = exp(onFraction);
+		calculateMockData();
 	}
 	else if(which == 1)
 	{
@@ -83,6 +84,7 @@ double FitSine::perturb()
 		muAmplitudes = mod(muAmplitudes - minLogMu,
 				rangeLogMu) + minLogMu;
 		muAmplitudes = exp(muAmplitudes);
+		calculateMockData();
 	}
 	else if(which == 2)
 	{
@@ -92,8 +94,10 @@ double FitSine::perturb()
 		{
 			if(randomU() <= chance)
 			{
+				addComponent(-transform(u_amplitudes[i]), frequencies[i], phases[i]);
 				u_amplitudes[i] += scale*randn();
 				u_amplitudes[i] = mod(u_amplitudes[i], 1.);
+				addComponent(transform(u_amplitudes[i]), frequencies[i], phases[i]);				
 			}
 		}
 	}
@@ -105,12 +109,14 @@ double FitSine::perturb()
 		{
 			if(randomU() <= chance)
 			{
+				addComponent(-transform(u_amplitudes[i]), frequencies[i], phases[i]);
 				frequencies[i] = log(frequencies[i]);
 				frequencies[i] += rangeLogFreq*scale*randn();
 				frequencies[i] = mod(frequencies[i]
 						- minLogFreq, rangeLogFreq)
 						+ minLogFreq;
 				frequencies[i] = exp(frequencies[i]);
+				addComponent(transform(u_amplitudes[i]), frequencies[i], phases[i]);
 			}
 		}
 	}
@@ -122,12 +128,17 @@ double FitSine::perturb()
 		{
 			if(randomU() <= chance)
 			{
+				addComponent(-transform(u_amplitudes[i]), frequencies[i], phases[i]);
 				phases[i] += 2*M_PI*scale*randn();
 				phases[i] = mod(phases[i], 1.);
+				addComponent(transform(u_amplitudes[i]), frequencies[i], phases[i]);
 			}
 		}
 	}
-	calculateMockData();
+
+	if(staleness > 1000)
+		calculateMockData();
+
 	return 0.;
 }
 
@@ -152,10 +163,12 @@ void FitSine::calculateMockData()
 
 	// Add each frequency
 	for(int i=0; i<maxNumComponents; i++)
-		addFrequency(transform(u_amplitudes[i]), frequencies[i], phases[i]);
+		addComponent(transform(u_amplitudes[i]), frequencies[i], phases[i]);
+
+	staleness = 0;
 }
 
-void FitSine::addFrequency(double amplitude, double frequency, double phase)
+void FitSine::addComponent(double amplitude, double frequency, double phase)
 {
 	if(amplitude == 0.)
 		return;
