@@ -38,6 +38,7 @@ class Data
 		double get_tRange() { return tRange; }
 		double get_yMean() { return yMean; }
 		double get_ySig() { return ySig; }
+		int get_N() { return static_cast<int>(y.size()); }
 
 	// Static stuff for singleton use
 	private:
