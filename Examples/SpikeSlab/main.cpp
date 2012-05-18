@@ -19,6 +19,7 @@
 
 #include <iostream>
 #include <ctime>
+#include "CommandLineOptions.h"
 #include "Sampler.h"
 #include "SpikeSlab.h"
 #include "RandomNumberGenerator.h"
@@ -28,12 +29,24 @@ using namespace DNest3;
 
 int main(int argc, char** argv)
 {
-	Options options("OPTIONS");
-	RandomNumberGenerator::get_instance().setSeed(-time(0));
+	// Handle command line options
+	CommandLineOptions options(argc, argv);
+	cout<<"# Seeding random number generator with "<<
+		options.get_seed()<<"."<<endl;
+	RandomNumberGenerator::get_instance().setSeed(options.get_seed_int());
+	cout<<"# Using "<<options.get_numThreads()<<" thread(s)."<<endl;
 
-	Sampler<SpikeSlab> sampler(options);
-	if(argc >= 2)
-		sampler.loadLevels(argv[1]);
+	// Load sampler options from file
+	Options samplerOptions("OPTIONS");
+
+	// Create sampler
+	Sampler<SpikeSlab> sampler(samplerOptions);
+
+	// Load levels file if requested
+	if(options.get_levelsFile().compare("") != 0)
+		sampler.loadLevels(options.get_levelsFile().c_str());
+
+	// Sample!
 	sampler.run();
 
 	return 0;
