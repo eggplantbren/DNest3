@@ -76,6 +76,17 @@ bool Sampler<ModelType>::step()
 	}
 	count++;
 
+	// Accumulate visits, exceeds
+	int index = indices[which];
+	while(index < static_cast<int>(levels.size()) - 1)
+	{
+		bool exceeds = levels[index+1].get_cutoff() < logL[which];
+		levels[index].incrementVisits(exceeds);
+		if(!exceeds)
+			break;
+		index++;
+	}
+
 	// Accumulate likelihoods for making a new level
 	if(static_cast<int>(levels.size()) < options.maxNumLevels &&
 			levels.back().get_cutoff() < logL[which])
@@ -88,7 +99,9 @@ bool Sampler<ModelType>::step()
 		int ii = static_cast<int>(0.63212056
 				*static_cast<int>(logLKeep.size()));
 		LikelihoodType cutoff = logLKeep[ii];
-		cout<<"# Creating a new level with logL = "<<cutoff.logL
+		cout<<setprecision(10);
+		cout<<"# Creating level "<<levels.size()
+			<<" with logL = "<<cutoff.logL
 			<<"."<<endl;
 		levels.push_back(Level(levels.back().get_logX() - 1., cutoff));
 
@@ -209,7 +222,7 @@ void Sampler<ModelType>::updateIndex(int which)
 			- levels[proposedIndex].get_logX();
 
 	// Pushing up part
-	logA += log(push(proposedIndex)) - log(push(indices[which]));
+	logA += logPush(proposedIndex) - logPush(indices[which]);
 
 	// Enforce uniform exploration part (if all levels exist)
 	if(static_cast<int>(levels.size()) == options.maxNumLevels)
@@ -227,16 +240,14 @@ void Sampler<ModelType>::updateIndex(int which)
 }
 
 template<class ModelType>
-double Sampler<ModelType>::push(int index) const
+double Sampler<ModelType>::logPush(int index) const
 {
 	assert(index >= 0 && index < static_cast<int>(levels.size()));
 	if(static_cast<int>(levels.size()) == options.maxNumLevels)
 		return 0.;
 
-	double p_exp = exp(index/options.lambda);
-	p_exp *= (1. - exp(-1./options.lambda))/(1. - exp(-static_cast<int>(levels.size())/options.lambda));
-
-	return p_exp;
+	int i = index - (static_cast<int>(levels.size()) - 1);
+	return static_cast<double>(i)/options.lambda;
 }
 
 } // namespace DNest3

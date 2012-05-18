@@ -60,7 +60,7 @@ class Sampler
 		void saveLevels() const;
 
 		// Pushing function
-		double push(int index) const;
+		double logPush(int index) const;
 };
 
 }
