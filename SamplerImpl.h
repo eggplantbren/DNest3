@@ -26,8 +26,6 @@
 #include <algorithm>
 #include <iomanip>
 
-using namespace std;
-
 namespace DNest3
 {
 
@@ -49,11 +47,11 @@ template<class ModelType>
 void Sampler<ModelType>::loadLevels(const char* filename)
 {
 	if(initialised)
-		cerr<<"# WARNING: Please load level structure before running sampler."<<endl;
+		std::cerr<<"# WARNING: Please load level structure before running sampler."<<std::endl;
 	levels = Level::loadLevels(filename);
 	if(static_cast<int>(levels.size()) > options.maxNumLevels)
 	{
-		cout<<"# Truncating to "<<options.maxNumLevels<<" levels."<<endl;
+		std::cout<<"# Truncating to "<<options.maxNumLevels<<" levels."<<std::endl;
 		levels.erase(levels.begin() + options.maxNumLevels, levels.end());
 	} 
 
@@ -66,8 +64,8 @@ template<class ModelType>
 void Sampler<ModelType>::initialise()
 {
 	assert(!initialised);
-	cout<<"# Generating "<<options.numParticles<<
-			" particles from the prior..."<<flush;
+	std::cout<<"# Generating "<<options.numParticles<<
+			" particles from the prior..."<<std::flush;
 	for(int i=0; i<options.numParticles; i++)
 	{
 		particles[i].fromPrior();
@@ -76,7 +74,7 @@ void Sampler<ModelType>::initialise()
 		logLKeep.push_back(logL[i]);
 	}
 	initialised = true;
-	cout<<"done."<<endl;
+	std::cout<<"done."<<std::endl;
 }
 
 template<class ModelType>
@@ -135,10 +133,10 @@ bool Sampler<ModelType>::step()
 		int ii = static_cast<int>(0.63212056
 				*static_cast<int>(logLKeep.size()));
 		LikelihoodType cutoff = logLKeep[ii];
-		cout<<setprecision(10);
-		cout<<"# Creating level "<<levels.size()
+		std::cout<<std::setprecision(10);
+		std::cout<<"# Creating level "<<levels.size()
 			<<" with logL = "<<cutoff.logL
-			<<"."<<endl;
+			<<"."<<std::endl;
 		levels.push_back(Level(levels.back().get_logX() - 1., cutoff));
 
 		if(static_cast<int>(levels.size()) == options.maxNumLevels)
@@ -171,44 +169,44 @@ template<class ModelType>
 void Sampler<ModelType>::saveParticle(int which) const
 {
 	int N = count/options.saveInterval;
-	cout<<"# Saving a particle to disk. N = "<<N<<"."<<endl;
+	std::cout<<"# Saving a particle to disk. N = "<<N<<"."<<std::endl;
 
 	// Save the particle to file
-	fstream fout;
+	std::fstream fout;
 	if(N == 1)
 	{
-		fout.open(options.sampleFile.c_str(), ios::out);
-		fout<<"# Samples file. One sample per line."<<endl;
-		fout<<"# "<<particles[0].description()<<endl;
+		fout.open(options.sampleFile.c_str(), std::ios::out);
+		fout<<"# Samples file. One sample per line."<<std::endl;
+		fout<<"# "<<particles[0].description()<<std::endl;
 	}
 	else
-		fout.open(options.sampleFile.c_str(), ios::out|ios::app);
-	fout<<setprecision(10);
-	particles[which].print(fout); fout<<endl;
+		fout.open(options.sampleFile.c_str(), std::ios::out|std::ios::app);
+	fout<<std::setprecision(10);
+	particles[which].print(fout); fout<<std::endl;
 	fout.close();
 
 	// Save the particle's info
 	if(N == 1)
 	{
-		fout.open(options.sampleInfoFile.c_str(), ios::out);
-		fout<<"# index, logLikelihood, tieBreaker, ID."<<endl;
+		fout.open(options.sampleInfoFile.c_str(), std::ios::out);
+		fout<<"# index, logLikelihood, tieBreaker, ID."<<std::endl;
 	}
 	else
-		fout.open(options.sampleInfoFile.c_str(), ios::out|ios::app);
-	fout<<setprecision(10);
+		fout.open(options.sampleInfoFile.c_str(), std::ios::out|std::ios::app);
+	fout<<std::setprecision(10);
 	fout<<indices[which]<<' '<<logL[which].logL<<' '
-			<<logL[which].tieBreaker<<' '<<which<<endl;
+			<<logL[which].tieBreaker<<' '<<which<<std::endl;
 	fout.close();
 }
 
 template<class ModelType>
 void Sampler<ModelType>::saveLevels() const
 {
-	fstream fout(options.levelsFile.c_str(), ios::out);
-	fout<<"# logX, logLikelihood, tieBreaker, accepts, tries, exceeds, visits."<<endl;
-	fout<<setprecision(10);
+	std::fstream fout(options.levelsFile.c_str(), std::ios::out);
+	fout<<"# logX, logLikelihood, tieBreaker, accepts, tries, exceeds, visits."<<std::endl;
+	fout<<std::setprecision(10);
 	for(size_t i=0; i<levels.size(); i++)
-		fout<<levels[i]<<endl;
+		fout<<levels[i]<<std::endl;
 	fout.close();
 }
 
@@ -319,13 +317,13 @@ void Sampler<ModelType>::deleteParticle()
 				particles[i] = particles[copy];
 				indices[i] = indices[copy];
 				logL[i] = logL[copy];
-				cout<<"# Deleting a particle. Replacing"<<
-				" it with a copy of a good survivor."<<endl;
+				std::cout<<"# Deleting a particle. Replacing"<<
+				" it with a copy of a good survivor."<<std::endl;
 			}
 		}
 	}
 	else
-		cerr<<"# Warning: all particles lagging! Very rare!"<<endl;
+		std::cerr<<"# Warning: all particles lagging! Very rare!"<<std::endl;
 }
 
 } // namespace DNest3
