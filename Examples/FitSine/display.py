@@ -5,7 +5,7 @@ Load models and display them
 import numpy as np
 import matplotlib.pyplot as plt
 
-maxNumComponents = 100
+maxNumComponents = 10
 data = np.atleast_2d(np.loadtxt('fake_data.txt'))
 sample = np.atleast_2d(np.loadtxt('posterior_sample.txt'))
 

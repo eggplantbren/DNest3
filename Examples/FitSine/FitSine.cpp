@@ -27,7 +27,7 @@
 using namespace std;
 using namespace DNest3;
 
-const int FitSine::maxNumComponents = 100;
+const int FitSine::maxNumComponents = 10;
 
 FitSine::FitSine()
 :u_amplitudes(maxNumComponents)
