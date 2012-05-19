@@ -69,3 +69,8 @@ void SpikeSlab::print(std::ostream& out) const
 		out<<params[i]<<' ';
 }
 
+string SpikeSlab::description() const
+{
+	return string("Each column is one of the 20 parameters.");
+}
+

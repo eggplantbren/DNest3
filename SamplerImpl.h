@@ -179,6 +179,7 @@ void Sampler<ModelType>::saveParticle(int which) const
 	{
 		fout.open(options.sampleFile.c_str(), ios::out);
 		fout<<"# Samples file. One sample per line."<<endl;
+		fout<<"# "<<particles[0].description()<<endl;
 	}
 	else
 		fout.open(options.sampleFile.c_str(), ios::out|ios::app);

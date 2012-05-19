@@ -44,6 +44,10 @@ class Model
 
 		// Print to stream
 		virtual void print(std::ostream& out) const = 0;
+
+		// Optional: return string with column information
+		// This will become the header for sample.txt
+		virtual std::string description() const;
 };
 
 } // namespace DNest3

@@ -205,3 +205,11 @@ double FitSine::transform(double u_amplitude) const
 	return A;
 }
 
+string FitSine::description() const
+{
+	string result("onFraction, muAmplitudes, ");
+	result += "amplitudes, frequencies, phases.";
+	return result;
+}
+
+

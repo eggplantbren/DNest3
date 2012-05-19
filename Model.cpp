@@ -19,3 +19,15 @@
 
 #include "Model.h"
 
+using namespace std;
+
+namespace DNest3
+{
+
+string Model::description() const
+{
+	return string("");
+}
+
+} // namespace DNest3
+

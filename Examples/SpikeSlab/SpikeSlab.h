@@ -43,7 +43,8 @@ class SpikeSlab:public DNest3::Model
 		// Print to stream
 		void print(std::ostream& out) const;
 
-
+		// Return string with column information
+		std::string description() const;
 };
 
 #endif
