@@ -21,8 +21,8 @@
 #include <ctime>
 #include "CommandLineOptions.h"
 #include "Sampler.h"
-#include "SpikeSlab.h"
 #include "RandomNumberGenerator.h"
+#include "SpikeSlab.h"
 
 using namespace std;
 using namespace DNest3;
@@ -41,6 +41,7 @@ int main(int argc, char** argv)
 	cout<<"# Using "<<options.get_numThreads()<<" thread"<<
 		((options.get_numThreads() == 1)?("."):("s."))<<endl;
 
+	// Seed random number generator
 	cout<<"# Seeding random number generator with "<<
 		options.get_seed_int()<<"."<<endl;
 	RandomNumberGenerator::get_instance().setSeed(options.get_seed_int());
