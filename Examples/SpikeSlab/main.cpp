@@ -18,47 +18,14 @@
 */
 
 #include <iostream>
-#include <ctime>
-#include "CommandLineOptions.h"
-#include "Sampler.h"
-#include "RandomNumberGenerator.h"
+#include "Start.h"
 #include "SpikeSlab.h"
 
 using namespace std;
-using namespace DNest3;
 
 int main(int argc, char** argv)
 {
-	// Handle command line options
-	CommandLineOptions options(argc, argv);
-
-	// Get number of threads, print messages
-	if(options.get_numThreads() > 1)
-	{
-		cerr<<"Multithreading not supported."<<endl;
-		exit(0);
-	}
-	cout<<"# Using "<<options.get_numThreads()<<" thread"<<
-		((options.get_numThreads() == 1)?("."):("s."))<<endl;
-
-	// Seed random number generator
-	cout<<"# Seeding random number generator with "<<
-		options.get_seed_int()<<"."<<endl;
-	RandomNumberGenerator::get_instance().setSeed(options.get_seed_int());
-
-	// Load sampler options from file
-	Options samplerOptions(options.get_optionsFile().c_str());
-
-	// Create sampler
-	Sampler<SpikeSlab> sampler(samplerOptions);
-
-	// Load levels file if requested
-	if(options.get_levelsFile().compare("") != 0)
-		sampler.loadLevels(options.get_levelsFile().c_str());
-
-	// Sample!
-	sampler.run();
-
+	DNest3::start<SpikeSlab>(argc, argv);
 	return 0;
 }
 

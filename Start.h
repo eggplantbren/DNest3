@@ -17,17 +17,22 @@
 * along with DNest. If not, see <http://www.gnu.org/licenses/>.
 */
 
-#include <iostream>
-#include "Start.h"
-#include "Data.h"
-#include "FitSine.h"
+#ifndef _Start_
+#define _Start_
 
-using namespace std;
-
-int main(int argc, char** argv)
+namespace DNest3
 {
-	Data::get_instance().load("fake_data.txt");
-	DNest3::start<FitSine>(argc, argv);
-	return 0;
-}
+
+/*
+* A little function that does everything
+* needed to start DNest3 running. Keeps main() clean.
+*/
+template<class ModelType>
+void start(int argc, char** argv);
+
+} // namespace DNest3
+
+#include "StartImpl.h"
+
+#endif
 
