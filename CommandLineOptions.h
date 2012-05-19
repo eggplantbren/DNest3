@@ -15,6 +15,7 @@ class CommandLineOptions
 {
 	private:
 		std::string levelsFile;
+		std::string optionsFile;
 		std::string seed;
 		int numThreads;
 
@@ -24,6 +25,9 @@ class CommandLineOptions
 		// Getters
 		const std::string& get_levelsFile() const
 		{ return levelsFile; }
+
+		const std::string& get_optionsFile() const
+		{ return optionsFile; }
 
 		const std::string& get_seed() const
 		{ return seed; }

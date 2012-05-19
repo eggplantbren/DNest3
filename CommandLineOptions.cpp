@@ -12,6 +12,7 @@ namespace DNest3
 
 CommandLineOptions::CommandLineOptions(int argc, char** argv)
 :levelsFile("")
+,optionsFile("OPTIONS")
 ,seed("time")
 ,numThreads(1)
 {
@@ -22,7 +23,7 @@ CommandLineOptions::CommandLineOptions(int argc, char** argv)
 	stringstream s;
 
 	opterr = 0;
-	while((c = getopt(argc, argv, "hl:s:t:")) != -1)
+	while((c = getopt(argc, argv, "hl:o:s:t:")) != -1)
 	switch(c)
 	{
 		case 'h':
@@ -30,6 +31,9 @@ CommandLineOptions::CommandLineOptions(int argc, char** argv)
 			break;
 		case 'l':
 			levelsFile = string(optarg);
+			break;
+		case 'o':
+			optionsFile = string(optarg);
 			break;
 		case 's':
 			seed = string(optarg);
@@ -75,6 +79,7 @@ void CommandLineOptions::printHelp() const
 	cout<<"DNest 3 Command Line Options: "<<endl;
 	cout<<"-h: display this message"<<endl;
 	cout<<"-l <filename>: load level structure from the specified file."<<endl;
+	cout<<"-o <filename>: load DNest3 options from the specified file. Default=OPTIONS"<<endl;
 	cout<<"-s <seed>: seed the random number generator with the specified value. If unspecified, the system time is used."<<endl;
 	cout<<"-t <num_threads>: run on the specified number of threads. Default=1."<<endl;
 	exit(0);

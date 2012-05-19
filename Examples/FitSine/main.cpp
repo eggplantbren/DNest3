@@ -48,7 +48,7 @@ int main(int argc, char** argv)
 	RandomNumberGenerator::get_instance().setSeed(options.get_seed_int());
 
 	// Load sampler options from file
-	Options samplerOptions("OPTIONS");
+	Options samplerOptions(options.get_optionsFile().c_str());
 
 	// Load data
 	Data::get_instance().load("fake_data.txt");

@@ -47,7 +47,7 @@ int main(int argc, char** argv)
 	RandomNumberGenerator::get_instance().setSeed(options.get_seed_int());
 
 	// Load sampler options from file
-	Options samplerOptions("OPTIONS");
+	Options samplerOptions(options.get_optionsFile().c_str());
 
 	// Create sampler
 	Sampler<SpikeSlab> sampler(samplerOptions);
