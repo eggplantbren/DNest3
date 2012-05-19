@@ -43,12 +43,13 @@ for i in xrange(0, sample.shape[0]):
 	plt.axis([-1., 101., -5., 5.])
 	plt.xlabel('Time')
 	plt.ylabel('y')
-	plt.title(i+1)
+	plt.title('Model %i, %i components.'%(i+1, numComponents[i]))
 
 	plt.subplot(2,1,2)
 	plt.hold(False)
 	num = numComponents[0:(i+1)]
-	plt.hist(num, bins=[i for i in xrange(0, num.max()+1)], align='left', rwidth=0.3)
+	plt.hist(num, bins=np.arange(0, num.max()+2), align='left', rwidth=0.3)
+	plt.xlim([-0.5, num.max() + 0.5])
 	plt.xlabel('Number of Components')
 	plt.ylabel('Probability')
 	plt.draw()
