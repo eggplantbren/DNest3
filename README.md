@@ -13,7 +13,7 @@ For documentation (currently in a draft state),
 please open Docs/index.html in your browser.
 
 The Paper
-_________
+=========
 
 If you find this software useful,
 please cite the following paper:
@@ -26,7 +26,7 @@ The paper is [freely available online](http://arxiv.org/abs/0912.2380) at
 the [arXiv](http://www.arxiv.org/).
 
 Copyright and Licence
-_____________________
+=====================
 
 DNest3 is Copyright (c) 2009-2012 Brendon J. Brewer.
 
