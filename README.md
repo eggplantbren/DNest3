@@ -9,13 +9,15 @@ implementing new models should be easier than before.
 It has almost all of the features that the older DNest has. Currently the only
 missing feature is multithreading support.
 
-If you find this software useful, please cite the following paper:
+The Paper
+---------
 
-Diffusive Nested Sampling
+If you find this software useful,
+please cite the following paper:
 
-Brendon J. Brewer, Livia B. Pártay, and Gábor Csányi
-
-Statistics and Computing, 2011, 21, 4, 649-656.
+Diffusive Nested Sampling  
+Brendon J. Brewer, Livia B. Pártay, and Gábor Csányi  
+Statistics and Computing, 2011, 21, 4, 649-656.  
 
 The paper is [freely available online](http://arxiv.org/abs/0912.2380) at
 the [arXiv](http://www.arxiv.org/).
