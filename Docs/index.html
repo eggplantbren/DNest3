@@ -91,6 +91,7 @@ href="http://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.117.5542&amp;rep=
 
 
 
+
       Skilling's Nested Sampling Paper</a>. It is a problem with 20
     unknown parameters, each with a uniform prior between -0.5 and 0.5.
     The priors for all of the parameters are independent. The likelihood
@@ -143,7 +144,7 @@ href="http://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.117.5542&amp;rep=
     corresponds to a sample, a point in the parameter space. However,
     the samples in <span style="font-family: monospace;">sample.txt</span>
     are <span style="font-style: italic;">not</span> posterior samples.
-    Instead, they are samples from the mixture distribution that DNest
+    Instead, they are samples from the mixture distribution that DNest3
     actually explores. To actually get posterior samples, you need to
     run the post-processing script <span style="font-family:
       monospace;">showresults.py</span>. This script produces useful
@@ -192,7 +193,7 @@ href="http://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.117.5542&amp;rep=
     of problems (including many problems with multi-modal posterior
     distributions or strong correlations), there are a few situations
     where I would recommend alternative methods. The primary situation
-    in which DNest is not recommended is where the calls to the
+    in which DNest3 is not recommended is where the calls to the
     likelihood function are expensive, yet the number of parameters is
     small to moderate.<br>
     <br>
