@@ -7,10 +7,10 @@ LIBS = -ldnest3 -lgsl -lgslcblas
 
 default:
 	# Compile
-	g++ $(CFLAGS) -I ../.. -c main.cpp
-	g++ $(CFLAGS) -I ../.. -c SpikeSlab.cpp
+	g++ $(CFLAGS) -I../.. -c main.cpp
+	g++ $(CFLAGS) -I../.. -c SpikeSlab.cpp
 	# Link
-	g++ -L ../.. -o main *.o $(LIBS)
+	g++ -L../.. -o main *.o $(LIBS)
 
 clean:
 	rm -f main *.o

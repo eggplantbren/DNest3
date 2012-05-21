@@ -7,12 +7,12 @@ LIBS = -ldnest3 -lgsl -lgslcblas
 
 default:
 	# Compile
-	g++ $(CFLAGS) -I ../.. -c main.cpp
-	g++ $(CFLAGS) -I ../.. -c FitSine.cpp
-	g++ $(CFLAGS) -I ../.. -c Data.cpp
+	g++ $(CFLAGS) -I../.. -c main.cpp
+	g++ $(CFLAGS) -I../.. -c FitSine.cpp
+	g++ $(CFLAGS) -I../.. -c Data.cpp
 
 	# Link
-	g++ -L ../.. -o main *.o $(LIBS)
+	g++ -L../.. -o main *.o $(LIBS)
 
 clean:
 	rm -f main *.o
