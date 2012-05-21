@@ -73,7 +73,7 @@ logz_estimates = zeros((numResampleLogX, 1))
 H_estimates = zeros((numResampleLogX, 1))
 
 # Find sandwiching level for each sample
-sandwich = int64(sample_info[:,0])
+sandwich = sample_info[:,0].copy().astype('int')
 for i in range(0, sample.shape[0]):
 	while sandwich[i] < levels.shape[0]-1 and logl_samples[i] > logl_levels[sandwich[i] + 1]:
 		sandwich[i] += 1
