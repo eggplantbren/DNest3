@@ -7,11 +7,11 @@
   </head>
   <body style=" color: rgb(0, 0, 0); background-color: rgb(255, 255,
     255);" alink="#EE0000" link="#0000EE" vlink="#551A8B">
-    <h1 style="background-color: rgb(255, 255, 255);">DNest<br>
+    <h1 style="background-color: rgb(255, 255, 255);">DNest3<br>
     </h1>
-    DNest is a C++ implementation of Diffusive Nested Sampling, a
+    DNest3 is a C++ implementation of Diffusive Nested Sampling, a
     powerful Markov Chain Monte Carlo (MCMC) algorithm that is primarily
-    useful for solving Bayesian Inference problems. If you find DNest
+    useful for solving Bayesian Inference problems. If you find DNest3
     useful, please cite the following <a
       href="http://arxiv.org/abs/0912.2380">paper</a>:<br>
     <br>
@@ -19,25 +19,26 @@
     Brendon J. Brewer, Livia B. P&aacute;rtay, G&aacute;bor
     Cs&aacute;nyi, Statistics and Computing, 2011, 21, 4, 649-656.<br>
     <br>
-    DNest is (c) 2009, 2010, 2011, 2012 <a
+    DNest3 is (c) 2009, 2010, 2011, 2012 <a
       href="http://web.physics.ucsb.edu/%7Ebrewer/">Brendon J. Brewer</a>
     and is distributed under the terms of the <a
       href="http://en.wikipedia.org/wiki/GPL">GNU General Public Licence</a>,
     version <span style="text-decoration: underline;"></span>3. Please
     see the LICENCE file for details.<br>
     <h3>Installation</h3>
-    Please note that I have only ever compiled DNest on GNU/Linux, using
-    the GNU C++ compiler. However, I expect it to be straightforward to
-    compile it on any other Unix-like OS such as Mac OS X or FreeBSD. It
-    should be possible, albeit probably more tricky, to compile DNeston
-    Microsoft Windows. If you want to try, the&nbsp;<a
-      href="http://www.mingw.org/">MinGW</a> compiler is probably your
-    best bet. I'd be interested to hear from anyone who has tried this.
-    I would also be interested to hear if anyone has compiled DNest with
-    a different compiler, such as the Intel C++ compiler.<br>
+    Please note that I have only ever compiled DNest3 on GNU/Linux,
+    using the GNU C++ compiler. However, I expect it to be
+    straightforward to compile it on any other Unix-like OS such as Mac
+    OS X or FreeBSD. It should be possible, albeit probably more tricky,
+    to compile DNest3 on Microsoft Windows. If you want to try,
+    the&nbsp;<a href="http://www.mingw.org/">MinGW</a> compiler is
+    probably your best bet. I'd be interested to hear from anyone who
+    has tried this. I would also be interested to hear if anyone has
+    compiled DNest3 with a different compiler, such as the Intel C++
+    compiler.<br>
     <h3>Dependencies<br>
     </h3>
-    DNestrequires some other software to be installed on your system.
+    DNest3 requires some other software to be installed on your system.
     Installing these should be quite straightforward.&nbsp; I highly
     recommend obtaining these programs from your OS's package manager,
     rather than installing them from source. Note that some OSs split up
@@ -53,27 +54,28 @@
       href="http://numpy.scipy.org/">NumPy</a> + <a
       href="matplotlib.sourceforge.net">matplotlib</a><br>
     <br>
-    DNestuses GSL's random number generator. Python, NumPy and
+    DNest3 uses GSL's random number generator. Python, NumPy and
     matplotlib are used for the postprocessing script (<span
       style="font-family: monospace;">showresults.py</span>) for
     plotting purposes.<br>
     <h3>Compiling<br>
     </h3>
-    To compile DNest, simply run<br>
+    To compile DNest3, simply run<br>
     <br>
     <span style="font-family: monospace;">make</span><br>
     <br>
-    in the root DNest directory. This will create a shared library file
-    <span style="font-family: monospace;">libdnest.so</span> and a
-    static library <span style="font-family: monospace;">libdnest.a</span>
-    in the current directory. If you like, feel free to copy these to
-    some other location on your system, for example <span
-      style="font-family: monospace;">/usr/local/lib</span>. It will
-    also compile the examples in the <span style="font-family:
-      monospace;">Examples/</span> directory, creating executable files
-    that you can use to run the examples.<br>
+    in the root DNest3 directory. This will create <span
+      style="font-family: monospace;"></span>a static library <span
+      style="font-family: monospace;">libdnest3.a</span> in the current
+    directory. If you like, feel free to copy these to some other
+    location on your system, for example <span style="font-family:
+      monospace;">/usr/local/lib</span>. It will also compile the
+    examples in the <span style="font-family: monospace;">Examples/</span>
+    directory, creating executable files called <span
+      style="font-family: monospace;">main</span> that you can use to
+    run the examples.<br>
     <h3>Running the Examples</h3>
-    Two examples are provided with DNest. I will now explain how DNest
+    Two examples are provided with DNest3. I will now explain how DNest3
     is used through the first example, <span style="font-style:
       italic;">SpikeSlab</span>.<br>
     <h4>Example 1: SpikeSlab</h4>
@@ -82,6 +84,7 @@
       href="http://arxiv.org/abs/0912.2380">paper</a>, and is a slight
     modification of one of the examples in <a
 href="http://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.117.5542&amp;rep=rep1&amp;type=pdf">John
+
 
 
 
@@ -98,7 +101,7 @@ href="http://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.117.5542&amp;rep=
     dimension. This problem is challenging for all sampling algorithms
     that are not variants of Nested Sampling.<br>
     <br>
-    To run DNest on the <span style="font-style: italic;">SpikeSlab</span>
+    To run DNest3 on the <span style="font-style: italic;">SpikeSlab</span>
     example, simply compile DNest, then enter the SpikeSlab directory
     and run <span style="font-family: monospace;">main</span>. <br>
     <br>
@@ -173,21 +176,24 @@ href="http://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.117.5542&amp;rep=
       process with Ctrl-Z, run <span style="font-family: monospace;">showresults.py</span>
       and then resume the main process with <span style="font-family:
         monospace;">fg</span>.</span><span style="font-weight: bold;"><br>
+      <br>
     </span>
-    <h3>Implementing your own Models</h3>
-    <a href="tutorial.html">Here</a> is a tutorial explaining how to
-    implement "fitting multiple sine waves" in DNest.<br>
-    <h3>Tips and Tricks</h3>
-    Click <a href="tips_and_tricks.html">here</a>.<span
-      style="font-family: serif;"><br>
-    </span>
+    <h3>Command-Line Options<br>
+    </h3>
+    Run <span style="color: rgb(0, 0, 153);"><span style="font-family:
+        monospace;">./main -h </span></span>to see a list of available
+    command-line options.<br>
+    <h3>TODO: Tuning the Numerical Parameters in 'OPTIONS'</h3>
+    <h3>TODO: Implementing your own Models</h3>
+    <h3>TODO: Tips and Tricks</h3>
+    <span style="font-family: serif;"> </span>
     <h3>Other Recommended Samplers</h3>
-    While DNest is a very effective sampler and works on a wide range of
-    problems (including many problems with multi-modal posterior
+    While DNest3 is a very effective sampler and works on a wide range
+    of problems (including many problems with multi-modal posterior
     distributions or strong correlations), there are a few situations
     where I would recommend alternative methods. The primary situation
     in which DNest is not recommended is where the calls to the
-    likelihood function are very slow, yet the number of parameters is
+    likelihood function are expensive, yet the number of parameters is
     small to moderate.<br>
     <br>
     For these problems, I would recommend <a
@@ -197,7 +203,7 @@ href="http://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.117.5542&amp;rep=
     if multimodality is expected or if the value of the evidence
     integral is required. These samplers also have the advantage of
     requring less programming from the user. For example, emcee only
-    requires a likelihood function, whereas DNest requires that you
+    requires a likelihood function, whereas DNest3 requires that you
     implement a likelihood function, a function to generate random
     models from the prior, and a function for generating
     Metropolis-Hastings proposals.<br>
