@@ -9,6 +9,15 @@ implementing new models should be even easier.
 It has almost all of the features that the older DNest has. Currently the only
 missing feature is multithreading support.
 
+If you find this software useful, please cite the following paper:
+
+Diffusive Nested Sampling
+Brendon J. Brewer, Livia B. Pártay, Gábor Csányi
+Statistics and Computing, 2011, 21, 4, 649-656.
+
+The paper is [freely available online](http://arxiv.org/abs/0912.2380) at
+the [arXiv](http://www.arxiv.org/)
+
 (c) 2009-2012 Brendon J. Brewer.
 
 DNest is free software: you can redistribute it and/or modify
