@@ -92,6 +92,7 @@ href="http://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.117.5542&amp;rep=
 
 
 
+
       Skilling's Nested Sampling Paper</a>. It is a problem with 20
     unknown parameters, each with a uniform prior between -0.5 and 0.5.
     The priors for all of the parameters are independent. The likelihood
@@ -112,20 +113,29 @@ href="http://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.117.5542&amp;rep=
     <br>
     You should see a bunch of output that looks like this:<br>
     <samp><br>
+      # Using 1 thread.<br>
+      # Seeding random number generator with -1337625108.<br>
       # Generating 3 particles from the prior...done.<br>
-      # Creating level 1 with logL = -50.20423854.<br>
-      # Creating level 2 with logL = -37.16427172.<br>
-      # Creating level 3 with logL = -28.48168816.<br>
-      # Creating level 4 with logL = -21.73969667.<br>
-      # Creating level 5 with logL = -16.25181887.<br>
-      # Creating level 6 with logL = -11.64071181.<br>
+      # Creating level 1 with logL = -51.91599704.<br>
+      # Creating level 2 with logL = -38.68866085.<br>
+      # Creating level 3 with logL = -29.30928837.<br>
+      # Creating level 4 with logL = -22.44227047.<br>
+      # Creating level 5 with logL = -16.947356.<br>
+      # Creating level 6 with logL = -12.19901323.<br>
       # Saving a particle to disk. N = 1.<br>
-      # Creating level 7 with logL = -7.631934788.<br>
-      # Creating level 8 with logL = -4.032597905.<br>
-      # Creating level 9 with logL = -1.01110697.<br>
-      # Creating level 10 with logL = 1.906891509.<br>
-      # Saving a particle to disk. N = 2.<span style="font-family:
-        monospace;"></span><br style="font-family: monospace;">
+      # Creating level 7 with logL = -8.14478528.<br>
+      # Creating level 8 with logL = -4.640384951.<br>
+      # Creating level 9 with logL = -1.486986762.<br>
+      # Creating level 10 with logL = 1.317628374.<br>
+      # Saving a particle to disk. N = 2.<br>
+      # Creating level 11 with logL = 4.137860699.<br>
+      # Creating level 12 with logL = 6.379241865.<br>
+      # Creating level 13 with logL = 8.447578631.<br>
+      # Saving a particle to disk. N = 3.<br>
+      # Creating level 14 with logL = 10.09126447.<br>
+      # Creating level 15 with logL = 11.68745251.<span
+        style="font-family: monospace;"></span><br style="font-family:
+        monospace;">
     </samp><br>
     and so on. By default, this process will continue forever (this can
     be overridden by using different OPTIONS). At some point, you should
