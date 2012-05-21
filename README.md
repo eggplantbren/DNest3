@@ -1,16 +1,30 @@
 Welcome to DNest3
 =================
 
-DNest3 is a reimplementation of Diffusive Nested Sampling, since my C++ skills
-have improved. It has improved performance (in terms of the sampling overhead, 
-I still expect likelihood evaluations to dominate) and is cleaner code:
-implementing new models should be easier than it was before.
+DNest3 is a reimplementation of Diffusive Nested Sampling, a Markov Chain
+Monte Carlo (MCMC) algorithm for Bayesian Inference and Statistical Mechanics.
 
-It has almost all of the features that the older DNest has. Currently the only
-missing feature is multithreading support.
+Relative to older DNest versions, DNest3 has improved performance
+(in terms of the sampling overhead, likelihood evaluations still dominate in
+general) and is cleaner code: implementing new models should be easier than it
+was before.
+
+DNest3 currently has almost all of the features that the older DNest versions
+had. Currently the only missing feature is parallelisation.
 
 For documentation (currently in a draft state),
 please open Docs/index.html in your browser.
+
+Dependencies
+============
+
+DNest3 requires that you have the following packages installed on your
+computer:
+
+* [GNU Scientific Library (GSL)](http://www.gnu.org/software/gsl/)
+* [Python 2](http://www.python.org/)
+* [NumPy](http://numpy.scipy.org/)
+* [matplotlib](http://matplotlib.sourceforge.net/)
 
 The Paper
 =========
