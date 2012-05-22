@@ -63,7 +63,7 @@ class FitSine:public DNest3::Model
 		// Perturbers
 		double perturb1();
 		double perturb2();
-
+		double perturb3();
 
 	public:
 		FitSine();

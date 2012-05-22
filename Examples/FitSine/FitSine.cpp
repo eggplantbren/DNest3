@@ -132,46 +132,117 @@ double FitSine::perturb2()
 		{
 			if(randomU() <= chance)
 			{
-				addComponent(-amplitudes[i], frequencies[i],
+				if(chance < 1.)
+					addComponent(-amplitudes[i], frequencies[i],
 						phases[i]);
 				temp = 1. - exp(-amplitudes[i]/muAmplitudes);
 				temp += scale*randn();
 				temp = mod(temp, 1.);
 				amplitudes[i] = -muAmplitudes*log(1. - temp);
-				addComponent(amplitudes[i], frequencies[i],
+				if(chance < 1.)
+					addComponent(amplitudes[i], frequencies[i],
 						phases[i]);
 			}
 		}
 	}
 	else if(which == 1)
 	{
-
+		for(int i=0; i<numComponents; i++)
+		{
+			if(randomU() <= chance)
+			{
+				if(chance < 1.)
+					addComponent(-amplitudes[i], frequencies[i],
+						phases[i]);
+				temp = log(frequencies[i]);
+				temp += rangeLogFreq*scale*randn();
+				temp = mod(temp - minLogFreq, rangeLogFreq)
+					+ minLogFreq;
+				frequencies[i] = exp(temp);
+				if(chance < 1.)
+					addComponent(amplitudes[i], frequencies[i],
+						phases[i]);
+			}
+		}
 	}
 	else
 	{
+		for(int i=0; i<numComponents; i++)
+		{
+			if(randomU() <= chance)
+			{
+				if(chance < 1.)
+					addComponent(-amplitudes[i], frequencies[i],
+						phases[i]);
+				phases[i] += 2*M_PI*scale*randn();
+				phases[i] = mod(phases[i], 2*M_PI);
+				if(chance < 1.)
+					addComponent(amplitudes[i], frequencies[i],
+						phases[i]);
+			}
+		}
 	}
 
-
-	staleness++;
+	if(chance < 1.)
+		staleness++;
+	else
+		calculateMockData();
 	return 0.;
+}
+
+double FitSine::perturb3()
+{
+	double logH = 0.;
+
+	double proposal = muAmplitudes;
+	proposal = log(proposal);
+	proposal += rangeLogMu*pow(10., 1.5 - 6.*randomU())*randn();
+	proposal = mod(proposal - minLogMu, rangeLogMu) + minLogMu;
+	proposal = exp(proposal);
+
+	int which = randInt(2);
+	if(which == 0)
+	{
+		double ratio = proposal/muAmplitudes;
+		for(int i=0; i<numComponents; i++)
+			amplitudes[i] *= ratio;
+		for(size_t i=0; i<mockData.size(); i++)
+			mockData[i] *= ratio;
+		staleness++;
+	}
+	else
+	{
+		double logMu1 = log(muAmplitudes);
+		double logMu2 = log(proposal);
+		for(int i=0; i<numComponents; i++)
+		{
+			if(amplitudes[i] < 0.)
+				cerr<<"# ERROR: Negative amplitude."<<endl;
+			logH -= -logMu1 - amplitudes[i]/muAmplitudes;
+			logH += -logMu2 - amplitudes[i]/proposal;
+		}
+	}
+
+	muAmplitudes = proposal;
+	return logH;
 }
 
 double FitSine::perturb()
 {
 	double logH = 0.;
 
-	int which = 0;//randInt(3);
+	int which = randInt(3);
 	if(which == 0)
 	{
 		logH = perturb1();
 	}
 	else if(which == 1)
 	{
-		
+		logH = perturb2();
 	}
 	else
 	{
-		
+		logH = perturb3();
 	}
 
 	if(staleness > 1000)
