@@ -28,10 +28,13 @@ sample = np.atleast_2d(np.loadtxt('posterior_sample.txt'))
 
 start = 0
 
-onFraction = sample[:, start]
+numComponents = sample[:, start].astype('int')
 start += 1
 
 muAmplitudes = sample[:, start]
+start += 1
+
+staleness = sample[:, start]
 start += 1
 
 amplitudes = sample[:, start:start+maxNumComponents]
@@ -43,18 +46,16 @@ start += maxNumComponents
 phases = sample[:, start:start+maxNumComponents]
 start += maxNumComponents
 
-numComponents = (amplitudes > 0.).sum(axis=1)
-
 plt.ion()
 for i in xrange(0, sample.shape[0]):
 	
 	mockData = np.zeros(data.shape[0])
-	for j in xrange(0, maxNumComponents):
+	for j in xrange(0, numComponents[i]):
 		mockData += amplitudes[i, j]*np.sin(2*np.pi*frequencies[i, j]*data[:,0] + phases[i, j])
 
 	plt.subplot(2,1,1)
 	plt.hold(False)
-	plt.errorbar(data[:,0], data[:,1], yerr=data[:,2], fmt='bo')
+	plt.errorbar(data[:,0], data[:,1], yerr=data[:,2], fmt='b.')
 	plt.hold(True)
 	plt.plot(data[:,0], mockData, 'r')
 	plt.axis([-1., 101., -5., 5.])
