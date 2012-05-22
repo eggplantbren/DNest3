@@ -68,6 +68,8 @@ void FitSine::fromPrior()
 
 double FitSine::perturb()
 {
+	double logH = 0.;
+
 	int which = randInt(5);
 	if(which == 0)
 	{
@@ -139,7 +141,7 @@ double FitSine::perturb()
 	if(staleness > 1000)
 		calculateMockData();
 
-	return 0.;
+	return logH;
 }
 
 double FitSine::logLikelihood() const
