@@ -72,9 +72,107 @@ void FitSine::fromPrior()
 	}
 }
 
+double FitSine::perturb1()
+{
+	// Make a proposal for the new number of components
+	int diff = static_cast<int>
+			(round(maxNumComponents*pow(10., 1.5 - 6.*randomU())*randn()));
+	if(diff == 0)
+		diff = (randomU() <= 0.5)?(-1):(1);
+	int proposal = numComponents + diff;
+	proposal = mod(proposal, maxNumComponents + 1);
+	int actual_diff = proposal - numComponents;
+
+	if(actual_diff > 0)
+	{
+		double A, f, phi;
+		for(int i=0; i<actual_diff; i++)
+		{
+			A = -muAmplitudes*log(randomU());
+			f = exp(minLogFreq + rangeLogFreq*randomU());
+			phi = 2*M_PI*randomU();
+
+			addComponent(A, f, phi);
+			amplitudes.push_back(A);
+			frequencies.push_back(f);
+			phases.push_back(phi);
+			numComponents++;
+		}
+	}
+	else if(actual_diff < 0)
+	{
+		int which;
+		for(int i=0; i<-actual_diff; i++)
+		{
+			which = randInt(numComponents);
+			addComponent(-amplitudes[which],
+					frequencies[which], phases[which]);
+			amplitudes.erase(amplitudes.begin() + which);
+			frequencies.erase(frequencies.begin() + which);
+			phases.erase(phases.begin() + which);
+			numComponents--;
+		}
+	}
+
+	staleness++;
+	return 0.;
+}
+
+double FitSine::perturb2()
+{
+	double chance = pow(10., 0.5 - 4.*randomU());
+	double scale = pow(10., 1.5 - 6.*randomU());
+
+	int which = randInt(3);
+	double temp;
+
+	if(which == 0)
+	{
+		for(int i=0; i<numComponents; i++)
+		{
+			if(randomU() <= chance)
+			{
+				addComponent(-amplitudes[i], frequencies[i],
+						phases[i]);
+				temp = 1. - exp(-amplitudes[i]/muAmplitudes);
+				temp += scale*randn();
+				temp = mod(temp, 1.);
+				amplitudes[i] = -muAmplitudes*log(1. - temp);
+				addComponent(amplitudes[i], frequencies[i],
+						phases[i]);
+			}
+		}
+	}
+	else if(which == 1)
+	{
+
+	}
+	else
+	{
+	}
+
+
+	staleness++;
+	return 0.;
+}
+
 double FitSine::perturb()
 {
 	double logH = 0.;
+
+	int which = 0;//randInt(3);
+	if(which == 0)
+	{
+		logH = perturb1();
+	}
+	else if(which == 1)
+	{
+		
+	}
+	else
+	{
+		
+	}
 
 	if(staleness > 1000)
 		calculateMockData();
