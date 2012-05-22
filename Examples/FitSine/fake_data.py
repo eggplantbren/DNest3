@@ -24,7 +24,7 @@ import numpy.random as rng
 import matplotlib.pyplot as plt
 
 if __name__ == '__main__':
-	rng.seed(0)
+	rng.seed(1)
 
 	t = np.linspace(0., 100., 101)
 
