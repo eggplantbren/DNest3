@@ -33,9 +33,6 @@ def logdiffexp(x1, x2):
 	return result
 
 def postprocess(temperature=1., numResampleLogX=1):
-	numResampleLogX = 1
-	temperature = 1.0
-
 	levels = np.atleast_2d(np.loadtxt("levels.txt"))
 	sample_info = np.atleast_2d(np.loadtxt("sample_info.txt"))
 	sample = np.atleast_2d(np.loadtxt("sample.txt"))
