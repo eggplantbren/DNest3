@@ -30,9 +30,6 @@ using namespace DNest3;
 const int FitSine::maxNumComponents = 10;
 
 FitSine::FitSine()
-:u_amplitudes(maxNumComponents)
-,frequencies(maxNumComponents)
-,phases(maxNumComponents)
 {
 
 }
@@ -41,9 +38,7 @@ void FitSine::fromPrior()
 {
 	if(!Data::get_instance().get_loaded())
 		cerr<<"# Warning: No data loaded!"<<endl;
-	mockData.resize(Data::get_instance().get_N());
-
-	onFraction = exp(log(1E-3) + log(1E3)*randomU());
+	mockData.assign(Data::get_instance().get_N(), 0.);
 
 	// Set limits on muAmplitudes
 	minLogMu = log(1E-3*Data::get_instance().get_ySig());
@@ -58,85 +53,28 @@ void FitSine::fromPrior()
 	rangeLogFreq = maxLogFreq - minLogFreq;
 
 	muAmplitudes = exp(minLogMu + rangeLogMu*randomU());
-	for(int i=0; i<maxNumComponents; i++)
+	numComponents = randInt(maxNumComponents + 1);
+
+	frequencies.clear();
+	amplitudes.clear();
+	phases.clear();
+	double A, f, phi;
+	for(int i=0; i<numComponents; i++)
 	{
-		u_amplitudes[i] = randomU();
-		frequencies[i] = exp(minLogFreq + rangeLogFreq*randomU());
-		phases[i] = 2*M_PI*randomU();
+		A = -muAmplitudes*log(randomU());
+		f = exp(minLogFreq + rangeLogFreq*randomU());
+		phi = 2*M_PI*randomU();
+
+		addComponent(A, f, phi);
+		amplitudes.push_back(A);
+		frequencies.push_back(f);
+		phases.push_back(phi);
 	}
 }
 
 double FitSine::perturb()
 {
 	double logH = 0.;
-
-	int which = randInt(5);
-	if(which == 0)
-	{
-		onFraction = log(onFraction);
-		onFraction += log(1E3)*pow(10., 1.5 - 6.*randomU())*randn();
-		onFraction = mod(onFraction - log(1E-3), log(1E3)) + log(1E-3);
-		onFraction = exp(onFraction);
-		calculateMockData();
-	}
-	else if(which == 1)
-	{
-		muAmplitudes = log(muAmplitudes);
-		muAmplitudes += rangeLogMu*pow(10., 1.5 - 6.*randomU())*randn();
-		muAmplitudes = mod(muAmplitudes - minLogMu,
-				rangeLogMu) + minLogMu;
-		muAmplitudes = exp(muAmplitudes);
-		calculateMockData();
-	}
-	else if(which == 2)
-	{
-		double chance = pow(10., 0.5 - 4*randomU());
-		double scale = pow(10., 1.5 - 6*randomU());
-		for(int i=0; i<maxNumComponents; i++)
-		{
-			if(randomU() <= chance)
-			{
-				addComponent(-transform(u_amplitudes[i]), frequencies[i], phases[i]);
-				u_amplitudes[i] += scale*randn();
-				u_amplitudes[i] = mod(u_amplitudes[i], 1.);
-				addComponent(transform(u_amplitudes[i]), frequencies[i], phases[i]);				
-			}
-		}
-	}
-	else if(which == 3)
-	{
-		double chance = pow(10., 0.5 - 4*randomU());
-		double scale = pow(10., 1.5 - 6*randomU());
-		for(int i=0; i<maxNumComponents; i++)
-		{
-			if(randomU() <= chance)
-			{
-				addComponent(-transform(u_amplitudes[i]), frequencies[i], phases[i]);
-				frequencies[i] = log(frequencies[i]);
-				frequencies[i] += rangeLogFreq*scale*randn();
-				frequencies[i] = mod(frequencies[i]
-						- minLogFreq, rangeLogFreq)
-						+ minLogFreq;
-				frequencies[i] = exp(frequencies[i]);
-				addComponent(transform(u_amplitudes[i]), frequencies[i], phases[i]);
-			}
-		}
-	}
-	else if(which == 4)
-	{
-		double chance = pow(10., 0.5 - 4*randomU());
-		double scale = pow(10., 1.5 - 6*randomU());
-		for(int i=0; i<maxNumComponents; i++)
-		{
-			if(randomU() <= chance)
-			{
-				addComponent(-transform(u_amplitudes[i]), frequencies[i], phases[i]);
-				phases[i] += 2*M_PI*scale*randn();
-				phases[i] = mod(phases[i], 1.);
-				addComponent(transform(u_amplitudes[i]), frequencies[i], phases[i]);
-			}
-		}
-	}
 
 	if(staleness > 1000)
 		calculateMockData();
@@ -164,8 +102,8 @@ void FitSine::calculateMockData()
 		mockData[i] = 0.;
 
 	// Add each frequency
-	for(int i=0; i<maxNumComponents; i++)
-		addComponent(transform(u_amplitudes[i]), frequencies[i], phases[i]);
+	for(int i=0; i<numComponents; i++)
+		addComponent(amplitudes[i], frequencies[i], phases[i]);
 
 	staleness = 0;
 }
@@ -182,34 +120,30 @@ void FitSine::addComponent(double amplitude, double frequency, double phase)
 
 void FitSine::print(std::ostream& out) const
 {
-	out<<onFraction<<' '<<muAmplitudes<<' ';
-	for(int i=0; i<maxNumComponents; i++)
-		out<<transform(u_amplitudes[i])<<' ';
-	for(int i=0; i<maxNumComponents; i++)
+	out<<numComponents<<' '<<muAmplitudes<<' '<<staleness<<' ';
+
+	// Print amplitudes, use zero padding
+	for(int i=0; i<numComponents; i++)
+		out<<amplitudes[i]<<' ';
+	for(int i=numComponents; i<maxNumComponents; i++)
+		out<<0<<' ';
+
+	// Print frequencies, use zero padding
+	for(int i=0; i<numComponents; i++)
 		out<<frequencies[i]<<' ';
-	for(int i=0; i<maxNumComponents; i++)
+	for(int i=numComponents; i<maxNumComponents; i++)
+		out<<0<<' ';
+
+	// Print phases, use zero padding
+	for(int i=0; i<numComponents; i++)
 		out<<phases[i]<<' ';
-}
-
-double FitSine::transform(double u_amplitude) const
-{
-	double A; // Amplitude to return
-	double t = 1. - onFraction;
-
-	// Compute flux
-	if(u_amplitude < t)
-		A = 0.;
-	else
-	{
-		double U = (u_amplitude - t)/onFraction; // U(0, 1)
-		A = -muAmplitudes*log(1. - U); // Must use CDF not 1-CDF
-	}
-	return A;
+	for(int i=numComponents; i<maxNumComponents; i++)
+		out<<0<<' ';
 }
 
 string FitSine::description() const
 {
-	string result("onFraction, muAmplitudes, ");
+	string result("numComponents, muAmplitudes, staleness, ");
 	result += "amplitudes, frequencies, phases.";
 	return result;
 }
