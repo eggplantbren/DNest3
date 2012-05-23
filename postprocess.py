@@ -64,7 +64,7 @@ def postprocess(temperature=1., numResampleLogX=1):
 	good = np.nonzero(levels[:,4] > 0)[0]
 	plt.plot(levels[good,3]/levels[good,4])
 	plt.xlim(xlim)
-	plt.ylim([-0.1, 1.1])
+	plt.ylim([0., 1.])
 	plt.xlabel("Level")
 	plt.ylabel("MH Acceptance")
 	if numResampleLogX > 1:
