@@ -48,11 +48,9 @@ Level::Level(double logX, const LikelihoodType& cutoff)
 
 void Level::renormaliseVisits(int regularisation)
 {
-	if(tries >= regularisation)
-	{
-		accepts = ((double)(accepts+1)/(double)(tries+1))*regularisation;
-		tries = regularisation;
-	}
+	accepts = ((double)(accepts+1)/(double)(tries+1))*regularisation;
+	tries = regularisation;
+
 	if(visits >= regularisation)
 	{
 		exceeds = ((double)(exceeds+1)/(double)(visits+1))*regularisation;
