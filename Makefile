@@ -1,26 +1,40 @@
-# Development
-#CFLAGS = -O0 -g -Wall -Wextra -ansi -pedantic
+# Compiler settings
+CPP = g++
+# CFLAGS = -O0 -g -Wall -Wextra -ansi -pedantic  # Development
+CFLAGS = -O2 -Wall -Wextra -ansi -pedantic -DNDEBUG  # Optimized
 
-# Optimized
-CFLAGS = -O2 -Wall -Wextra -ansi -pedantic -DNDEBUG
+# Directory structure
+SRC_DIR = src
+BUILD_DIR = build
 
-LIBS = -ldnest3 -lgsl -lgslcblas
-SOURCES = CommandLineOptions.cpp Level.cpp LikelihoodType.cpp Model.cpp Options.cpp RandomNumberGenerator.cpp Utils.cpp
-OBJECTS = CommandLineOptions.o Level.o LikelihoodType.o Model.o Options.o RandomNumberGenerator.o Utils.o
+# Filenames
+FILENAMES = CommandLineOptions Level LikelihoodType Model Options RandomNumberGenerator Utils
+SOURCES = $(foreach f, $(FILENAMES), $(SRC_DIR)/$(f).cpp)
+OBJECTS = $(foreach f, $(FILENAMES), $(SRC_DIR)/$(f).o)
+LIB_NAME = $(BUILD_DIR)/libdnest3.a
 
-default:
-	# Compile all library components
-	g++ $(CFLAGS) -c $(SOURCES)
+# Examples
+EXAMPLE_DIR = Examples
+EXAMPLES = SpikeSlab FitSine
 
-	# Make static library
-	ar rcs libdnest3.a $(OBJECTS)
+# The default build rule
+.cpp.o:
+	$(CPP) $(CFLAGS) -o $*.o -c $*.cpp
 
-	# Build executable examples
-	cd Examples/SpikeSlab; $(MAKE)
-	cd Examples/FitSine; $(MAKE)
+default: libdnest3 examples
+
+# Build the library
+libdnest3: $(OBJECTS)
+	mkdir -p $(BUILD_DIR)
+	ar rcs $(LIB_NAME) $(OBJECTS)
+
+# Build the examples
+examples: force_look
+	$(foreach e, $(EXAMPLES), (echo "Building $(e):"; cd $(EXAMPLE_DIR)/$(e); $(MAKE) $(MFLAGS));)
 
 clean:
-	rm -f *.o libdnest3.a
-	cd Examples/SpikeSlab; $(MAKE) clean;
-	cd Examples/FitSine; $(MAKE) clean;
+	rm -f $(OBJECTS) $(LIB_NAME)
+	$(foreach e, $(EXAMPLES), (cd $(EXAMPLE_DIR)/$(e); $(MAKE) clean);)
 
+force_look:
+	true
