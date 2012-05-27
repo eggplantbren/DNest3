@@ -24,3 +24,5 @@ weights.txt
 # Python bytecode
 *.pyc
 
+build
+.DS_Store

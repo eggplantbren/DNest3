@@ -1,18 +1,9 @@
-# Development
-#CFLAGS = -O0 -g -Wall -Wextra -ansi -pedantic
+include ../Makefile.inc
 
-# Optimized
-CFLAGS = -O2 -Wall -Wextra -ansi -pedantic -DNDEBUG
-LIBS = -ldnest3 -lgsl -lgslcblas
+OBJECTS = main.o SpikeSlab.o
 
-default:
-	# Compile
-	g++ $(CFLAGS) -I../.. -c main.cpp
-	g++ $(CFLAGS) -I../.. -c SpikeSlab.cpp
-	# Link
-	g++ -L../.. -o main *.o $(LIBS)
+default: $(OBJECTS)
+	$(CPP) -o main $(OBJECTS) $(CLIBS)
 
 clean:
-	rm -f main *.o
-
-
+	rm -f main $(OBJECTS)
