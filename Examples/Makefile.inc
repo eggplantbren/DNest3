@@ -2,8 +2,8 @@
 CPP = g++
 # CFLAGS = -O0 -g -Wall -Wextra -ansi -pedantic  # Development
 CFLAGS = -O2 -Wall -Wextra -ansi -pedantic -DNDEBUG  # Optimized
-CLIBS = -ldnest3 -lgsl -lgslcblas -L../../build
-INCLUDES = ../../src
+CLIBS = -ldnest3 -lgsl -lgslcblas -L../../lib
+INCLUDES = ../../include
 
 # The default build rule
 .cpp.o:

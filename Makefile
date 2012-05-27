@@ -5,7 +5,8 @@ CFLAGS = -O2 -Wall -Wextra -ansi -pedantic -DNDEBUG  # Optimized
 
 # Directory structure
 SRC_DIR = src
-BUILD_DIR = build
+INCLUDE_DIR = include
+BUILD_DIR = lib
 
 # Filenames
 FILENAMES = CommandLineOptions Level LikelihoodType Model Options RandomNumberGenerator Utils
@@ -19,7 +20,7 @@ EXAMPLES = SpikeSlab FitSine
 
 # The default build rule
 .cpp.o:
-	$(CPP) $(CFLAGS) -o $*.o -c $*.cpp
+	$(CPP) $(CFLAGS) -I$(INCLUDE_DIR) -o $*.o -c $*.cpp
 
 default: libdnest3 examples
 
@@ -38,3 +39,4 @@ clean:
 
 force_look:
 	true
+
