@@ -94,8 +94,6 @@ void Sampler<ModelType>::run()
 template<class ModelType>
 bool Sampler<ModelType>::step()
 {
-	bool cont = true;
-
 	// Move a particle
 	int which = randInt(options.numParticles);
 	if(randomU() <= 0.5)
@@ -125,6 +123,15 @@ bool Sampler<ModelType>::step()
 	if(static_cast<int>(levels.size()) < options.maxNumLevels &&
 			levels.back().get_cutoff() < logL[which])
 		logLKeep.push_back(logL[which]);
+
+	bool cont = bookKeeping(which);
+	return cont;
+}
+
+template<class ModelType>
+bool Sampler<ModelType>::bookKeeping(int which)
+{
+	bool cont = true;
 
 	// Actually create a new level
 	if(static_cast<int>(logLKeep.size()) >= options.newLevelInterval)

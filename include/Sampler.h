@@ -77,6 +77,9 @@ class Sampler
 		// Do a M-H step of an index
 		void updateIndex(int which);
 
+		// Check for creation of a new level, saving of particles, etc
+		bool bookKeeping(int which);
+
 		// Savers
 		void saveParticle(int which) const;
 		void saveLevels() const;
