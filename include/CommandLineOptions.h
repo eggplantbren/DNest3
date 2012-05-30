@@ -36,6 +36,7 @@ class CommandLineOptions
 		std::string levelsFile;
 		std::string optionsFile;
 		std::string seed;
+		std::string dataFile;
 		int numThreads;
 
 	public:
@@ -50,6 +51,9 @@ class CommandLineOptions
 
 		const std::string& get_seed() const
 		{ return seed; }
+
+		const std::string& get_dataFile() const
+		{ return dataFile; }
 
 		int get_numThreads() const
 		{ return numThreads; }
