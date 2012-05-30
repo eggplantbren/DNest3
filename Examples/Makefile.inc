@@ -13,4 +13,5 @@ default: main.o $(OBJECTS)
 	$(CPP) -o main main.o $(OBJECTS) $(CLIBS)
 
 clean:
-	rm -f main main.o $(OBJECTS)
+	rm -f main main.o $(OBJECTS) *.pyc
+
