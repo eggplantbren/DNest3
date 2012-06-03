@@ -33,6 +33,7 @@ CommandLineOptions::CommandLineOptions(int argc, char** argv)
 :levelsFile("")
 ,optionsFile("OPTIONS")
 ,seed("time")
+,dataFile("")
 ,numThreads(1)
 {
 	// The following code is based on the example given at
@@ -107,7 +108,6 @@ void CommandLineOptions::printHelp() const
 	cout<<"-t <num_threads>: run on the specified number of threads. Default=1."<<endl;
 	exit(0);
 }
-
 
 } // namespace DNest3
 
