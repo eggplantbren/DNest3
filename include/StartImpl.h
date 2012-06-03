@@ -28,11 +28,8 @@ namespace DNest3
 {
 
 template<class ModelType>
-void start(int argc, char** argv)
+Sampler<ModelType> setup(CommandLineOptions& options)
 {
-	// Handle command line options
-	CommandLineOptions options(argc, argv);
-
 	// Get number of threads, print messages
 	if(options.get_numThreads() > 1)
 	{
@@ -57,7 +54,15 @@ void start(int argc, char** argv)
 	if(options.get_levelsFile().compare("") != 0)
 		sampler.loadLevels(options.get_levelsFile().c_str());
 
-	// Sample!
+	return sampler;
+}
+
+template<class ModelType>
+void start(int argc, char** argv)
+{
+	CommandLineOptions options(argc, argv);
+	Sampler<ModelType> sampler =
+			setup<ModelType>(options);
 	sampler.run();
 }
 

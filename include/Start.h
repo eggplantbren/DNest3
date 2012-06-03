@@ -20,8 +20,18 @@
 #ifndef _Start_
 #define _Start_
 
+#include "CommandLineOptions.h"
+#include "Sampler.h"
+
 namespace DNest3
 {
+
+/*
+* Set up the sampler and return it
+* You'll still need to call run() on it
+*/
+template<class ModelType>
+Sampler<ModelType> setup(CommandLineOptions& options);
 
 /*
 * A little function that does everything
