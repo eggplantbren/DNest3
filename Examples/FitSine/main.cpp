@@ -23,11 +23,24 @@
 #include "FitSine.h"
 
 using namespace std;
+using namespace DNest3;
 
 int main(int argc, char** argv)
 {
-	Data::get_instance().load("fake_data.txt");
-	DNest3::start<FitSine>(argc, argv);
+	// Process command line options and load data
+	CommandLineOptions options(argc, argv);
+	string dataFile = options.get_dataFile();
+	if(dataFile.compare("") == 0)
+		Data::get_instance().load("fake_data.txt");
+	else
+		Data::get_instance().load(dataFile.c_str());
+
+	// Initialise the sampler
+	Sampler<FitSine> sampler = setup<FitSine>(options);
+
+	// Go!
+	sampler.run();
+
 	return 0;
 }
 
