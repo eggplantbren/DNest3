@@ -17,8 +17,8 @@
 * along with DNest3. If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef _DNest3_Utils_
-#define _DNest3_Utils_
+#ifndef DNest3_Utils_h
+#define DNest3_Utils_h
 
 #include <vector>
 

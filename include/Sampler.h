@@ -17,8 +17,8 @@
 * along with DNest3. If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef _DNest3_Sampler_
-#define _DNest3_Sampler_
+#ifndef DNest3_Sampler_h
+#define DNest3_Sampler_h
 
 #include <vector>
 #include "LikelihoodType.h"
