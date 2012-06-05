@@ -17,8 +17,8 @@
 * along with DNest3. If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef _Start_
-#define _Start_
+#ifndef _DNest3_Start_
+#define _DNest3_Start_
 
 #include "CommandLineOptions.h"
 #include "Sampler.h"

@@ -17,8 +17,8 @@
 * along with DNest3. If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef _Model_
-#define _Model_
+#ifndef _DNest3_Model_
+#define _DNest3_Model_
 
 #include <vector>
 #include <ostream>

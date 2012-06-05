@@ -17,8 +17,8 @@
 * along with DNest3. If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef _Options_
-#define _Options_
+#ifndef _DNest3_Options_
+#define _DNest3_Options_
 
 #include <string>
 
