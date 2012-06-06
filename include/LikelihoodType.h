@@ -17,8 +17,8 @@
 * along with DNest3. If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef _DNest3_LikelihoodType_
-#define _DNest3_LikelihoodType_
+#ifndef DNest3_LikelihoodType_h
+#define DNest3_LikelihoodType_h
 
 #include <istream>
 #include <ostream>

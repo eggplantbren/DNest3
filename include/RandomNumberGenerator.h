@@ -17,8 +17,8 @@
 * along with DNest3. If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef _DNest3_RandomNumberGenerator_
-#define _DNest3_RandomNumberGenerator_
+#ifndef DNest3_RandomNumberGenerator_h
+#define DNest3_RandomNumberGenerator_h
 
 #include <gsl/gsl_rng.h>
 #include <vector>
