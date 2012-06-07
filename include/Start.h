@@ -31,7 +31,10 @@ namespace DNest3
 * You'll still need to call run() on it
 */
 template<class ModelType>
-Sampler<ModelType> setup(CommandLineOptions& options);
+Sampler<ModelType> setup(int argc, char** argv);
+
+template<class ModelType>
+Sampler<ModelType> setup(const CommandLineOptions& options);
 
 /*
 * A little function that does everything

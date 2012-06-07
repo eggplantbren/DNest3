@@ -28,7 +28,14 @@ namespace DNest3
 {
 
 template<class ModelType>
-Sampler<ModelType> setup(CommandLineOptions& options)
+Sampler<ModelType> setup(int argc, char** argv)
+{
+	CommandLineOptions options(argc, argv);
+	return setup<ModelType>(options);
+}
+
+template<class ModelType>
+Sampler<ModelType> setup(const CommandLineOptions& options)
 {
 	// Get number of threads, print messages
 	if(options.get_numThreads() > 1)

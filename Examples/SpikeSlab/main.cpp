@@ -22,10 +22,12 @@
 #include "SpikeSlab.h"
 
 using namespace std;
+using namespace DNest3;
 
 int main(int argc, char** argv)
 {
-	DNest3::start<SpikeSlab>(argc, argv);
+	Sampler<SpikeSlab> sampler = setup<SpikeSlab>(argc, argv);
+	sampler.run();
 	return 0;
 }
 
