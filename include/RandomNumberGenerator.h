@@ -22,6 +22,7 @@
 
 #include <gsl/gsl_rng.h>
 #include <vector>
+#include <boost/thread/tss.hpp>
 
 namespace DNest3
 {
@@ -64,12 +65,12 @@ class RandomNumberGenerator
 
 	// Static stuff for a global instance
 	private:
-		static RandomNumberGenerator instance;
+		static boost::thread_specific_ptr<RandomNumberGenerator> instance;
 
 	public:
 		// Get instance
 		static RandomNumberGenerator& get_instance()
-		{ return instance; }
+		{ return *(instance.get()); }
 };
 
 // Global RNG functions using RandomNumberGenerator::instance

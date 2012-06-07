@@ -28,7 +28,7 @@ namespace DNest3
 {
 
 // Redeclare the static instance
-RandomNumberGenerator RandomNumberGenerator::instance;
+boost::thread_specific_ptr<RandomNumberGenerator> RandomNumberGenerator::instance;
 
 RandomNumberGenerator::RandomNumberGenerator()
 :rng(gsl_rng_alloc(gsl_rng_taus))
