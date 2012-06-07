@@ -20,13 +20,12 @@
 #include "Utils.h"
 #include <iostream>
 #include <cmath>
+#include <algorithm>
 
 using namespace std;
 
 namespace DNest3
 {
-
-const double pi = 3.14159265358979323846;
 
 double mod(double y, double x)
 {
@@ -48,7 +47,7 @@ int mod(int y, int x)
 double logsumexp(double* logv, int n)
 {
 	if(n<=1)
-		cout<<"Warning in logsumexp"<<endl;
+		cerr<<"Warning in logsumexp"<<endl;
 	double max = logv[0];
 	for(int i=1; i<n; i++)
 		if(logv[i] > max)
@@ -64,13 +63,10 @@ double logsumexp(double* logv, int n)
 
 double logsumexp(const vector<double>& logv)
 {
-	int n = logv.size();
+	int n = static_cast<int>(logv.size());
 	//if(n<=1)
 	//	cout<<"Warning in logsumexp"<<endl;
-	double max = logv[0];
-	for(int i=1; i<n; i++)
-		if(logv[i] > max)
-			max = logv[i];
+	double max = *max_element(logv.begin(), logv.end());
 	double answer = 0;
 	// log(sum(exp(logf)) 	= log(sum(exp(logf - max(logf) + max(logf)))
 	//			= max(logf) + log(sum(exp(logf - max(logf)))
@@ -83,21 +79,7 @@ double logsumexp(const vector<double>& logv)
 double logsumexp(double a, double b)
 {
 	double x[2] = {a,b};
-	return logsumexp(x,2);
-}
-
-	
-int GCD(int a, int b)
-{
-	while(true)
-	{
-		a = a % b;
-		if( a == 0 )
-			return b;
-		b = b % a;
-		if( b == 0 )
-			return a;
-	}
+	return logsumexp(x, 2);
 }
 
 } // namespace DNest3
