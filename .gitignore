@@ -11,6 +11,9 @@
 *.la
 *.a
 
+# Compiled headers (!)
+*.gch
+
 # Executables
 main
 
