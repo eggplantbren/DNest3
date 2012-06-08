@@ -21,7 +21,7 @@
 #define DNest3_Start_h
 
 #include "CommandLineOptions.h"
-#include "Sampler.h"
+#include "MTSampler.h"
 
 namespace DNest3
 {
@@ -31,10 +31,10 @@ namespace DNest3
 * You'll still need to call run() on it
 */
 template<class ModelType>
-Sampler<ModelType> setup(int argc, char** argv);
+MTSampler<ModelType> setup(int argc, char** argv);
 
 template<class ModelType>
-Sampler<ModelType> setup(const CommandLineOptions& options);
+MTSampler<ModelType> setup(const CommandLineOptions& options);
 
 /*
 * A little function that does everything
