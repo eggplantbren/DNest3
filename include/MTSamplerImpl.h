@@ -73,35 +73,31 @@ void MTSampler<ModelType>::bookKeeping()
 	numStepsSinceSave += skip;
 	combineLevels();
 
-	// Make one giant logLKeep
-	std::vector<LikelihoodType> giant;
+	// Make one giant sampler
+	Sampler<ModelType> giant = samplers[0];
 
-	for(size_t i=0; i<samplers.size(); i++)
+	for(size_t i=1; i<samplers.size(); i++)
 	{
-		giant.insert(giant.end(),
+		giant.particles.insert(giant.particles.end(),
+			samplers[i].particles.begin(), samplers[i].particles.end());
+		giant.logLKeep.insert(giant.logLKeep.end(),
 			samplers[i].logLKeep.begin(),
 			samplers[i].logLKeep.end());
 		samplers[i].logLKeep.clear();
-		samplers[i].logLKeep.reserve(2*samplers[i].options.newLevelInterval);
 	}
-
-	int which = randInt(samplers.size());
 
 	if(numStepsSinceSave >= samplers[0].options.saveInterval)
 	{
 		// Fiddle with samplers[which] to fool it into thinking it's due to save
-		long old = samplers[which].count;
-		samplers[which].count = (numSaves+1)*samplers[0].options.saveInterval;
-		samplers[which].logLKeep = giant;
-		samplers[which].bookKeeping(randInt(samplers[0].options.numParticles));
+		long old = giant.count;
+		giant.count = (numSaves+1)*samplers[0].options.saveInterval;
+		giant.bookKeeping(randInt(giant.particles.size()));
 		numSaves++;
 		numStepsSinceSave = 0;
 
-		std::cout<<giant.size()<<std::endl;
-
 		// It may have added a level, grab it
-		samplers[which].logLKeep = giant;
-		levels = samplers[which].levels;
+		samplers[0].logLKeep = giant.logLKeep;
+		levels = giant.levels;
 		for(size_t i=0; i<samplers.size(); i++)
 			samplers[i].levels = levels;
 	}
