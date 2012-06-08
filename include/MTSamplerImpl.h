@@ -69,17 +69,38 @@ void MTSampler<ModelType>::runThread(int thread, unsigned long firstSeed)
 template<class ModelType>
 void MTSampler<ModelType>::bookKeeping()
 {
-	unsigned long num = logLKeep_size();
-			
+	broadcastLevels();
+
+	// Make giant logLKeep, put it in sampler 0
+	for(size_t i=1; i<samplers.size(); i++)
+	{
+		samplers[0].logLKeep.insert(samplers[0].logLKeep.end(),
+			samplers[i].logLKeep.begin(),
+			samplers[i].logLKeep.end());
+		samplers[i].logLKeep.clear();
+		samplers[i].logLKeep.reserve(2*samplers[i].options.newLevelInterval);
+	}
 }
 
 template<class ModelType>
-unsigned long MTSampler<ModelType>::logLKeep_size() const
+void MTSampler<ModelType>::broadcastLevels()
 {
-	unsigned long num = 0;
+	std::vector<Level> old = levels;
+
+	// Extract level stats from all samplers
+	for(size_t i=0; i<levels.size(); i++)
+	{
+		for(size_t j=0; j<samplers.size(); j++)
+		{
+			levels[i].accepts += samplers[j].levels[i].accepts - old[i].accepts;
+			levels[i].tries += samplers[j].levels[i].tries - old[i].tries;
+			levels[i].visits += samplers[j].levels[i].visits - old[i].visits;
+			levels[i].exceeds += samplers[j].levels[i].exceeds - old[i].exceeds;
+		}
+	}
+
 	for(size_t i=0; i<samplers.size(); i++)
-		num += samplers[i].logLKeep.size();	
-	return num;
+		samplers[i].levels = levels;
 }
 
 } // namespace DNest3

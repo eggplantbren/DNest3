@@ -40,6 +40,10 @@ class MTSampler
 
 		unsigned long logLKeep_size() const;
 
+		void broadcastLevels();
+
+		void broadcastLogLKeep();
+
 
 };
 
