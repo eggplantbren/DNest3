@@ -55,7 +55,7 @@ class MTSampler
 
 	public:
 		// Constructor: Pass in Options object
-		MTSampler(const Options& options);
+		MTSampler(int numThreads, const Options& options);
 
 		// Load levels from file
 		void loadLevels(const char* filename);
