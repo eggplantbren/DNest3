@@ -17,8 +17,17 @@ class MTSampler
 		std::vector<Level> levels; // levels backup
 
 	public:
+		// Constructor: Pass in Options object
 		MTSampler(int numThreads, const Options& options);
 
+		// Load levels from file
+		void loadLevels(const char* filename);
+
+		// Do the sampling!
+		void run();
+
+	private:
+		// These are helper methods -- not part of the public interface
 		void run(int thread, unsigned long firstSeed);
 
 };

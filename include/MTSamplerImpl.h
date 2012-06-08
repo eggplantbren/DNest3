@@ -15,6 +15,14 @@ MTSampler<ModelType>::MTSampler(int numThreads, const Options& options)
 }
 
 template<class ModelType>
+void MTSampler<ModelType>::loadLevels(const char* filename)
+{
+	samplers[0].loadLevels(filename);
+	for(size_t i=1; i<samplers.size(); i++)
+		samplers[i].levels = samplers[0].levels;
+}
+
+template<class ModelType>
 void MTSampler<ModelType>::run(int thread, unsigned long firstSeed)
 {
 	RandomNumberGenerator::initialise_instance();
