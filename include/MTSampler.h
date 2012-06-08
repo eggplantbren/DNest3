@@ -28,7 +28,7 @@ class MTSampler
 
 	private:
 		// These are helper methods -- not part of the public interface
-		void run(int thread, unsigned long firstSeed);
+		void runThread(int thread, unsigned long firstSeed);
 
 };
 
