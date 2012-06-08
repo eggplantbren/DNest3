@@ -11,11 +11,15 @@ template<class ModelType>
 class MTSampler
 {
 	private:
+		static const int skip;
+
 		std::vector< Sampler<ModelType> > samplers;
 		std::vector<Level> levels; // levels backup
 
 	public:
 		MTSampler(int numThreads, const Options& options);
+
+		void run(int thread, unsigned long firstSeed);
 
 };
 
