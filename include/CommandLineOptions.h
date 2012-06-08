@@ -59,7 +59,7 @@ class CommandLineOptions
 		{ return numThreads; }
 
 		// Convert seed string to an integer and return it
-		int get_seed_int() const;
+		unsigned long get_seed_long() const;
 
 		// Print help message
 		void printHelp() const;

@@ -31,12 +31,12 @@ namespace DNest3
 boost::thread_specific_ptr<RandomNumberGenerator> RandomNumberGenerator::instance;
 
 RandomNumberGenerator::RandomNumberGenerator()
-:rng(gsl_rng_alloc(gsl_rng_taus))
+:rng(gsl_rng_alloc(gsl_rng_mt19937))
 {
-	set_seed(-1);
+	set_seed(0);
 }
 
-RandomNumberGenerator::RandomNumberGenerator(int seed)
+RandomNumberGenerator::RandomNumberGenerator(unsigned long seed)
 :rng(gsl_rng_alloc(gsl_rng_taus))
 {
 	set_seed(seed);

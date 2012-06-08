@@ -43,7 +43,7 @@ class RandomNumberGenerator
 		RandomNumberGenerator();
 
 		// Use given seed
-		RandomNumberGenerator(int seed);
+		RandomNumberGenerator(unsigned long seed);
 
 		// Free the memory
 		~RandomNumberGenerator();
