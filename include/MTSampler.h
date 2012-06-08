@@ -32,6 +32,9 @@ template<class ModelType>
 class MTSampler
 {
 	private:
+		// Number of threads
+		int numThreads;
+
 		// Options (most useful comment ever)
 		Options options;
 
@@ -98,7 +101,7 @@ class MTSampler
 
 }
 
-//#include "MTSamplerImpl.h"
+#include "MTSamplerImpl.h"
 
 #endif
 

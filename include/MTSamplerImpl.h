@@ -30,20 +30,23 @@ namespace DNest3
 {
 
 template<class ModelType>
-MTSampler<ModelType>::MTSampler(const Options& options)
-:options(options)
-,particles(options.numParticles)
-,logL(options.numParticles)
-,indices(options.numParticles, 0)
-,levels(1, Level(0., -1E300, 0.))
-,logLKeep(0)
+MTSampler<ModelType>::MTSampler(int numThreads, const Options& options)
+:numThreads(numThreads)
+,options(options)
+,particles(numThreads, std::vector<ModelType>(options.numParticles))
+,logL(numThreads, std::vector<LikelihoodType>(options.numParticles))
+,indices(numThreads, std::vector<int>(options.numParticles, 0))
+,levels(numThreads, std::vector<Level>(1, Level(0., -1E300, 0.)))
+,_levels(1, levels[0])
+,logLKeep(numThreads)
 ,initialised(false)
 ,count(0)
-,primary(true)
 {
-	logLKeep.reserve(2*options.newLevelInterval);
+	for(int i=0; i<numThreads; i++)
+		logLKeep[i].reserve(2*options.newLevelInterval);
 }
 
+/*
 template<class ModelType>
 void MTSampler<ModelType>::loadLevels(const char* filename)
 {
@@ -349,6 +352,6 @@ void MTSampler<ModelType>::deleteParticle()
 	else
 		std::cerr<<"# Warning: all particles lagging! Very rare!"<<std::endl;
 }
-
+*/
 } // namespace DNest3
 
