@@ -40,7 +40,7 @@ Sampler<ModelType>::Sampler(const Options& options)
 ,initialised(false)
 ,count(0)
 {
-
+	logLKeep.reserve(2*options.newLevelInterval);
 }
 
 template<class ModelType>
