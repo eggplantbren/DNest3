@@ -46,24 +46,26 @@ MTSampler<ModelType>::MTSampler(int numThreads, const Options& options)
 		logLKeep[i].reserve(2*options.newLevelInterval);
 }
 
-/*
 template<class ModelType>
 void MTSampler<ModelType>::loadLevels(const char* filename)
 {
 	if(initialised)
 		std::cerr<<"# WARNING: Please load level structure before running sampler."<<std::endl;
-	levels = Level::loadLevels(filename);
-	if(static_cast<int>(levels.size()) > options.maxNumLevels)
+	_levels = Level::loadLevels(filename);
+	if(static_cast<int>(_levels.size()) > options.maxNumLevels)
 	{
 		std::cout<<"# Truncating to "<<options.maxNumLevels<<" levels."<<std::endl;
-		levels.erase(levels.begin() + options.maxNumLevels, levels.end());
+		_levels.erase(_levels.begin() + options.maxNumLevels, _levels.end());
 	} 
 
-	Level::renormaliseVisits(levels, options.newLevelInterval);
-	Level::recalculateLogX(levels, options.newLevelInterval);
+	Level::renormaliseVisits(_levels, options.newLevelInterval);
+	Level::recalculateLogX(_levels, options.newLevelInterval);
 	saveLevels();
-}
 
+	for(int i=0; i<numThreads; i++)
+		levels[i] = _levels;
+}
+/*
 template<class ModelType>
 void MTSampler<ModelType>::initialise()
 {
