@@ -78,9 +78,9 @@ void MTSampler<ModelType>::loadLevels(const char* filename)
 template<class ModelType>
 void MTSampler<ModelType>::initialise(int thread)
 {
+	static boost::mutex mutex;
+
 	assert(!initialised[thread]);
-	std::cout<<"# Thread "<<thread<<": Generating "<<options.numParticles<<
-			" particles from the prior..."<<std::flush;
 	for(int i=0; i<options.numParticles; i++)
 	{
 		particles[thread][i].fromPrior();
@@ -89,12 +89,16 @@ void MTSampler<ModelType>::initialise(int thread)
 		logLKeep[thread].push_back(logL[thread][i]);
 	}
 	initialised[thread] = true;
-	std::cout<<"done."<<std::endl;
+	mutex.lock();
+	std::cout<<"# Thread "<<(thread+1)<<": Generated "<<options.numParticles<<
+			" particles from the prior."<<std::endl;
+	mutex.unlock();
 }
 
 template<class ModelType>
 void MTSampler<ModelType>::run()
 {
+	
 	boost::thread_group threads;
 	for(int i=0; i<numThreads; i++)
 	{
