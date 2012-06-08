@@ -67,6 +67,11 @@ int RandomNumberGenerator::randInt(int numPossibilities) const
 	return (int)floor(numPossibilities*this->randomU());
 }
 
+void RandomNumberGenerator::initialise_instance()
+{
+	instance.reset(new RandomNumberGenerator);
+}
+
 double randomU()
 {
 	return RandomNumberGenerator::get_instance().randomU();

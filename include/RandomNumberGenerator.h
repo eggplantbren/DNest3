@@ -75,6 +75,9 @@ class RandomNumberGenerator
 		// Get instance
 		static RandomNumberGenerator& get_instance()
 		{ return *(instance.get()); }
+
+		// Initialise instance
+		static void initialise_instance();
 };
 
 // Global RNG functions using RandomNumberGenerator::instance
