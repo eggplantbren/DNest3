@@ -46,6 +46,8 @@ MTSampler<ModelType>::MTSampler(int numThreads, const Options& options)
 ,logLKeep(numThreads)
 ,initialised(numThreads, false)
 ,count(numThreads, 0)
+,lastSave(0)
+,saves(0)
 {
 	for(int i=0; i<numThreads; i++)
 		logLKeep[i].reserve(2*options.newLevelInterval);
@@ -119,13 +121,15 @@ void MTSampler<ModelType>::runThread(int thread, unsigned long firstSeed)
 	if(!initialised[thread])
 		initialise(thread);
 
-	while(true)
+	bool cont = true;
+	while(cont)
 	{
 		steps(thread, skip);
 		barrier->wait();
 		if(thread == 0)
 		{
-			bookKeeping();
+			lastSave += numThreads*skip;
+			cont = bookKeeping();
 		}
 		barrier->wait();
 	}
@@ -180,9 +184,8 @@ void MTSampler<ModelType>::step(int thread)
 template<class ModelType>
 bool MTSampler<ModelType>::bookKeeping()
 {
-/*
 	bool cont = true;
-
+/*
 	// Actually create a new level
 	if(static_cast<int>(logLKeep.size()) >= options.newLevelInterval)
 	{
@@ -208,43 +211,45 @@ bool MTSampler<ModelType>::bookKeeping()
 		saveLevels();
 		deleteParticle();
 	}
+*/
 
-	if(count%options.saveInterval == 0)
+	int iWhich = randInt(numThreads);
+	int jWhich = randInt(options.numParticles);
+
+	if(lastSave >= options.saveInterval)
 	{
-		saveParticle(which);
-		Level::recalculateLogX(levels, options.newLevelInterval);
+		saveParticle(iWhich, jWhich);
+		Level::recalculateLogX(_levels, options.newLevelInterval);
 		saveLevels();
 		if(options.maxNumSamples > 0 &&
-			count/options.saveInterval == options.maxNumSamples)
+			saves >= options.maxNumSamples)
 			cont = false;
 	}
 
-	return cont;*/
-	return true;
+	return cont;
 }
-/*
+
 template<class ModelType>
-void MTSampler<ModelType>::saveParticle(int which) const
+void MTSampler<ModelType>::saveParticle(int iWhich, int jWhich)
 {
-	int N = count/options.saveInterval;
-	std::cout<<"# Saving a particle to disk. N = "<<N<<"."<<std::endl;
+	std::cout<<"# Saving a particle to disk. N = "<<(++saves)<<"."<<std::endl;
 
 	// Save the particle to file
 	std::fstream fout;
-	if(N == 1)
+	if(saves == 1)
 	{
 		fout.open(options.sampleFile.c_str(), std::ios::out);
 		fout<<"# Samples file. One sample per line."<<std::endl;
-		fout<<"# "<<particles[0].description()<<std::endl;
+		fout<<"# "<<particles[0][0].description()<<std::endl;
 	}
 	else
 		fout.open(options.sampleFile.c_str(), std::ios::out|std::ios::app);
 	fout<<std::setprecision(10);
-	particles[which].print(fout); fout<<std::endl;
+	particles[iWhich][jWhich].print(fout); fout<<std::endl;
 	fout.close();
 
 	// Save the particle's info
-	if(N == 1)
+	if(saves == 1)
 	{
 		fout.open(options.sampleInfoFile.c_str(), std::ios::out);
 		fout<<"# index, logLikelihood, tieBreaker, ID."<<std::endl;
@@ -252,11 +257,13 @@ void MTSampler<ModelType>::saveParticle(int which) const
 	else
 		fout.open(options.sampleInfoFile.c_str(), std::ios::out|std::ios::app);
 	fout<<std::setprecision(10);
-	fout<<indices[which]<<' '<<logL[which].logL<<' '
-			<<logL[which].tieBreaker<<' '<<which<<std::endl;
+	fout<<indices[iWhich][jWhich]<<' '<<logL[iWhich][jWhich].logL<<' '
+			<<logL[iWhich][jWhich].tieBreaker<<' '
+			<<(iWhich*options.numParticles + jWhich)<<std::endl;
 	fout.close();
+	lastSave = 0;
 }
-*/
+
 template<class ModelType>
 void MTSampler<ModelType>::saveLevels() const
 {

@@ -64,6 +64,12 @@ class MTSampler
 		// Number of MCMC steps ever done
 		std::vector<long> count;
 
+		// Number of MCMC steps since last save
+		long lastSave;
+
+		// Number of saved particles
+		int saves;
+
 	public:
 		// Constructor: Pass in Options object
 		MTSampler(int numThreads, const Options& options);
@@ -102,7 +108,7 @@ class MTSampler
 		bool bookKeeping();
 
 		// Savers
-		void saveParticle(int which) const;
+		void saveParticle(int iWhich, int jWhich);
 		void saveLevels() const;
 
 		// Pushing function
