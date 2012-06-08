@@ -110,7 +110,7 @@ void MTSampler<ModelType>::run(int thread, unsigned long firstSeed)
 		barrier->wait();
 		if(thread == 0)
 		{
-			// Do bookkeeping
+			bookKeeping();
 		}
 		barrier->wait();
 	}
@@ -118,7 +118,7 @@ void MTSampler<ModelType>::run(int thread, unsigned long firstSeed)
 
 
 template<class ModelType>
-void MTSampler<ModelType>::run(int thread, int steps)
+void MTSampler<ModelType>::steps(int thread, int steps)
 {
 	if(!initialised[thread])
 		initialise(thread);

@@ -86,8 +86,8 @@ class MTSampler
 		// The main thing to launch threads with
 		void run(int thread, unsigned long firstSeed);
 
-		// run() but only for a certain number of steps
-		void run(int thread, int steps);
+		// Like run() but only for a certain number of steps
+		void steps(int thread, int steps);
 
 		// Choose a particle and do one step with it
 		// Return a flag - whether to continue or not
