@@ -25,6 +25,7 @@
 #include <cmath>
 #include <algorithm>
 #include <iomanip>
+#include <boost/bind.hpp>
 
 namespace DNest3
 {
@@ -93,9 +94,21 @@ void MTSampler<ModelType>::initialise(int thread)
 	std::cout<<"done."<<std::endl;
 }
 
+template<class ModelType>
+void MTSampler<ModelType>::run()
+{
+	boost::thread_group threads;
+	for(int i=0; i<numThreads; i++)
+	{
+		threads.create_thread(boost::bind(
+			&MTSampler<ModelType>::runThread,
+			this, i, RandomNumberGenerator::get_instance().get_seed()));
+	}
+	threads.join_all();
+}
 
 template<class ModelType>
-void MTSampler<ModelType>::run(int thread, unsigned long firstSeed)
+void MTSampler<ModelType>::runThread(int thread, unsigned long firstSeed)
 {
 	// Re-seed thread-local RNG
 	RandomNumberGenerator::initialise_instance();
