@@ -154,6 +154,18 @@ Level& Level::operator += (const Level& other)
 	return *this;
 }
 
+Level& Level::operator -= (const Level& other)
+{
+	if(logX != other.logX || cutoff.logL != other.cutoff.logL || cutoff.tieBreaker != other.cutoff.tieBreaker)
+		cerr<<"# Warning: combining level statistics from non-equivalent levels."<<endl;
+
+	tries -= other.tries;
+	accepts -= other.accepts;
+	visits -= other.visits;
+	exceeds -= other.exceeds;
+
+	return *this;
+}
 
 } // namespace DNest3
 

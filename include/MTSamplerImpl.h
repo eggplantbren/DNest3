@@ -208,10 +208,15 @@ bool MTSampler<ModelType>::bookKeeping()
 template<class ModelType>
 void MTSampler<ModelType>::updateLevels()
 {
+	std::vector<Level> old = _levels;
+
 	for(int i=0; i<numThreads; i++)
 	{
 		for(size_t j=0; j<levels[i].size(); j++)
+		{
 			_levels[j] += levels[i][j];
+			_levels[j] -= old[j];
+		}
 	}
 
 	for(int i=0; i<numThreads; i++)

@@ -66,6 +66,7 @@ class Level
 
 		// Combine level statistics
 		Level& operator += (const Level& other);
+		Level& operator -= (const Level& other);
 
 	// Stream I/O
 	friend std::ostream& operator << (std::ostream& out, const Level& level);
