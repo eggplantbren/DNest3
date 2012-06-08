@@ -31,7 +31,7 @@ namespace DNest3
 RandomNumberGenerator RandomNumberGenerator::instance;
 
 RandomNumberGenerator::RandomNumberGenerator()
-:rng(gsl_rng_alloc(gsl_rng_taus))
+:rng(gsl_rng_alloc(gsl_rng_mt19937))
 {
 	setSeed(-1);
 }
