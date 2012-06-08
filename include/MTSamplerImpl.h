@@ -30,6 +30,9 @@ namespace DNest3
 {
 
 template<class ModelType>
+const int MTSampler<ModelType>::skip = 1000;
+
+template<class ModelType>
 MTSampler<ModelType>::MTSampler(int numThreads, const Options& options)
 :numThreads(numThreads)
 ,options(options)
@@ -97,21 +100,18 @@ void MTSampler<ModelType>::run()
 			break;
 	}
 }
+*/
 
 template<class ModelType>
-void MTSampler<ModelType>::run(int steps)
+void MTSampler<ModelType>::run(int thread, int steps)
 {
-	if(!initialised)
-		initialise();
+	if(!initialised[thread])
+		initialise(thread);
 
 	for(int i=0; i<steps; i++)
-	{
-		bool cont = step();
-		if(!cont)
-			break;
-	}
+		step(thread);
 }
-
+/*
 template<class ModelType>
 bool MTSampler<ModelType>::step()
 {

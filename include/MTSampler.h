@@ -32,6 +32,10 @@ template<class ModelType>
 class MTSampler
 {
 	private:
+		// How many steps to take of each thread
+		// before communicating
+		static const int skip;
+
 		// Number of threads
 		int numThreads;
 
@@ -73,7 +77,7 @@ class MTSampler
 		void initialise(int thread);
 
 		// run() but only for a certain number of steps
-		void run(int steps);
+		void run(int thread, int steps);
 
 		// Choose a particle and do one step with it
 		// Return a flag - whether to continue or not
