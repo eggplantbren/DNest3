@@ -110,6 +110,10 @@ class MTSampler
 		// Check for creation of a new level
 		void createLevel();
 
+		// Combine info from levels into _levels
+		// and then set all levels to _levels
+		void updateLevels();
+
 		// Savers
 		void saveParticle(int iWhich, int jWhich);
 		void saveLevels() const;

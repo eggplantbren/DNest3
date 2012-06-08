@@ -187,6 +187,7 @@ bool MTSampler<ModelType>::bookKeeping()
 	bool cont = true;
 
 	createLevel();
+	updateLevels();
 
 	int iWhich = randInt(numThreads);
 	int jWhich = randInt(options.numParticles);
@@ -194,6 +195,7 @@ bool MTSampler<ModelType>::bookKeeping()
 	{
 		saveParticle(iWhich, jWhich);
 		Level::recalculateLogX(_levels, options.newLevelInterval);
+		updateLevels();
 		saveLevels();
 		if(options.maxNumSamples > 0 &&
 			saves >= options.maxNumSamples)
@@ -204,10 +206,26 @@ bool MTSampler<ModelType>::bookKeeping()
 }
 
 template<class ModelType>
+void MTSampler<ModelType>::updateLevels()
+{
+	for(int i=0; i<numThreads; i++)
+	{
+		for(size_t j=0; j<levels[i].size(); j++)
+			_levels[j] += levels[i][j];
+	}
+
+	for(int i=0; i<numThreads; i++)
+		levels[i] = _levels;
+}
+
+template<class ModelType>
 void MTSampler<ModelType>::createLevel()
 {
+	// If all levels exist, do nothing
 	if(static_cast<int>(_levels.size()) >= options.maxNumLevels)
 		return;
+
+	// Count logLKeep
 
 /*
 
