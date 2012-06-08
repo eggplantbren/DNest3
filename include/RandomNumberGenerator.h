@@ -36,6 +36,7 @@ class RandomNumberGenerator
 {
 	private:
 		gsl_rng* rng;
+		int seed;
 
 	public:
 		// Seed with -1
@@ -48,7 +49,10 @@ class RandomNumberGenerator
 		~RandomNumberGenerator();
 
 		// Set seed after initialisation
-		void setSeed(int seed);
+		void set_seed(int seed);
+
+		// Getter
+		int get_seed() const { return seed; }
 
 		// U(0, 1)
 		double randomU() const;

@@ -33,13 +33,13 @@ boost::thread_specific_ptr<RandomNumberGenerator> RandomNumberGenerator::instanc
 RandomNumberGenerator::RandomNumberGenerator()
 :rng(gsl_rng_alloc(gsl_rng_taus))
 {
-	setSeed(-1);
+	set_seed(-1);
 }
 
 RandomNumberGenerator::RandomNumberGenerator(int seed)
 :rng(gsl_rng_alloc(gsl_rng_taus))
 {
-	setSeed(seed);
+	set_seed(seed);
 }
 
 RandomNumberGenerator::~RandomNumberGenerator()
@@ -47,7 +47,7 @@ RandomNumberGenerator::~RandomNumberGenerator()
 	gsl_rng_free(rng);
 }
 
-void RandomNumberGenerator::setSeed(int seed)
+void RandomNumberGenerator::set_seed(int seed)
 {
 	gsl_rng_set(rng, seed);
 }
