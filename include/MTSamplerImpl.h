@@ -44,7 +44,7 @@ MTSampler<ModelType>::MTSampler(int numThreads, const Options& options)
 ,_levels(1, levels[0])
 ,logLKeep(numThreads)
 ,initialised(numThreads, false)
-,count(0)
+,count(numThreads, 0)
 {
 	for(int i=0; i<numThreads; i++)
 		logLKeep[i].reserve(2*options.newLevelInterval);
@@ -126,46 +126,42 @@ void MTSampler<ModelType>::steps(int thread, int steps)
 	for(int i=0; i<steps; i++)
 		step(thread);
 }
-/*
+
 template<class ModelType>
-bool MTSampler<ModelType>::step()
+void MTSampler<ModelType>::step(int thread)
 {
 	// Move a particle
 	int which = randInt(options.numParticles);
 	if(randomU() <= 0.5)
 	{
-		updateParticle(which);
-		updateIndex(which);
+		updateParticle(thread, which);
+		updateIndex(thread, which);
 	}
 	else
 	{
-		updateIndex(which);
-		updateParticle(which);
+		updateIndex(thread, which);
+		updateParticle(thread, which);
 	}
-	count++;
+	count[thread]++;
 
 	// Accumulate visits, exceeds
-	int index = indices[which];
-	while(index < static_cast<int>(levels.size()) - 1)
+	int index = indices[thread][which];
+	while(index < static_cast<int>(levels[thread].size()) - 1)
 	{
-		bool exceeds = levels[index+1].get_cutoff() < logL[which];
-		levels[index].incrementVisits(exceeds);
+		bool exceeds = levels[thread][index+1].get_cutoff() < logL[thread][which];
+		levels[thread][index].incrementVisits(exceeds);
 		if(!exceeds)
 			break;
 		index++;
 	}
 
 	// Accumulate likelihoods for making a new level
-	if(static_cast<int>(levels.size()) < options.maxNumLevels &&
-			levels.back().get_cutoff() < logL[which])
-		logLKeep.push_back(logL[which]);
-
-	bool cont = true;
-	if(primary)
-		cont = bookKeeping(which);
-	return cont;
+	if(static_cast<int>(levels[thread].size()) < options.maxNumLevels &&
+			levels[thread].back().get_cutoff() < logL[thread][which])
+		logLKeep[thread].push_back(logL[thread][which]);
 }
 
+/*
 template<class ModelType>
 bool MTSampler<ModelType>::bookKeeping(int which)
 {

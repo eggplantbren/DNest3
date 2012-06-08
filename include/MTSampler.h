@@ -62,7 +62,7 @@ class MTSampler
 		std::vector<bool> initialised;
 
 		// Number of MCMC steps ever done
-		long count;
+		std::vector<long> count;
 
 	public:
 		// Constructor: Pass in Options object
@@ -90,14 +90,13 @@ class MTSampler
 		void steps(int thread, int steps);
 
 		// Choose a particle and do one step with it
-		// Return a flag - whether to continue or not
-		bool step();
+		void step(int thread);
 
 		// Do a M-H step of a particle
-		void updateParticle(int which);
+		void updateParticle(int thread, int which);
 
 		// Do a M-H step of an index
-		void updateIndex(int which);
+		void updateIndex(int thread, int which);
 
 		// Check for creation of a new level, saving of particles, etc
 		bool bookKeeping(int which);
