@@ -34,7 +34,8 @@ const int MTSampler<ModelType>::skip = 1000;
 
 template<class ModelType>
 MTSampler<ModelType>::MTSampler(int numThreads, const Options& options)
-:numThreads(numThreads)
+:barrier(new boost::barrier(numThreads))
+,numThreads(numThreads)
 ,options(options)
 ,particles(numThreads, std::vector<ModelType>(options.numParticles))
 ,logL(numThreads, std::vector<LikelihoodType>(options.numParticles))
@@ -47,6 +48,12 @@ MTSampler<ModelType>::MTSampler(int numThreads, const Options& options)
 {
 	for(int i=0; i<numThreads; i++)
 		logLKeep[i].reserve(2*options.newLevelInterval);
+}
+
+template<class ModelType>
+MTSampler<ModelType>::~MTSampler()
+{
+	delete barrier;
 }
 
 template<class ModelType>

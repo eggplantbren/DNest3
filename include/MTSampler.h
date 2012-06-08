@@ -24,6 +24,7 @@
 #include "LikelihoodType.h"
 #include "Options.h"
 #include "Level.h"
+#include <boost/thread.hpp>
 
 namespace DNest3
 {
@@ -35,6 +36,9 @@ class MTSampler
 		// How many steps to take of each thread
 		// before communicating
 		static const int skip;
+
+		// Boost barrier - allocate on heap
+		boost::barrier* barrier;
 
 		// Number of threads
 		int numThreads;
@@ -63,6 +67,9 @@ class MTSampler
 	public:
 		// Constructor: Pass in Options object
 		MTSampler(int numThreads, const Options& options);
+
+		// Destructor - delete barrier
+		~MTSampler();
 
 		// Load levels from file
 		void loadLevels(const char* filename);
