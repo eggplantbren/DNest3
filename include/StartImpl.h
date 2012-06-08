@@ -48,8 +48,8 @@ Sampler<ModelType> setup(const CommandLineOptions& options)
 
 	// Seed random number generator
 	std::cout<<"# Seeding random number generator with "<<
-		options.get_seed_int()<<"."<<std::endl;
-	RandomNumberGenerator::get_instance().setSeed(options.get_seed_int());
+		options.get_seed_long()<<"."<<std::endl;
+	RandomNumberGenerator::get_instance().setSeed(options.get_seed_long());
 
 	// Load sampler options from file
 	Options samplerOptions(options.get_optionsFile().c_str());

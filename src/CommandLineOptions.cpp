@@ -86,15 +86,15 @@ CommandLineOptions::CommandLineOptions(int argc, char** argv)
 	}
 }
 
-int CommandLineOptions::get_seed_int() const
+unsigned long CommandLineOptions::get_seed_long() const
 {
 	if(seed.compare("time") == 0)
-		return -abs(time(0));
+		return static_cast<unsigned long>(time(0));
 
-	int i;
+	unsigned long i;
 	stringstream s(seed);
 	s>>i;
-	return -abs(i);
+	return i;
 }
 
 void CommandLineOptions::printHelp() const

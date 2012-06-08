@@ -33,10 +33,10 @@ RandomNumberGenerator RandomNumberGenerator::instance;
 RandomNumberGenerator::RandomNumberGenerator()
 :rng(gsl_rng_alloc(gsl_rng_mt19937))
 {
-	setSeed(-1);
+	setSeed(0);
 }
 
-RandomNumberGenerator::RandomNumberGenerator(int seed)
+RandomNumberGenerator::RandomNumberGenerator(unsigned long seed)
 :rng(gsl_rng_alloc(gsl_rng_taus))
 {
 	setSeed(seed);
