@@ -64,6 +64,9 @@ class Level
 		static void renormaliseVisits(std::vector<Level>& levels, int regularisation);
 		static std::vector<Level> loadLevels(const char* filename);
 
+		// Combine level statistics
+		Level& operator += (const Level& other);
+
 	// Stream I/O
 	friend std::ostream& operator << (std::ostream& out, const Level& level);
 	friend std::istream& operator >> (std::istream& in, Level& level);
