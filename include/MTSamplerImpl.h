@@ -70,7 +70,7 @@ template<class ModelType>
 void MTSampler<ModelType>::initialise(int thread)
 {
 	assert(!initialised[thread]);
-	std::cout<<"# Generating "<<options.numParticles<<
+	std::cout<<"# Thread "<<thread<<": Generating "<<options.numParticles<<
 			" particles from the prior..."<<std::flush;
 	for(int i=0; i<options.numParticles; i++)
 	{
