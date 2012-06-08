@@ -14,7 +14,6 @@ class MTSampler
 	private:
 		static const int skip;
 
-		boost::mutex* bMutex; // bookkeeping mutex
 		boost::barrier* barrier;
 
 		std::vector< Sampler<ModelType> > samplers;
@@ -36,6 +35,11 @@ class MTSampler
 	private:
 		// These are helper methods -- not part of the public interface
 		void runThread(int thread, unsigned long firstSeed);
+
+		void bookKeeping();
+
+		unsigned long logLKeep_size() const;
+
 
 };
 

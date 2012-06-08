@@ -8,8 +8,7 @@ const int MTSampler<ModelType>::skip = 1000;
 
 template<class ModelType>
 MTSampler<ModelType>::MTSampler(int numThreads, const Options& options)
-:bMutex(new boost::mutex)
-,barrier(new boost::barrier(numThreads))
+:barrier(new boost::barrier(numThreads))
 ,samplers(numThreads, Sampler<ModelType>(options))
 {
 	levels = samplers[0].levels;
@@ -22,7 +21,6 @@ template<class ModelType>
 MTSampler<ModelType>::~MTSampler()
 {
 	delete barrier;
-	delete bMutex;
 }
 
 template<class ModelType>
@@ -61,7 +59,27 @@ void MTSampler<ModelType>::runThread(int thread, unsigned long firstSeed)
 	while(true)
 	{
 		samplers[thread].run(skip);
+		barrier->wait();
+		if(thread == 0)
+			bookKeeping();
+		barrier->wait();
 	}
+}
+
+template<class ModelType>
+void MTSampler<ModelType>::bookKeeping()
+{
+	unsigned long num = logLKeep_size();
+			
+}
+
+template<class ModelType>
+unsigned long MTSampler<ModelType>::logLKeep_size() const
+{
+	unsigned long num = 0;
+	for(size_t i=0; i<samplers.size(); i++)
+		num += samplers[i].logLKeep.size();	
+	return num;
 }
 
 } // namespace DNest3
