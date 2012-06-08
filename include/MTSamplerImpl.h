@@ -12,7 +12,7 @@ MTSampler<ModelType>::MTSampler(int numThreads, const Options& options)
 :samplers(numThreads, Sampler<ModelType>(options))
 {
 	levels = samplers[0].levels;
-	for(size_t i=0; i<sampler.size(); i++)
+	for(size_t i=0; i<samplers.size(); i++)
 		samplers[i].primary = false;
 }
 
