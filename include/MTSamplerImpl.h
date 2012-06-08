@@ -75,6 +75,7 @@ void MTSampler<ModelType>::bookKeeping()
 
 	// Make one giant sampler
 	Sampler<ModelType> giant = samplers[0];
+	giant.options.numParticles *= samplers.size();
 
 	for(size_t i=1; i<samplers.size(); i++)
 	{
