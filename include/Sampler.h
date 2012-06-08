@@ -31,7 +31,7 @@ namespace DNest3
 template<class ModelType>
 class Sampler
 {
-	template<class Type>
+	template<ModelType>
 	friend class MTSampler;
 
 	private:
