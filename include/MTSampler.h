@@ -44,6 +44,9 @@ class MTSampler
 		std::vector< std::vector<Level> > levels;
 		std::vector< std::vector<LikelihoodType> > logLKeep;
 
+		// Backed up levels
+		std::vector<Level> _levels;
+
 		// Whether initialise() has ever been called
 		bool initialised;
 
