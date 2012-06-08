@@ -185,7 +185,33 @@ template<class ModelType>
 bool MTSampler<ModelType>::bookKeeping()
 {
 	bool cont = true;
+
+	createLevel();
+
+	int iWhich = randInt(numThreads);
+	int jWhich = randInt(options.numParticles);
+	if(lastSave >= options.saveInterval)
+	{
+		saveParticle(iWhich, jWhich);
+		Level::recalculateLogX(_levels, options.newLevelInterval);
+		saveLevels();
+		if(options.maxNumSamples > 0 &&
+			saves >= options.maxNumSamples)
+			cont = false;
+	}
+
+	return cont;
+}
+
+template<class ModelType>
+void MTSampler<ModelType>::createLevel()
+{
+	if(static_cast<int>(_levels.size()) >= options.maxNumLevels)
+		return;
+
 /*
+
+
 	// Actually create a new level
 	if(static_cast<int>(logLKeep.size()) >= options.newLevelInterval)
 	{
@@ -211,23 +237,10 @@ bool MTSampler<ModelType>::bookKeeping()
 		saveLevels();
 		deleteParticle();
 	}
+
 */
-
-	int iWhich = randInt(numThreads);
-	int jWhich = randInt(options.numParticles);
-
-	if(lastSave >= options.saveInterval)
-	{
-		saveParticle(iWhich, jWhich);
-		Level::recalculateLogX(_levels, options.newLevelInterval);
-		saveLevels();
-		if(options.maxNumSamples > 0 &&
-			saves >= options.maxNumSamples)
-			cont = false;
-	}
-
-	return cont;
 }
+
 
 template<class ModelType>
 void MTSampler<ModelType>::saveParticle(int iWhich, int jWhich)

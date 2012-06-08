@@ -107,6 +107,9 @@ class MTSampler
 		// Check for creation of a new level, saving of particles, etc
 		bool bookKeeping();
 
+		// Check for creation of a new level
+		void createLevel();
+
 		// Savers
 		void saveParticle(int iWhich, int jWhich);
 		void saveLevels() const;
