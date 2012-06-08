@@ -10,6 +10,7 @@ template<class ModelType>
 MTSampler<ModelType>::MTSampler(int numThreads, const Options& options)
 :barrier(new boost::barrier(numThreads))
 ,samplers(numThreads, Sampler<ModelType>(options))
+,numSaves(0), numStepsSinceSave(0)
 {
 	levels = samplers[0].levels;
 	if(numThreads > 1)
@@ -69,21 +70,45 @@ void MTSampler<ModelType>::runThread(int thread, unsigned long firstSeed)
 template<class ModelType>
 void MTSampler<ModelType>::bookKeeping()
 {
-	broadcastLevels();
+	numStepsSinceSave += skip;
+	combineLevels();
 
-	// Make giant logLKeep, put it in sampler 0
-	for(size_t i=1; i<samplers.size(); i++)
+	// Make one giant logLKeep
+	std::vector<LikelihoodType> giant;
+
+	for(size_t i=0; i<samplers.size(); i++)
 	{
-		samplers[0].logLKeep.insert(samplers[0].logLKeep.end(),
+		giant.insert(giant.end(),
 			samplers[i].logLKeep.begin(),
 			samplers[i].logLKeep.end());
 		samplers[i].logLKeep.clear();
 		samplers[i].logLKeep.reserve(2*samplers[i].options.newLevelInterval);
 	}
+
+	int which = randInt(samplers.size());
+
+	if(numStepsSinceSave >= samplers[0].options.saveInterval)
+	{
+		// Fiddle with samplers[which] to fool it into thinking it's due to save
+		long old = samplers[which].count;
+		samplers[which].count = (numSaves+1)*samplers[0].options.saveInterval;
+		samplers[which].logLKeep = giant;
+		samplers[which].bookKeeping(randInt(samplers[0].options.numParticles));
+		numSaves++;
+		numStepsSinceSave = 0;
+
+		std::cout<<giant.size()<<std::endl;
+
+		// It may have added a level, grab it
+		samplers[which].logLKeep = giant;
+		levels = samplers[which].levels;
+		for(size_t i=0; i<samplers.size(); i++)
+			samplers[i].levels = levels;
+	}
 }
 
 template<class ModelType>
-void MTSampler<ModelType>::broadcastLevels()
+void MTSampler<ModelType>::combineLevels()
 {
 	std::vector<Level> old = levels;
 

@@ -19,6 +19,9 @@ class MTSampler
 		std::vector< Sampler<ModelType> > samplers;
 		std::vector<Level> levels; // levels backup
 
+		int numSaves;
+		long numStepsSinceSave; // Count number of steps since last save
+
 	public:
 		// Constructor: Pass in Options object
 		MTSampler(int numThreads, const Options& options);
@@ -38,11 +41,8 @@ class MTSampler
 
 		void bookKeeping();
 
-		unsigned long logLKeep_size() const;
+		void combineLevels();
 
-		void broadcastLevels();
-
-		void broadcastLogLKeep();
 
 
 };
