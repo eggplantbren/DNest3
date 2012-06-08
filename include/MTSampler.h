@@ -84,7 +84,7 @@ class MTSampler
 		void initialise(int thread);
 
 		// The main thing to launch threads with
-		void run(int thread);
+		void run(int thread, unsigned long firstSeed);
 
 		// run() but only for a certain number of steps
 		void run(int thread, int steps);

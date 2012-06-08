@@ -95,20 +95,24 @@ void MTSampler<ModelType>::initialise(int thread)
 
 
 template<class ModelType>
-void MTSampler<ModelType>::run(int thread)
+void MTSampler<ModelType>::run(int thread, unsigned long firstSeed)
 {
+	// Re-seed thread-local RNG
+	RandomNumberGenerator::initialise_instance();
+	RandomNumberGenerator::set_seed(firstSeed + 100*thread);
+
 	if(!initialised[thread])
 		initialise(thread);
 
 	while(true)
 	{
 		run(thread, skip);
-		//barrier->wait();
+		barrier->wait();
 		if(thread == 0)
 		{
 			// Do bookkeeping
 		}
-		//barrier->wait();
+		barrier->wait();
 	}
 }
 
