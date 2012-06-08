@@ -92,6 +92,20 @@ void Sampler<ModelType>::run()
 }
 
 template<class ModelType>
+void Sampler<ModelType>::run(int steps)
+{
+	if(!initialised)
+		initialise();
+
+	for(int i=0; i<steps; i++)
+	{
+		bool cont = step();
+		if(!cont)
+			break;
+	}
+}
+
+template<class ModelType>
 bool Sampler<ModelType>::step()
 {
 	// Move a particle

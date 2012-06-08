@@ -31,6 +31,7 @@ namespace DNest3
 template<class ModelType>
 class Sampler
 {
+	// MTSamplers can manipulate Samplers
 	template<ModelType>
 	friend class MTSampler;
 
@@ -69,6 +70,9 @@ class Sampler
 
 		// Initialise all objects from the prior
 		void initialise();
+
+		// run() but only for a certain number of steps
+		void run(int steps);
 
 		// Choose a particle and do one step with it
 		// Return a flag - whether to continue or not
