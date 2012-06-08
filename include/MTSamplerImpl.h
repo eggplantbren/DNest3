@@ -42,7 +42,7 @@ MTSampler<ModelType>::MTSampler(int numThreads, const Options& options)
 ,logL(numThreads, std::vector<LikelihoodType>(options.numParticles))
 ,indices(numThreads, std::vector<int>(options.numParticles, 0))
 ,levels(numThreads, std::vector<Level>(1, Level(0., -1E300, 0.)))
-,_levels(1, levels[0])
+,_levels(1, levels[0][0])
 ,logLKeep(numThreads)
 ,initialised(numThreads, false)
 ,count(numThreads, 0)
@@ -252,18 +252,18 @@ void MTSampler<ModelType>::saveParticle(int which) const
 			<<logL[which].tieBreaker<<' '<<which<<std::endl;
 	fout.close();
 }
-
+*/
 template<class ModelType>
 void MTSampler<ModelType>::saveLevels() const
 {
 	std::fstream fout(options.levelsFile.c_str(), std::ios::out);
 	fout<<"# logX, logLikelihood, tieBreaker, accepts, tries, exceeds, visits."<<std::endl;
 	fout<<std::setprecision(10);
-	for(size_t i=0; i<levels.size(); i++)
-		fout<<levels[i]<<std::endl;
+	for(size_t i=0; i<_levels.size(); i++)
+		fout<<_levels[i]<<std::endl;
 	fout.close();
 }
-*/
+
 template<class ModelType>
 void MTSampler<ModelType>::updateParticle(int thread, int which)
 {

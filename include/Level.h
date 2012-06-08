@@ -35,9 +35,6 @@ namespace DNest3
 
 class Level
 {
-	template<class ModelType>
-	friend class MTSampler;
-
 	private:
 		double logX;
 		LikelihoodType cutoff;
