@@ -343,46 +343,53 @@ double MTSampler<ModelType>::logPush(int index) const
 	int i = index - (static_cast<int>(_levels.size()) - 1);
 	return static_cast<double>(i)/options.lambda;
 }
-/*
+
 template<class ModelType>
 void MTSampler<ModelType>::deleteParticle()
 {
 	// Flag each particle as good or bad
-	std::vector<bool> good(options.numParticles, true);
+	std::vector< std::vector<bool> > good(numThreads, std::vector<bool>(options.numParticles, true));
 	int numBad = 0;
-	for(int i=0; i<options.numParticles; i++)
+	for(int i=0; i<numThreads; i++)
 	{
-		if(logPush(indices[i]) <= -5.)
+		for(int j=0; j<options.numParticles; j++)
 		{
-			good[i] = false;
-			numBad++;
+			if(logPush(indices[i][j]) <= -5.)
+			{
+				good[i][j] = false;
+				numBad++;
+			}
 		}
 	}
 
-	if(numBad <= options.numParticles)
+	if(numBad < numThreads*options.numParticles)
 	{
 		// Replace bad particles with copies of good ones
-		for(int i=0; i<options.numParticles; i++)
+		for(int i=0; i<numThreads; i++)
 		{
-			if(!good[i])
+			for(int j=0; j<options.numParticles; j++)
 			{
-				int copy;
-				do
+				if(!good[i][j])
 				{
-					copy = randInt(options.numParticles);
-				}while(!good[copy]);
+					int iCopy, jCopy;
+					do
+					{
+						iCopy = randInt(numThreads);
+						jCopy = randInt(options.numParticles);
+					}while(!good[iCopy][jCopy]);
 
-				particles[i] = particles[copy];
-				indices[i] = indices[copy];
-				logL[i] = logL[copy];
-				std::cout<<"# Deleting a particle. Replacing"<<
-				" it with a copy of a good survivor."<<std::endl;
+					particles[i][j] = particles[iCopy][jCopy];
+					indices[i][j] = indices[iCopy][jCopy];
+					logL[i][j] = logL[iCopy][jCopy];
+					std::cout<<"# Deleting a particle. Replacing"<<
+					" it with a copy of a good survivor."<<std::endl;
+				}
 			}
 		}
 	}
 	else
 		std::cerr<<"# Warning: all particles lagging! Very rare!"<<std::endl;
 }
-*/
+
 } // namespace DNest3
 
