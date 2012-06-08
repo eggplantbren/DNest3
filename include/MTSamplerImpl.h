@@ -257,11 +257,16 @@ void MTSampler<ModelType>::createLevel()
 			<<"."<<std::endl;
 	_levels.push_back(Level(_levels.back().get_logX() - 1., cutoff));
 
-	if(static_cast<int>(levels.size()) == options.maxNumLevels)
+	if(static_cast<int>(_levels.size()) == options.maxNumLevels)
 	{
-		for(int i=0; i<numThreads; i++)
-			logLKeep[i].clear();
 		Level::renormaliseVisits(_levels, options.newLevelInterval);
+
+		// After this, updateLevels will be called
+		for(int i=0; i<numThreads; i++)
+		{
+			logLKeep[i].clear();
+			levels[i] = _levels;
+		}
 	}
 	else
 	{
