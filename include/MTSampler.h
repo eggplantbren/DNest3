@@ -99,7 +99,7 @@ class MTSampler
 		void updateIndex(int thread, int which);
 
 		// Check for creation of a new level, saving of particles, etc
-		bool bookKeeping(int which);
+		bool bookKeeping();
 
 		// Savers
 		void saveParticle(int which) const;

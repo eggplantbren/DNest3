@@ -60,8 +60,6 @@ MTSampler<ModelType>::~MTSampler()
 template<class ModelType>
 void MTSampler<ModelType>::loadLevels(const char* filename)
 {
-	if(initialised)
-		std::cerr<<"# WARNING: Please load level structure before running sampler."<<std::endl;
 	_levels = Level::loadLevels(filename);
 	if(static_cast<int>(_levels.size()) > options.maxNumLevels)
 	{
@@ -112,14 +110,14 @@ void MTSampler<ModelType>::runThread(int thread, unsigned long firstSeed)
 {
 	// Re-seed thread-local RNG
 	RandomNumberGenerator::initialise_instance();
-	RandomNumberGenerator::set_seed(firstSeed + 100*thread);
+	RandomNumberGenerator::get_instance().set_seed(firstSeed + 100*thread);
 
 	if(!initialised[thread])
 		initialise(thread);
 
 	while(true)
 	{
-		run(thread, skip);
+		steps(thread, skip);
 		barrier->wait();
 		if(thread == 0)
 		{
@@ -174,10 +172,11 @@ void MTSampler<ModelType>::step(int thread)
 		logLKeep[thread].push_back(logL[thread][which]);
 }
 
-/*
+
 template<class ModelType>
 bool MTSampler<ModelType>::bookKeeping(int which)
 {
+/*
 	bool cont = true;
 
 	// Actually create a new level
@@ -216,9 +215,10 @@ bool MTSampler<ModelType>::bookKeeping(int which)
 			cont = false;
 	}
 
-	return cont;
+	return cont;*/
+	return true;
 }
-
+/*
 template<class ModelType>
 void MTSampler<ModelType>::saveParticle(int which) const
 {
