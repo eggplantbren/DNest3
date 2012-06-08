@@ -194,8 +194,6 @@ bool MTSampler<ModelType>::bookKeeping()
 	if(lastSave >= options.saveInterval)
 	{
 		saveParticle(iWhich, jWhich);
-		Level::recalculateLogX(_levels, options.newLevelInterval);
-		updateLevels();
 		saveLevels();
 		if(options.maxNumSamples > 0 &&
 			saves >= options.maxNumSamples)
@@ -208,8 +206,8 @@ bool MTSampler<ModelType>::bookKeeping()
 template<class ModelType>
 void MTSampler<ModelType>::updateLevels()
 {
+	// Add new statistics to _levels
 	std::vector<Level> old = _levels;
-
 	for(int i=0; i<numThreads; i++)
 	{
 		for(size_t j=0; j<levels[i].size(); j++)
@@ -219,49 +217,64 @@ void MTSampler<ModelType>::updateLevels()
 		}
 	}
 
+	Level::recalculateLogX(_levels, options.newLevelInterval);
+
+	// Send out _levels to each thread
 	for(int i=0; i<numThreads; i++)
 		levels[i] = _levels;
+
 }
 
 template<class ModelType>
 void MTSampler<ModelType>::createLevel()
 {
-	// If all levels exist, do nothing
+	// If all levels exist, exit this method
 	if(static_cast<int>(_levels.size()) >= options.maxNumLevels)
 		return;
 
 	// Count logLKeep
+	unsigned long tot = 0;
+	for(int i=0; i<numThreads; i++)
+		tot += logLKeep[i].size();
 
-/*
+	// If not enough, exit this method
+	if(tot < options.newLevelInterval)
+		return;
 
+	std::vector<LikelihoodType> giant(tot);
+	unsigned long k = 0;
+	for(int i=0; i<numThreads; i++)
+		for(size_t j=0; j<logLKeep[i].size(); j++)
+			giant[k++] = logLKeep[i][j];
 
-	// Actually create a new level
-	if(static_cast<int>(logLKeep.size()) >= options.newLevelInterval)
-	{
-		sort(logLKeep.begin(), logLKeep.end());
-		int ii = static_cast<int>(0.63212056
-				*static_cast<int>(logLKeep.size()));
-		LikelihoodType cutoff = logLKeep[ii];
-		std::cout<<std::setprecision(10);
-		std::cout<<"# Creating level "<<levels.size()
+	sort(giant.begin(), giant.end());
+	int ii = static_cast<int>(0.63212056
+			*static_cast<int>(giant.size()));
+	LikelihoodType cutoff = giant[ii];
+	std::cout<<std::setprecision(10);
+	std::cout<<"# Creating level "<<_levels.size()
 			<<" with logL = "<<cutoff.logL
 			<<"."<<std::endl;
-		levels.push_back(Level(levels.back().get_logX() - 1., cutoff));
+	_levels.push_back(Level(_levels.back().get_logX() - 1., cutoff));
 
-		if(static_cast<int>(levels.size()) == options.maxNumLevels)
+	if(static_cast<int>(levels.size()) == options.maxNumLevels)
+	{
+		for(int i=0; i<numThreads; i++)
+			logLKeep[i].clear();
+		Level::renormaliseVisits(_levels, options.newLevelInterval);
+	}
+	else
+	{
+		giant.erase(giant.begin(), giant.begin() + ii + 1);
+		for(int i=0; i<numThreads; i++)
 		{
-			logLKeep.clear();
-			Level::renormaliseVisits(levels, options.newLevelInterval);
+			logLKeep[i].clear();
+			logLKeep[i].reserve(2*options.newLevelInterval);
 		}
-		else
-			logLKeep.erase(logLKeep.begin(), logLKeep.begin() + ii + 1);
-
-		Level::recalculateLogX(levels, options.newLevelInterval);
-		saveLevels();
-		deleteParticle();
+		logLKeep[0] = giant;
 	}
 
-*/
+	deleteParticle();
 }
 
 
