@@ -86,21 +86,25 @@ void MTSampler<ModelType>::initialise(int thread)
 	std::cout<<"done."<<std::endl;
 }
 
-/*
+
 template<class ModelType>
-void MTSampler<ModelType>::run()
+void MTSampler<ModelType>::run(int thread)
 {
-	if(!initialised)
-		initialise();
+	if(!initialised[thread])
+		initialise(thread);
 
 	while(true)
 	{
-		bool cont = step();
-		if(!cont)
-			break;
+		run(thread, skip);
+		//barrier->wait();
+		if(thread == 0)
+		{
+			// Do bookkeeping
+		}
+		//barrier->wait();
 	}
 }
-*/
+
 
 template<class ModelType>
 void MTSampler<ModelType>::run(int thread, int steps)

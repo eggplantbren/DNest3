@@ -76,6 +76,9 @@ class MTSampler
 		// Initialise all objects from the prior
 		void initialise(int thread);
 
+		// The main thing to launch threads with
+		void run(int thread);
+
 		// run() but only for a certain number of steps
 		void run(int thread, int steps);
 
