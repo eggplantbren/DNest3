@@ -308,7 +308,7 @@ void MTSampler<ModelType>::updateIndex(int thread, int which)
 	}
 
 	if(proposedIndex < 0 ||
-		proposedIndex >= static_cast<int>(levels.size()))
+		proposedIndex >= static_cast<int>(levels[thread].size()))
 		return;
 
 	// Acceptance probability. logX part
