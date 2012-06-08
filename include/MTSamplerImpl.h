@@ -12,6 +12,8 @@ MTSampler<ModelType>::MTSampler(int numThreads, const Options& options)
 :samplers(numThreads, Sampler<ModelType>(options))
 {
 	levels = samplers[0].levels;
+	for(size_t i=0; i<sampler.size(); i++)
+		samplers[i].primary = false;
 }
 
 template<class ModelType>
@@ -40,6 +42,7 @@ void MTSampler<ModelType>::runThread(int thread, unsigned long firstSeed)
 {
 	RandomNumberGenerator::initialise_instance();
 	RandomNumberGenerator::get_instance().set_seed(firstSeed + 10*thread);
+	samplers[thread].run();
 }
 
 } // namespace DNest3
