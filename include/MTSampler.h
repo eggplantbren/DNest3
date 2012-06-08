@@ -31,33 +31,24 @@ namespace DNest3
 template<class ModelType>
 class MTSampler
 {
-	// MTMTSamplers can manipulate MTSamplers
-	template<class Type>
-	friend class MTMTSampler;
-
 	private:
 		// Options (most useful comment ever)
 		Options options;
 
 		// Stuff pertaining to the particles
-		std::vector<ModelType> particles;
-		std::vector<LikelihoodType> logL;
-		std::vector<int> indices;
+		std::vector< std::vector<ModelType> > particles;
+		std::vector< std::vector<LikelihoodType> > logL;
+		std::vector< std::vector<int> > indices;
 
 		// Stuff pertaining to the level structure
-		std::vector<Level> levels;
-		std::vector<LikelihoodType> logLKeep;
+		std::vector< std::vector<Level> > levels;
+		std::vector< std::vector<LikelihoodType> > logLKeep;
 
 		// Whether initialise() has ever been called
 		bool initialised;
 
 		// Number of MCMC steps ever done
 		long count;
-
-		// Flag to indicate whether this is being used as
-		// a sampler in its own right or just as a helper for MTMTSampler
-		bool primary;
-
 
 	public:
 		// Constructor: Pass in Options object
@@ -104,7 +95,7 @@ class MTSampler
 
 }
 
-#include "MTSamplerImpl.h"
+//#include "MTSamplerImpl.h"
 
 #endif
 
