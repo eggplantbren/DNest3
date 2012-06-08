@@ -49,6 +49,7 @@ RandomNumberGenerator::~RandomNumberGenerator()
 
 void RandomNumberGenerator::set_seed(int seed)
 {
+	this->seed = seed;
 	gsl_rng_set(rng, seed);
 }
 
