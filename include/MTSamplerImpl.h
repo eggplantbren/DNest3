@@ -44,10 +44,10 @@ MTSampler<ModelType>::MTSampler(int numThreads, const Options& options)
 ,levels(numThreads, std::vector<Level>(1, Level(0., -1E300, 0.)))
 ,_levels(1, levels[0][0])
 ,logLKeep(numThreads)
-,initialised(numThreads, false)
 ,count(numThreads, 0)
 ,lastSave(0)
 ,saves(0)
+,cont(true)
 {
 	for(int i=0; i<numThreads; i++)
 		logLKeep[i].reserve(2*options.newLevelInterval);
@@ -81,8 +81,6 @@ template<class ModelType>
 void MTSampler<ModelType>::initialise(int thread)
 {
 	static boost::mutex mutex;
-
-	assert(!initialised[thread]);
 	for(int i=0; i<options.numParticles; i++)
 	{
 		particles[thread][i].fromPrior();
@@ -90,7 +88,6 @@ void MTSampler<ModelType>::initialise(int thread)
 				(particles[thread][i].logLikelihood(), randomU());
 		logLKeep[thread].push_back(logL[thread][i]);
 	}
-	initialised[thread] = true;
 	mutex.lock();
 	std::cout<<"# Thread "<<(thread+1)<<": Generated "<<options.numParticles<<
 			" particles from the prior."<<std::endl;
@@ -100,7 +97,6 @@ void MTSampler<ModelType>::initialise(int thread)
 template<class ModelType>
 void MTSampler<ModelType>::run()
 {
-	
 	boost::thread_group threads;
 	for(int i=0; i<numThreads; i++)
 	{
@@ -118,10 +114,8 @@ void MTSampler<ModelType>::runThread(int thread, unsigned long firstSeed)
 	RandomNumberGenerator::initialise_instance();
 	RandomNumberGenerator::get_instance().set_seed(firstSeed + 100*thread);
 
-	if(!initialised[thread])
-		initialise(thread);
+	initialise(thread);
 
-	bool cont = true;
 	while(cont)
 	{
 		steps(thread, skip);
@@ -139,9 +133,6 @@ void MTSampler<ModelType>::runThread(int thread, unsigned long firstSeed)
 template<class ModelType>
 void MTSampler<ModelType>::steps(int thread, int steps)
 {
-	if(!initialised[thread])
-		initialise(thread);
-
 	for(int i=0; i<steps; i++)
 		step(thread);
 }

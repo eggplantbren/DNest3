@@ -70,6 +70,9 @@ class MTSampler
 		// Number of saved particles
 		int saves;
 
+		// Flag - continue?
+		bool cont;
+
 	public:
 		// Constructor: Pass in Options object
 		MTSampler(int numThreads, const Options& options);
