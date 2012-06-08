@@ -308,7 +308,7 @@ void Sampler<ModelType>::deleteParticle()
 		}
 	}
 
-	if(numBad <= options.numParticles)
+	if(numBad < options.numParticles)
 	{
 		// Replace bad particles with copies of good ones
 		for(int i=0; i<options.numParticles; i++)
