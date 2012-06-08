@@ -1,4 +1,3 @@
-#include <boost/thread.hpp>
 #include <boost/bind.hpp>
 
 namespace DNest3
@@ -9,12 +8,21 @@ const int MTSampler<ModelType>::skip = 1000;
 
 template<class ModelType>
 MTSampler<ModelType>::MTSampler(int numThreads, const Options& options)
-:samplers(numThreads, Sampler<ModelType>(options))
+:bMutex(new boost::mutex)
+,barrier(new boost::barrier(numThreads))
+,samplers(numThreads, Sampler<ModelType>(options))
 {
 	levels = samplers[0].levels;
 	if(numThreads > 1)
 		for(size_t i=0; i<samplers.size(); i++)
 			samplers[i].primary = false;
+}
+
+template<class ModelType>
+MTSampler<ModelType>::~MTSampler()
+{
+	delete barrier;
+	delete bMutex;
 }
 
 template<class ModelType>
@@ -43,7 +51,17 @@ void MTSampler<ModelType>::runThread(int thread, unsigned long firstSeed)
 {
 	RandomNumberGenerator::initialise_instance();
 	RandomNumberGenerator::get_instance().set_seed(firstSeed + 10*thread);
-	samplers[thread].run();
+
+	if(samplers.size() == 1)
+	{
+		samplers[thread].run();
+		return;
+	}
+
+	while(true)
+	{
+		samplers[thread].run(skip);
+	}
 }
 
 } // namespace DNest3

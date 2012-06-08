@@ -3,6 +3,7 @@
 
 #include "Sampler.h"
 #include <vector>
+#include <boost/thread.hpp>
 
 namespace DNest3
 {
@@ -13,12 +14,18 @@ class MTSampler
 	private:
 		static const int skip;
 
+		boost::mutex* bMutex; // bookkeeping mutex
+		boost::barrier* barrier;
+
 		std::vector< Sampler<ModelType> > samplers;
 		std::vector<Level> levels; // levels backup
 
 	public:
 		// Constructor: Pass in Options object
 		MTSampler(int numThreads, const Options& options);
+
+		// Destructor - free heap memory
+		~MTSampler();
 
 		// Load levels from file
 		void loadLevels(const char* filename);
