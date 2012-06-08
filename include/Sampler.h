@@ -31,6 +31,9 @@ namespace DNest3
 template<class ModelType>
 class Sampler
 {
+	template<class Type>
+	friend class MTSampler;
+
 	private:
 		// Options (most useful comment ever)
 		Options options;

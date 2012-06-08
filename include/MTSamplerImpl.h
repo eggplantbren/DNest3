@@ -11,7 +11,7 @@ template<class ModelType>
 MTSampler<ModelType>::MTSampler(int numThreads, const Options& options)
 :samplers(numThreads, Sampler<ModelType>(options))
 {
-
+	levels = samplers[0].levels;
 }
 
 template<class ModelType>
