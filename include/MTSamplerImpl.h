@@ -174,7 +174,7 @@ void MTSampler<ModelType>::step(int thread)
 
 
 template<class ModelType>
-bool MTSampler<ModelType>::bookKeeping(int which)
+bool MTSampler<ModelType>::bookKeeping()
 {
 /*
 	bool cont = true;
@@ -263,13 +263,13 @@ void MTSampler<ModelType>::saveLevels() const
 		fout<<levels[i]<<std::endl;
 	fout.close();
 }
-
+*/
 template<class ModelType>
-void MTSampler<ModelType>::updateParticle(int which)
+void MTSampler<ModelType>::updateParticle(int thread, int which)
 {
 	// Copy the particle
-	ModelType proposal = particles[which];
-	LikelihoodType logL_proposal = logL[which];
+	ModelType proposal = particles[thread][which];
+	LikelihoodType logL_proposal = logL[thread][which];
 
 	// Perturb the proposal particle
 	double logH = proposal.perturb();
@@ -280,27 +280,27 @@ void MTSampler<ModelType>::updateParticle(int which)
 		logH = 0.;
 
 	bool accepted = false;
-	if(levels[indices[which]].get_cutoff() < logL_proposal
+	if(levels[thread][indices[thread][which]].get_cutoff() < logL_proposal
 		&& randomU() <= exp(logH))
 	{
 		// Accept
-		particles[which] = proposal;
-		logL[which] = logL_proposal;
+		particles[thread][which] = proposal;
+		logL[thread][which] = logL_proposal;
 		accepted = true;
 	}
-	levels[indices[which]].incrementTries(accepted);
+	levels[thread][indices[thread][which]].incrementTries(accepted);
 }
 
 template<class ModelType>
-void MTSampler<ModelType>::updateIndex(int which)
+void MTSampler<ModelType>::updateIndex(int thread, int which)
 {
-	int proposedIndex = indices[which]
+	int proposedIndex = indices[thread][which]
 		+ static_cast<int>(round(pow(10., 2.0*randomU())*randn()));
 
-	if(proposedIndex == indices[which])
+	if(proposedIndex == indices[thread][which])
 	{
-		proposedIndex = (randomU() < 0.5)?(indices[which]+1)
-				:(indices[which]-1);
+		proposedIndex = (randomU() < 0.5)?(indices[thread][which]+1)
+				:(indices[thread][which]-1);
 	}
 
 	if(proposedIndex < 0 ||
@@ -308,38 +308,38 @@ void MTSampler<ModelType>::updateIndex(int which)
 		return;
 
 	// Acceptance probability. logX part
-	double logA = levels[indices[which]].get_logX()
-			- levels[proposedIndex].get_logX();
+	double logA = levels[thread][indices[thread][which]].get_logX()
+			- levels[thread][proposedIndex].get_logX();
 
 	// Pushing up part
-	logA += logPush(proposedIndex) - logPush(indices[which]);
+	logA += logPush(proposedIndex) - logPush(indices[thread][which]);
 
 	// Enforce uniform exploration part (if all levels exist)
-	if(static_cast<int>(levels.size()) == options.maxNumLevels)
-		logA += options.beta*log((double)(levels[indices[which]].get_tries() + 1)/(double)(levels[proposedIndex].get_tries() + 1));
+	if(static_cast<int>(levels[thread].size()) == options.maxNumLevels)
+		logA += options.beta*log((double)(levels[thread][indices[thread][which]].get_tries() + 1)/(double)(levels[thread][proposedIndex].get_tries() + 1));
 
 	// Prevent exponentiation of huge numbers
 	if(logA > 0.)
 		logA = 0.;
 
-	if(randomU() <= exp(logA) && levels[proposedIndex].get_cutoff() < logL[which])
+	if(randomU() <= exp(logA) && levels[thread][proposedIndex].get_cutoff() < logL[thread][which])
 	{
 		// Accept!
-		indices[which] = proposedIndex;
+		indices[thread][which] = proposedIndex;
 	}
 }
 
 template<class ModelType>
 double MTSampler<ModelType>::logPush(int index) const
 {
-	assert(index >= 0 && index < static_cast<int>(levels.size()));
-	if(static_cast<int>(levels.size()) == options.maxNumLevels)
+	assert(index >= 0 && index < static_cast<int>(_levels.size()));
+	if(static_cast<int>(_levels.size()) == options.maxNumLevels)
 		return 0.;
 
-	int i = index - (static_cast<int>(levels.size()) - 1);
+	int i = index - (static_cast<int>(_levels.size()) - 1);
 	return static_cast<double>(i)/options.lambda;
 }
-
+/*
 template<class ModelType>
 void MTSampler<ModelType>::deleteParticle()
 {
