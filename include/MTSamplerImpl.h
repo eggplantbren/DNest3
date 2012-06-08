@@ -189,6 +189,7 @@ bool MTSampler<ModelType>::bookKeeping()
 		if(options.maxNumSamples > 0 &&
 			saves >= options.maxNumSamples)
 			cont = false;
+		lastSave = 0;
 	}
 
 	return cont;
@@ -306,7 +307,6 @@ void MTSampler<ModelType>::saveParticle(int iWhich, int jWhich)
 			<<logL[iWhich][jWhich].tieBreaker<<' '
 			<<(iWhich*options.numParticles + jWhich)<<std::endl;
 	fout.close();
-	lastSave = 0;
 }
 
 template<class ModelType>
