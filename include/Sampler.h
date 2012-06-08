@@ -32,7 +32,7 @@ template<class ModelType>
 class Sampler
 {
 	// MTSamplers can manipulate Samplers
-	template<ModelType>
+	template<class Type>
 	friend class MTSampler;
 
 	private:
