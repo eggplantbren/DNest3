@@ -31,7 +31,7 @@ void MTSampler<ModelType>::run()
 	boost::thread_group threads;
 	for(size_t i=0; i<samplers.size(); i++)
 		threads.create_thread(boost::bind
-			(MTSampler<ModelType>::runThread, this, i, firstSeed));
+			(&MTSampler<ModelType>::runThread, this, i, firstSeed));
 	threads.join_all();
 }
 
