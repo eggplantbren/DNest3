@@ -51,7 +51,7 @@ class MTSampler
 		std::vector<Level> _levels;
 
 		// Whether initialise() has ever been called
-		bool initialised;
+		std::vector<bool> initialised;
 
 		// Number of MCMC steps ever done
 		long count;
@@ -70,7 +70,7 @@ class MTSampler
 		// These are helper methods -- not part of the public interface
 
 		// Initialise all objects from the prior
-		void initialise();
+		void initialise(int thread);
 
 		// run() but only for a certain number of steps
 		void run(int steps);

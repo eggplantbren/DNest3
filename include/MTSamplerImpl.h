@@ -39,7 +39,7 @@ MTSampler<ModelType>::MTSampler(int numThreads, const Options& options)
 ,levels(numThreads, std::vector<Level>(1, Level(0., -1E300, 0.)))
 ,_levels(1, levels[0])
 ,logLKeep(numThreads)
-,initialised(false)
+,initialised(numThreads, false)
 ,count(0)
 {
 	for(int i=0; i<numThreads; i++)
@@ -65,24 +65,25 @@ void MTSampler<ModelType>::loadLevels(const char* filename)
 	for(int i=0; i<numThreads; i++)
 		levels[i] = _levels;
 }
-/*
+
 template<class ModelType>
-void MTSampler<ModelType>::initialise()
+void MTSampler<ModelType>::initialise(int thread)
 {
-	assert(!initialised);
+	assert(!initialised[thread]);
 	std::cout<<"# Generating "<<options.numParticles<<
 			" particles from the prior..."<<std::flush;
 	for(int i=0; i<options.numParticles; i++)
 	{
-		particles[i].fromPrior();
-		logL[i] = LikelihoodType
-				(particles[i].logLikelihood(), randomU());
-		logLKeep.push_back(logL[i]);
+		particles[thread][i].fromPrior();
+		logL[thread][i] = LikelihoodType
+				(particles[thread][i].logLikelihood(), randomU());
+		logLKeep[thread].push_back(logL[thread][i]);
 	}
-	initialised = true;
+	initialised[thread] = true;
 	std::cout<<"done."<<std::endl;
 }
 
+/*
 template<class ModelType>
 void MTSampler<ModelType>::run()
 {
