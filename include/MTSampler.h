@@ -33,10 +33,6 @@ template<class ModelType>
 class MTSampler
 {
 	private:
-		// How many steps to take of each thread
-		// before communicating
-		static const int skip;
-
 		// Boost barrier - allocate on heap
 		boost::barrier* barrier;
 

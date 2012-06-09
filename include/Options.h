@@ -35,11 +35,15 @@ class Options
 	template<class ModelType>
 	friend class Sampler;
 
-	public:
+	template<class ModelType>
+	friend class MTSampler;
+
+	private:
 		// Numerical options
 		int numParticles;
 		int newLevelInterval;
 		int saveInterval;
+		int threadSteps;
 		int maxNumLevels;
 		double lambda, beta;
 		int maxNumSamples;
@@ -53,6 +57,7 @@ class Options
 		Options(int numParticles,
 			int newLevelInterval,
 			int saveInterval,
+			int threadSteps,
 			int maxNumLevels,
 			double lambda,
 			double beta,

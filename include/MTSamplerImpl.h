@@ -31,9 +31,6 @@ namespace DNest3
 {
 
 template<class ModelType>
-const int MTSampler<ModelType>::skip = 1000;
-
-template<class ModelType>
 MTSampler<ModelType>::MTSampler(int numThreads, const Options& options)
 :barrier(new boost::barrier(numThreads))
 ,numThreads(numThreads)
@@ -118,11 +115,11 @@ void MTSampler<ModelType>::runThread(int thread, unsigned long firstSeed)
 
 	while(cont)
 	{
-		steps(thread, skip);
+		steps(thread, options.threadSteps);
 		barrier->wait();
 		if(thread == 0)
 		{
-			lastSave += numThreads*skip;
+			lastSave += numThreads*options.threadSteps;
 			cont = bookKeeping();
 		}
 		barrier->wait();
