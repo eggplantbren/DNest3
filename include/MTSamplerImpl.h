@@ -175,7 +175,8 @@ bool MTSampler<ModelType>::bookKeeping()
 	bool cont = true;
 
 	createLevel();
-	updateLevels();
+	gatherLevels();
+	broadcastLevels();
 
 	int iWhich = randInt(numThreads);
 	int jWhich = randInt(options.numParticles);
@@ -193,7 +194,7 @@ bool MTSampler<ModelType>::bookKeeping()
 }
 
 template<class ModelType>
-void MTSampler<ModelType>::updateLevels()
+void MTSampler<ModelType>::gatherLevels()
 {
 	// Add new statistics to _levels
 	std::vector<Level> old = _levels;
@@ -205,13 +206,15 @@ void MTSampler<ModelType>::updateLevels()
 			_levels[j] -= old[j];
 		}
 	}
-
 	Level::recalculateLogX(_levels, options.newLevelInterval);
+}
 
+template<class ModelType>
+void MTSampler<ModelType>::broadcastLevels()
+{
 	// Send out _levels to each thread
 	for(int i=0; i<numThreads; i++)
 		levels[i] = _levels;
-
 }
 
 template<class ModelType>
@@ -248,14 +251,11 @@ void MTSampler<ModelType>::createLevel()
 
 	if(static_cast<int>(_levels.size()) == options.maxNumLevels)
 	{
+		gatherLevels();
 		Level::renormaliseVisits(_levels, options.newLevelInterval);
-
-		// After this, updateLevels will be called
+		broadcastLevels();
 		for(int i=0; i<numThreads; i++)
-		{
 			logLKeep[i].clear();
-			levels[i] = _levels;
-		}
 	}
 	else
 	{
