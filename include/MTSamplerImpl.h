@@ -270,7 +270,7 @@ void MTSampler<ModelType>::createLevel()
 		}
 		logLKeep[0] = giant;
 	}
-
+	saveLevels();
 	deleteParticle();
 }
 
