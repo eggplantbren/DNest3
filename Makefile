@@ -34,7 +34,7 @@ examples: force_look
 	$(foreach e, $(EXAMPLES), (echo "Building $(e):"; cd $(EXAMPLE_DIR)/$(e); $(MAKE) $(MFLAGS));)
 
 clean:
-	rm -f $(OBJECTS) $(LIB_NAME) *.pyc
+	rm -f $(OBJECTS) $(LIB_NAME) *.pyc $(INCLUDE_DIR)/*.gch
 	$(foreach e, $(EXAMPLES), (cd $(EXAMPLE_DIR)/$(e); $(MAKE) clean);)
 
 force_look:
