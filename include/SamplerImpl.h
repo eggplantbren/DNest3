@@ -39,7 +39,6 @@ Sampler<ModelType>::Sampler(const Options& options)
 ,logLKeep(0)
 ,initialised(false)
 ,count(0)
-,primary(true)
 {
 	logLKeep.reserve(2*options.newLevelInterval);
 }
@@ -139,9 +138,7 @@ bool Sampler<ModelType>::step()
 			levels.back().get_cutoff() < logL[which])
 		logLKeep.push_back(logL[which]);
 
-	bool cont = true;
-	if(primary)
-		cont = bookKeeping(which);
+	bool cont = bookKeeping(which);
 	return cont;
 }
 

@@ -31,10 +31,6 @@ namespace DNest3
 template<class ModelType>
 class Sampler
 {
-	// MTSamplers can manipulate Samplers
-	template<class Type>
-	friend class MTSampler;
-
 	private:
 		// Options (most useful comment ever)
 		Options options;
@@ -53,11 +49,6 @@ class Sampler
 
 		// Number of MCMC steps ever done
 		long count;
-
-		// Flag to indicate whether this is being used as
-		// a sampler in its own right or just as a helper for MTSampler
-		bool primary;
-
 
 	public:
 		// Constructor: Pass in Options object
