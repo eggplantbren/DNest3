@@ -20,6 +20,7 @@ DNest3 requires that you have the following packages installed on your
 computer:
 
 * [GNU Scientific Library (GSL)](http://www.gnu.org/software/gsl/)
+* [Boost](http://www.boost.org/) (optional but highly recommended)
 * [Python 2](http://www.python.org/)
 * [NumPy](http://numpy.scipy.org/)
 * [matplotlib](http://matplotlib.sourceforge.net/)
