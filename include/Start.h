@@ -31,17 +31,17 @@ namespace DNest3
 * You'll still need to call run() on it
 */
 template<class ModelType>
-MTSampler<ModelType> setup(int argc, char** argv);
+MTSampler<ModelType> setup_mt(int argc, char** argv);
 
 template<class ModelType>
-MTSampler<ModelType> setup(const CommandLineOptions& options);
+MTSampler<ModelType> setup_mt(const CommandLineOptions& options);
 
 /*
 * A little function that does everything
 * needed to start DNest3 running. Keeps main() clean.
 */
 template<class ModelType>
-void start(int argc, char** argv);
+void start_mt(int argc, char** argv);
 
 } // namespace DNest3
 

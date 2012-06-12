@@ -28,14 +28,14 @@ namespace DNest3
 {
 
 template<class ModelType>
-MTSampler<ModelType> setup(int argc, char** argv)
+MTSampler<ModelType> setup_mt(int argc, char** argv)
 {
 	CommandLineOptions options(argc, argv);
-	return setup<ModelType>(options);
+	return setup_mt<ModelType>(options);
 }
 
 template<class ModelType>
-MTSampler<ModelType> setup(const CommandLineOptions& options)
+MTSampler<ModelType> setup_mt(const CommandLineOptions& options)
 {
 	std::cout<<"# Using "<<options.get_numThreads()<<" thread"<<
 		((options.get_numThreads() == 1)?("."):("s."))<<std::endl;
@@ -60,11 +60,11 @@ MTSampler<ModelType> setup(const CommandLineOptions& options)
 }
 
 template<class ModelType>
-void start(int argc, char** argv)
+void start_mt(int argc, char** argv)
 {
 	CommandLineOptions options(argc, argv);
 	MTSampler<ModelType> sampler =
-			setup<ModelType>(options);
+			setup_mt<ModelType>(options);
 	sampler.run();
 }
 

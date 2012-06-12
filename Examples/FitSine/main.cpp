@@ -36,7 +36,7 @@ int main(int argc, char** argv)
 		Data::get_instance().load(dataFile.c_str());
 
 	// Initialise the sampler
-	MTSampler<FitSine> sampler = setup<FitSine>(options);
+	MTSampler<FitSine> sampler = setup_mt<FitSine>(options);
 
 	// Go!
 	sampler.run();
