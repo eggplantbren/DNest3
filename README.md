@@ -10,7 +10,8 @@ general) and is cleaner code: implementing new models should be easier than it
 was before.
 
 For documentation (currently in a draft state),
-please open Docs/index.html in your browser.
+please open Docs/index.html in your browser or
+click [here](http://eggplantbren.github.com/DNest3).
 
 Dependencies
 ============
