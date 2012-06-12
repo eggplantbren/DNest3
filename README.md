@@ -9,9 +9,6 @@ Relative to older DNest versions, DNest3 has improved performance
 general) and is cleaner code: implementing new models should be easier than it
 was before.
 
-DNest3 currently has almost all of the features that the older DNest versions
-had. Currently the only missing feature is parallelisation.
-
 For documentation (currently in a draft state),
 please open Docs/index.html in your browser.
 
