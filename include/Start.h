@@ -22,7 +22,10 @@
 
 #include "CommandLineOptions.h"
 #include "Sampler.h"
+
+#ifndef DNest3_No_Boost
 #include "MTSampler.h"
+#endif
 
 namespace DNest3
 {
@@ -31,6 +34,7 @@ namespace DNest3
 * Set up the sampler and return it
 * You'll still need to call run() on it
 */
+#ifndef DNest3_No_Boost
 template<class ModelType>
 MTSampler<ModelType> setup_mt(int argc, char** argv);
 
@@ -43,6 +47,7 @@ MTSampler<ModelType> setup_mt(const CommandLineOptions& options);
 */
 template<class ModelType>
 void start_mt(int argc, char** argv);
+#endif
 
 /*
 * Versions of the above functions for the serial sampler

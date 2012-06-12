@@ -22,12 +22,16 @@
 #include "CommandLineOptions.h"
 #include "RandomNumberGenerator.h"
 #include "Sampler.h"
-#include "MTSampler.h"
 #include "Options.h"
+
+#ifndef DNest3_No_Boost
+#include "MTSampler.h"
+#endif
 
 namespace DNest3
 {
 
+#ifndef DNest3_No_Boost
 template<class ModelType>
 MTSampler<ModelType> setup_mt(int argc, char** argv)
 {
@@ -68,6 +72,7 @@ void start_mt(int argc, char** argv)
 			setup_mt<ModelType>(options);
 	sampler.run();
 }
+#endif
 
 template<class ModelType>
 Sampler<ModelType> setup(int argc, char** argv)
