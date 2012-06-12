@@ -28,7 +28,11 @@ namespace DNest3
 {
 
 // Redeclare the static instance
+#ifndef DNest3_No_Boost
 boost::thread_specific_ptr<RandomNumberGenerator> RandomNumberGenerator::instance;
+#else
+RandomNumberGenerator RandomNumberGenerator::instance;
+#endif
 
 RandomNumberGenerator::RandomNumberGenerator()
 :rng(gsl_rng_alloc(gsl_rng_mt19937))
@@ -70,7 +74,9 @@ int RandomNumberGenerator::randInt(int numPossibilities) const
 
 void RandomNumberGenerator::initialise_instance()
 {
+	#ifndef DNest3_No_Boost
 	instance.reset(new RandomNumberGenerator);
+	#endif
 }
 
 double randomU()
