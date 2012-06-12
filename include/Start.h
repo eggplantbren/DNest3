@@ -21,6 +21,7 @@
 #define DNest3_Start_h
 
 #include "CommandLineOptions.h"
+#include "Sampler.h"
 #include "MTSampler.h"
 
 namespace DNest3
@@ -42,6 +43,19 @@ MTSampler<ModelType> setup_mt(const CommandLineOptions& options);
 */
 template<class ModelType>
 void start_mt(int argc, char** argv);
+
+/*
+* Versions of the above functions for the serial sampler
+*/
+
+template<class ModelType>
+Sampler<ModelType> setup(int argc, char** argv);
+
+template<class ModelType>
+Sampler<ModelType> setup(const CommandLineOptions& options);
+
+template<class ModelType>
+void start(int argc, char** argv);
 
 } // namespace DNest3
 

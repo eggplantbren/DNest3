@@ -21,6 +21,7 @@
 #include <iostream>
 #include "CommandLineOptions.h"
 #include "RandomNumberGenerator.h"
+#include "Sampler.h"
 #include "MTSampler.h"
 #include "Options.h"
 
@@ -67,6 +68,47 @@ void start_mt(int argc, char** argv)
 			setup_mt<ModelType>(options);
 	sampler.run();
 }
+
+template<class ModelType>
+Sampler<ModelType> setup(int argc, char** argv)
+{
+	CommandLineOptions options(argc, argv);
+	return setup<ModelType>(options);
+}
+
+template<class ModelType>
+Sampler<ModelType> setup(const CommandLineOptions& options)
+{
+	std::cout<<"# Using serial sampler."<<std::endl;
+
+	// Seed random number generator
+	std::cout<<"# Seeding random number generator with "<<
+		options.get_seed_long()<<"."<<std::endl;
+	RandomNumberGenerator::initialise_instance();
+	RandomNumberGenerator::get_instance().set_seed(options.get_seed_long());
+
+	// Load sampler options from file
+	Options samplerOptions(options.get_optionsFile().c_str());
+
+	// Create sampler
+	Sampler<ModelType> sampler(samplerOptions);
+
+	// Load levels file if requested
+	if(options.get_levelsFile().compare("") != 0)
+		sampler.loadLevels(options.get_levelsFile().c_str());
+
+	return sampler;
+}
+
+template<class ModelType>
+void start(int argc, char** argv)
+{
+	CommandLineOptions options(argc, argv);
+	Sampler<ModelType> sampler =
+			setup<ModelType>(options);
+	sampler.run();
+}
+
 
 } // namespace DNest3
 
