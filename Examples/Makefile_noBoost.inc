@@ -1,7 +1,7 @@
 # Compiler settings
 CPP = g++
-#CFLAGS = -O0 -g -Wall -Wextra -ansi -pedantic# Development
-CFLAGS = -O2 -Wall -Wextra -ansi -pedantic -DNDEBUG -DDNest3_No_Boost# Optimized
+# Optimized
+CFLAGS = -O2 -Wall -Wextra -ansi -pedantic -DNDEBUG -DDNest3_No_Boost
 CLIBS = -ldnest3 -lgsl -lgslcblas -L../../lib
 INCLUDES = ../../include
 
