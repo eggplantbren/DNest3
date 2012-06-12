@@ -36,7 +36,11 @@ int main(int argc, char** argv)
 		Data::get_instance().load(dataFile.c_str());
 
 	// Initialise the sampler
+	#ifndef DNest3_No_Boost
 	MTSampler<FitSine> sampler = setup_mt<FitSine>(options);
+	#else
+	Sampler<FitSine> sampler = setup<FitSine>(options);
+	#endif
 
 	// Go!
 	sampler.run();

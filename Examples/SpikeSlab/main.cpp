@@ -26,7 +26,12 @@ using namespace DNest3;
 
 int main(int argc, char** argv)
 {
+	#ifndef DNest3_No_Boost
 	MTSampler<SpikeSlab> sampler = setup_mt<SpikeSlab>(argc, argv);
+	#else
+	Sampler<SpikeSlab> sampler = setup<SpikeSlab>(argc, argv);
+	#endif
+
 	sampler.run();
 	return 0;
 }
