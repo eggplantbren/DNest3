@@ -66,6 +66,9 @@ class MTSampler
 		// Number of saved particles
 		int saves;
 
+		// Number of times a languishing particle has been deleted
+		int deletions;
+
 		// Flag - continue?
 		bool cont;
 

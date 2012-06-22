@@ -44,6 +44,7 @@ MTSampler<ModelType>::MTSampler(int numThreads, const Options& options)
 ,count(numThreads, 0)
 ,lastSave(0)
 ,saves(0)
+,deletions(0)
 ,cont(true)
 {
 	for(int i=0; i<numThreads; i++)
@@ -430,8 +431,11 @@ void MTSampler<ModelType>::deleteParticle()
 					particles[i][j] = particles[iCopy][jCopy];
 					indices[i][j] = indices[iCopy][jCopy];
 					logL[i][j] = logL[iCopy][jCopy];
-					std::cout<<"# Deleting a particle. Replacing"<<
-					" it with a copy of a good survivor."<<std::endl;
+					deletions++;
+
+					std::cout<<"# Replacing languishing particle.";
+					std::cout<<" This has happened "<<deletions;
+					std::cout<<" times."<<std::endl;
 				}
 			}
 		}
