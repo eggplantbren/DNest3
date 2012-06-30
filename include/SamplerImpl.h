@@ -315,7 +315,7 @@ void Sampler<ModelType>::deleteParticle()
 	int numBad = 0;
 	for(int i=0; i<options.numParticles; i++)
 	{
-		if(logPush(indices[i]) <= -5.)
+		if(logPush(indices[i]) < -5.)
 		{
 			good[i] = false;
 			numBad++;

@@ -404,7 +404,7 @@ void MTSampler<ModelType>::deleteParticle()
 	{
 		for(int j=0; j<options.numParticles; j++)
 		{
-			if(logPush(indices[i][j]) <= -5.)
+			if(logPush(indices[i][j]) < -5.)
 			{
 				good[i][j] = false;
 				numBad++;
