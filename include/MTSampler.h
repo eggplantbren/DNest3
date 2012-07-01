@@ -54,9 +54,6 @@ class MTSampler
 		// Backed up levels
 		std::vector<Level> _levels;
 
-		// Whether initialise() has ever been called
-		std::vector<bool> initialised;
-
 		// Number of MCMC steps ever done
 		std::vector<long> count;
 

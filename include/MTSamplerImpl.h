@@ -39,8 +39,8 @@ MTSampler<ModelType>::MTSampler(int numThreads, const Options& options)
 ,logL(numThreads, std::vector<LikelihoodType>(options.numParticles))
 ,indices(numThreads, std::vector<int>(options.numParticles, 0))
 ,levels(numThreads, std::vector<Level>(1, Level(0., -1E300, 0.)))
-,_levels(1, levels[0][0])
 ,logLKeep(numThreads)
+,_levels(1, levels[0][0])
 ,count(numThreads, 0)
 ,lastSave(0)
 ,saves(0)
@@ -226,7 +226,7 @@ void MTSampler<ModelType>::createLevel()
 		return;
 
 	// Count logLKeep
-	unsigned long tot = 0;
+	long tot = 0;
 	for(int i=0; i<numThreads; i++)
 		tot += logLKeep[i].size();
 
