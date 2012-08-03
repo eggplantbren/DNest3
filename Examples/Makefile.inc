@@ -2,7 +2,7 @@
 CPP = g++
 # Optimized
 CFLAGS = -O2 -Wall -Wextra -ansi -pedantic -DNDEBUG
-CLIBS = -ldnest3 -lgsl -lgslcblas -lboost_thread-mt -L../../lib
+CLIBS = -ldnest3 -lgsl -lgslcblas -lboost_thread-mt -lboost_system -L../../lib
 INCLUDES = ../../include
 
 # The default build rule
