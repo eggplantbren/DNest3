@@ -241,7 +241,7 @@ void Sampler<ModelType>::updateParticle(int which)
 	// Perturb the proposal particle
 	double logH = 0.;
 
-	if(options.numParticles == 1 || randomU() <= 0.5)
+	if(options.numParticles == 1 || randomU() <= 0.1)
 	{
 		// Standard Metropolis move
 		proposal.perturb();
@@ -264,7 +264,7 @@ void Sampler<ModelType>::updateParticle(int which)
 		logH += proposal.perturb_stretch(particles[other], Z);
 		logL_proposal.logL = proposal.logLikelihood();
 		logL_proposal.tieBreaker = Z*logL_proposal.tieBreaker + 
-						(1. - Z)*logL[which].tieBreaker;
+						(1. - Z)*logL[other].tieBreaker;
 		logH += log(Z); // Extra Z^(N-1) bit from tieBreaker
 		if(logL_proposal.tieBreaker < 0 || logL_proposal.tieBreaker > 1)
 			logH = -1E300;
