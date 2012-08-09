@@ -239,12 +239,39 @@ void Sampler<ModelType>::updateParticle(int which)
 	LikelihoodType logL_proposal = logL[which];
 
 	// Perturb the proposal particle
-	double logH = proposal.perturb();
-	logL_proposal.logL = proposal.logLikelihood();
-	logL_proposal.tieBreaker += pow(10., 1.5 - 6.*randomU())*randn();
-	logL_proposal.tieBreaker = mod(logL_proposal.tieBreaker, 1.);
-	if(logH > 0.)
-		logH = 0.;
+	double logH = 0.;
+
+	if(options.numParticles == 1 || randomU() <= 0.5)
+	{
+		// Standard Metropolis move
+		proposal.perturb();
+		logL_proposal.logL = proposal.logLikelihood();
+		logL_proposal.tieBreaker += pow(10., 1.5 - 6.*randomU())*randn();
+		logL_proposal.tieBreaker = mod(logL_proposal.tieBreaker, 1.);
+		if(logH > 0.)
+			logH = 0.;
+	}
+	else
+	{
+		// Stretch move
+		int other;
+		do
+		{
+			other = randInt(options.numParticles);
+		}while(other == which);
+
+		double Z = 0.5*pow(1. + randomU(), 2);
+		logH += proposal.perturb_stretch(particles[other], Z);
+		logL_proposal.logL = proposal.logLikelihood();
+		logL_proposal.tieBreaker = Z*logL_proposal.tieBreaker + 
+						(1. - Z)*logL[which].tieBreaker;
+		logH += log(Z); // Extra Z^(N-1) bit from tieBreaker
+		if(logL_proposal.tieBreaker < 0 || logL_proposal.tieBreaker > 1)
+			logH = -1E300;
+
+		if(logH > 0.)
+			logH = 0.;
+	}
 
 	bool accepted = false;
 	if(levels[indices[which]].get_cutoff() < logL_proposal
