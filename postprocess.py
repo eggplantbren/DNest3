@@ -198,5 +198,5 @@ def postprocess(temperature=1., numResampleLogX=1, plot=True, loaded=[], save=Tr
 			plt.ioff()
 		plt.show()
 
-	return [logz_estimate, H_estimate]
+	return [logz_estimate, H_estimate, logx_samples]
 
