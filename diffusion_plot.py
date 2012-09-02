@@ -11,7 +11,7 @@ j = sample_info[:,0].astype('int')
 
 ii = np.arange(1, sample_info.shape[0] + 1)
 
-for i in xrange(0, ID.max()):
+for i in xrange(0, ID.max() + 1):
 	which = np.nonzero(ID == i)[0]
 	plt.plot(ii[which], j[which])
 
