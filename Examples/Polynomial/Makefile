@@ -1,15 +1,3 @@
-FILENAMES = ms
-PDFS = $(foreach f, $(FILENAMES), $(f).pdf)
+OBJECTS = Polynomial.o Data.o
 
-# The default build rule
-%.pdf: %.tex
-	latex $*
-	latex $*
-	latex $*
-	dvipdf $*
-
-default: $(PDFS)
-
-clean:
-	rm -f *.aux *.log *.dvi *.pdf
-
+include ../Makefile.inc
