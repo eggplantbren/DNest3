@@ -37,6 +37,8 @@ def postprocess(temperature=1., numResampleLogX=1, plot=True, loaded=[], save=Tr
 		levels = np.atleast_2d(np.loadtxt("levels.txt"))
 		sample_info = np.atleast_2d(np.loadtxt("sample_info.txt"))
 		sample = np.atleast_2d(np.loadtxt("sample.txt"))
+		if(sample.shape[0] == 1):
+			sample = sample.T
 	else:
 		levels, sample_info, sample = loaded[0], loaded[1], loaded[2]
 
