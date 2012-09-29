@@ -1,7 +1,7 @@
 # Compiler settings
 CPP = g++
 # Optimized
-CFLAGS = -O2 -Wall -Wextra -ansi -pedantic -DNDEBUG
+CFLAGS = -O2 -Wall -Wextra -ansi -pedantic -DNDEBUG -DDNest3_No_Boost
 
 # Directory structure
 SRC_DIR = src
