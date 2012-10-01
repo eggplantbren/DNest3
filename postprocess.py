@@ -32,7 +32,8 @@ def logdiffexp(x1, x2):
 	result = np.log(np.exp(xx1) - np.exp(xx2)) + biggest
 	return result
 
-def postprocess(temperature=1., numResampleLogX=1, plot=True, loaded=[], save=True):
+def postprocess(temperature=1., numResampleLogX=1, plot=True, loaded=[], \
+			cut=0., save=True):
 	if len(loaded) == 0:
 		levels = np.atleast_2d(np.loadtxt("levels.txt"))
 		sample_info = np.atleast_2d(np.loadtxt("sample_info.txt"))
@@ -41,6 +42,9 @@ def postprocess(temperature=1., numResampleLogX=1, plot=True, loaded=[], save=Tr
 			sample = sample.T
 	else:
 		levels, sample_info, sample = loaded[0], loaded[1], loaded[2]
+
+	sample = sample[int(cut*sample.shape[0]):, :]
+	sample_info = sample_info[int(cut*sample.shape[0]):, :]
 
 	if sample.shape[0] != sample_info.shape[0]:
 		print('ERROR. Size mismatch. The usual cause is that you\'re still running DNest3 and it wrote to the files that showresults loads. Try suspending DNest3 temporarily.')
