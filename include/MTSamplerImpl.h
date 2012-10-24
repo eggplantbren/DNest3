@@ -169,10 +169,11 @@ void MTSampler<ModelType>::step(int thread)
 		logLKeep[thread].push_back(logL[thread][which]);
 }
 
-
 template<class ModelType>
 bool MTSampler<ModelType>::bookKeeping()
 {
+//	shuffle();
+
 	bool cont = true;
 
 	createLevel();
@@ -326,12 +327,38 @@ void MTSampler<ModelType>::updateParticle(int thread, int which)
 	LikelihoodType logL_proposal = logL[thread][which];
 
 	// Perturb the proposal particle
-	double logH = proposal.perturb();
-	logL_proposal.logL = proposal.logLikelihood();
-	logL_proposal.tieBreaker += pow(10., 1.5 - 6.*randomU())*randn();
-	logL_proposal.tieBreaker = mod(logL_proposal.tieBreaker, 1.);
-	if(logH > 0.)
-		logH = 0.;
+	double logH = 0.;
+	if(options.numParticles == 1 || randomU() <= -0.25)
+	{
+		// Standard Metropolis move
+		proposal.perturb();
+		logL_proposal.logL = proposal.logLikelihood();
+		logL_proposal.tieBreaker += pow(10., 1.5 - 6.*randomU())*randn();
+		logL_proposal.tieBreaker = mod(logL_proposal.tieBreaker, 1.);
+		if(logH > 0.)
+			logH = 0.;
+	}
+	else
+	{
+		// Stretch move
+		int other;
+		do
+		{
+			other = randInt(options.numParticles);
+		}while(other == which);
+
+		double Z = 0.5*pow(1. + randomU(), 2);
+		logH += proposal.perturb_stretch(particles[thread][other], Z);
+		logL_proposal.logL = proposal.logLikelihood();
+		logL_proposal.tieBreaker = Z*logL_proposal.tieBreaker +
+						(1. - Z)*logL[thread][other].tieBreaker;
+		logH += log(Z); // Extra Z^(N-1) bit from tieBreaker
+		if(logL_proposal.tieBreaker < 0 || logL_proposal.tieBreaker > 1)
+			logH = -1E300;
+
+		if(logH > 0.)
+			logH = 0.;
+	}
 
 	bool accepted = false;
 	if(levels[thread][indices[thread][which]].get_cutoff() < logL_proposal
