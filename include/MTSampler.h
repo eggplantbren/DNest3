@@ -106,6 +106,9 @@ class MTSampler
 		// Check for creation of a new level, saving of particles, etc
 		bool bookKeeping();
 
+		// Shuffle particles between threads
+		void shuffle();
+
 		// Check for creation of a new level
 		void createLevel();
 

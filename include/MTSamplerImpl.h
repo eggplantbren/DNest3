@@ -170,9 +170,44 @@ void MTSampler<ModelType>::step(int thread)
 }
 
 template<class ModelType>
+void MTSampler<ModelType>::shuffle()
+{
+	// No need to do it if there's only one particle
+	if(options.numParticles*numThreads <= 1)
+		return;
+
+	for(int i=0; i<options.numParticles*numThreads; i++)
+	{
+		// Choose to particles to swap
+		int i1, j1, i2, j2;
+		do
+		{
+			i1 = randInt(numThreads);
+			j1 = randInt(options.numParticles);
+			i2 = randInt(numThreads);
+			j2 = randInt(options.numParticles);
+		}while(i1 == i2 && j1 == j2);
+
+
+		// Do the swap
+		ModelType temp1 = particles[i1][j1];
+		LikelihoodType temp2 = logL[i1][j1];
+		int temp3 = indices[i1][j1];
+
+		particles[i1][j1] = particles[i2][j2];
+		logL[i1][j1] = logL[i2][j2];
+		indices[i1][j1] = indices[i2][j2];
+
+		particles[i2][j2] = temp1;
+		logL[i2][j2] = temp2;
+		indices[i2][j2] = temp3;
+	}
+}
+
+template<class ModelType>
 bool MTSampler<ModelType>::bookKeeping()
 {
-//	shuffle();
+	shuffle();
 
 	bool cont = true;
 
