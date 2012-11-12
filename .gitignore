@@ -14,6 +14,9 @@
 # Compiled headers (!)
 *.gch
 
+# Build directory.
+build
+
 # Executables
 main
 
@@ -27,5 +30,5 @@ weights.txt
 # Python bytecode
 *.pyc
 
-build
+lib
 .DS_Store

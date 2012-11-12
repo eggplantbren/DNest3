@@ -25,15 +25,79 @@ computer:
 * [NumPy](http://numpy.scipy.org/)
 * [matplotlib](http://matplotlib.sourceforge.net/)
 
+Building
+========
+
+You can build DNest3 using [CMake](http://www.cmake.org/).
+
+Mac
+---
+
+If you're using a Mac, hopefully you're also using
+[Homebrew](http://mxcl.github.com/homebrew/). Please do it.
+
+Now that we've got that out of the way, install the dependencies:
+
+
+```
+brew install cmake gsl
+```
+
+and optionally:
+
+```
+brew install boost
+```
+
+Then build DNest3:
+
+```
+git clone https://github.com/eggplantbren/DNest3.git
+cd DNest3
+mkdir build
+cd build
+cmake ..
+make
+make install
+```
+
+Ubuntu
+------
+
+First, install the dependencies
+
+```
+sudo apt-get install cmake libgsl0ldbl
+```
+
+and optionally
+
+```
+sudo apt-get install libboost-all-dev
+```
+
+Then build the library:
+
+```
+git clone https://github.com/eggplantbren/DNest3.git
+cd DNest3
+mkdir build
+cd build
+cmake ..
+make
+sudo make install
+```
+
+
 The Paper
 =========
 
 If you find this software useful,
 please cite the following paper:
 
-Diffusive Nested Sampling  
-Brendon J. Brewer, Livia B. Pártay, and Gábor Csányi  
-Statistics and Computing, 2011, 21, 4, 649-656.  
+Diffusive Nested Sampling
+Brendon J. Brewer, Livia B. Pártay, and Gábor Csányi
+Statistics and Computing, 2011, 21, 4, 649-656.
 
 The paper is [freely available online](http://arxiv.org/abs/0912.2380) at
 the [arXiv](http://www.arxiv.org/).
