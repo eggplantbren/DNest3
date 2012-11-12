@@ -24,28 +24,73 @@
 #include "Sampler.h"
 #include "Options.h"
 
+#ifndef DNest3_No_Boost
+#include "MTSampler.h"
+#endif
+
 namespace DNest3
 {
 
+#ifndef DNest3_No_Boost
 template<class ModelType>
-void start(int argc, char** argv)
+MTSampler<ModelType> setup_mt(int argc, char** argv)
 {
-	// Handle command line options
 	CommandLineOptions options(argc, argv);
+	return setup_mt<ModelType>(options);
+}
 
-	// Get number of threads, print messages
-	if(options.get_numThreads() > 1)
-	{
-		std::cerr<<"Multithreading not supported."<<std::endl;
-		exit(0);
-	}
+template<class ModelType>
+MTSampler<ModelType> setup_mt(const CommandLineOptions& options)
+{
 	std::cout<<"# Using "<<options.get_numThreads()<<" thread"<<
 		((options.get_numThreads() == 1)?("."):("s."))<<std::endl;
 
 	// Seed random number generator
 	std::cout<<"# Seeding random number generator with "<<
-		options.get_seed_int()<<"."<<std::endl;
-	RandomNumberGenerator::get_instance().setSeed(options.get_seed_int());
+		options.get_seed_long()<<"."<<std::endl;
+	RandomNumberGenerator::initialise_instance();
+	RandomNumberGenerator::get_instance().set_seed(options.get_seed_long());
+
+	// Load sampler options from file
+	Options samplerOptions(options.get_optionsFile().c_str());
+
+	// Create sampler
+	MTSampler<ModelType> sampler(options.get_numThreads(), samplerOptions);
+
+	// Load levels file if requested
+	if(options.get_levelsFile().compare("") != 0)
+		sampler.loadLevels(options.get_levelsFile().c_str());
+
+	return sampler;
+}
+
+template<class ModelType>
+void start_mt(int argc, char** argv)
+{
+	CommandLineOptions options(argc, argv);
+	MTSampler<ModelType> sampler =
+			setup_mt<ModelType>(options);
+	sampler.run();
+}
+#endif
+
+template<class ModelType>
+Sampler<ModelType> setup(int argc, char** argv)
+{
+	CommandLineOptions options(argc, argv);
+	return setup<ModelType>(options);
+}
+
+template<class ModelType>
+Sampler<ModelType> setup(const CommandLineOptions& options)
+{
+	std::cout<<"# Using serial sampler."<<std::endl;
+
+	// Seed random number generator
+	std::cout<<"# Seeding random number generator with "<<
+		options.get_seed_long()<<"."<<std::endl;
+	RandomNumberGenerator::initialise_instance();
+	RandomNumberGenerator::get_instance().set_seed(options.get_seed_long());
 
 	// Load sampler options from file
 	Options samplerOptions(options.get_optionsFile().c_str());
@@ -57,9 +102,18 @@ void start(int argc, char** argv)
 	if(options.get_levelsFile().compare("") != 0)
 		sampler.loadLevels(options.get_levelsFile().c_str());
 
-	// Sample!
+	return sampler;
+}
+
+template<class ModelType>
+void start(int argc, char** argv)
+{
+	CommandLineOptions options(argc, argv);
+	Sampler<ModelType> sampler =
+			setup<ModelType>(options);
 	sampler.run();
 }
+
 
 } // namespace DNest3
 

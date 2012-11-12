@@ -33,6 +33,7 @@ CommandLineOptions::CommandLineOptions(int argc, char** argv)
 :levelsFile("")
 ,optionsFile("OPTIONS")
 ,seed("time")
+,dataFile("")
 ,numThreads(1)
 {
 	// The following code is based on the example given at
@@ -42,7 +43,7 @@ CommandLineOptions::CommandLineOptions(int argc, char** argv)
 	stringstream s;
 
 	opterr = 0;
-	while((c = getopt(argc, argv, "hl:o:s:t:")) != -1)
+	while((c = getopt(argc, argv, "hl:o:s:d:t:")) != -1)
 	switch(c)
 	{
 		case 'h':
@@ -56,6 +57,9 @@ CommandLineOptions::CommandLineOptions(int argc, char** argv)
 			break;
 		case 's':
 			seed = string(optarg);
+			break;
+		case 'd':
+			dataFile = string(optarg);
 			break;
 		case 't':
 			s<<optarg;
@@ -82,15 +86,15 @@ CommandLineOptions::CommandLineOptions(int argc, char** argv)
 	}
 }
 
-int CommandLineOptions::get_seed_int() const
+unsigned long CommandLineOptions::get_seed_long() const
 {
 	if(seed.compare("time") == 0)
-		return -abs(time(0));
+		return static_cast<unsigned long>(time(0));
 
-	int i;
+	unsigned long i;
 	stringstream s(seed);
 	s>>i;
-	return -abs(i);
+	return i;
 }
 
 void CommandLineOptions::printHelp() const
@@ -100,10 +104,10 @@ void CommandLineOptions::printHelp() const
 	cout<<"-l <filename>: load level structure from the specified file."<<endl;
 	cout<<"-o <filename>: load DNest3 options from the specified file. Default=OPTIONS"<<endl;
 	cout<<"-s <seed>: seed the random number generator with the specified value. If unspecified, the system time is used."<<endl;
+	cout<<"-d <filename>: Load data from the specified file, if required."<<endl;
 	cout<<"-t <num_threads>: run on the specified number of threads. Default=1."<<endl;
 	exit(0);
 }
-
 
 } // namespace DNest3
 

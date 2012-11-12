@@ -17,11 +17,15 @@
 * along with DNest3. If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef _RandomNumberGenerator_
-#define _RandomNumberGenerator_
+#ifndef DNest3_RandomNumberGenerator_h
+#define DNest3_RandomNumberGenerator_h
 
 #include <gsl/gsl_rng.h>
 #include <vector>
+
+#ifndef DNest3_No_Boost
+#include <boost/thread/tss.hpp>
+#endif
 
 namespace DNest3
 {
@@ -35,19 +39,23 @@ class RandomNumberGenerator
 {
 	private:
 		gsl_rng* rng;
+		int seed;
 
 	public:
 		// Seed with -1
 		RandomNumberGenerator();
 
 		// Use given seed
-		RandomNumberGenerator(int seed);
+		RandomNumberGenerator(unsigned long seed);
 
 		// Free the memory
 		~RandomNumberGenerator();
 
 		// Set seed after initialisation
-		void setSeed(int seed);
+		void set_seed(int seed);
+
+		// Getter
+		int get_seed() const { return seed; }
 
 		// U(0, 1)
 		double randomU() const;
@@ -64,12 +72,26 @@ class RandomNumberGenerator
 
 	// Static stuff for a global instance
 	private:
+		#ifndef DNest3_No_Boost
+		static boost::thread_specific_ptr<RandomNumberGenerator> instance;
+		#else
 		static RandomNumberGenerator instance;
+		#endif
 
 	public:
 		// Get instance
 		static RandomNumberGenerator& get_instance()
-		{ return instance; }
+		{
+			#ifndef DNest3_No_Boost
+			return *(instance.get());
+			#else
+			return instance;
+			#endif
+		}
+
+		// Initialise instance
+		static void initialise_instance();
+
 };
 
 // Global RNG functions using RandomNumberGenerator::instance

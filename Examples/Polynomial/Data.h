@@ -17,40 +17,47 @@
 * along with DNest3. If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef DNest3_Model_h
-#define DNest3_Model_h
+#ifndef _Data_
+#define _Data_
 
 #include <vector>
-#include <ostream>
 
-namespace DNest3
-{
+/*
+* A dataset to fit sine waves to.
+* Also contains a static singleton for the one-data-set case
+*/
 
-/* Abstract base class for models */
-class Model
+class Data
 {
-	protected:
-		// Parameters go here
+	private:
+		// A flag
+		bool loaded;
+
+		// The data
+		std::vector<double> x, y, sig;
 
 	public:
-		// Generate the point from the prior
-		virtual void fromPrior() = 0;
+		// Default constructor: Empty data
+		Data();
 
-		// Metropolis-Hastings proposals
-		virtual double perturb() = 0;
+		// Load the data from file
+		void load(const char* filename);
 
-		// Likelihood function
-		virtual double logLikelihood() const = 0;
+		// Getters
+		bool get_loaded() { return loaded; }
+		double get_x(int i) { return x[i]; }
+		double get_y(int i) { return y[i]; }
+		double get_sig(int i) { return sig[i]; }
+		int get_N() { return static_cast<int>(y.size()); }
 
-		// Print to stream
-		virtual void print(std::ostream& out) const = 0;
+	// Static stuff for singleton use
+	private:
+		static Data instance;
 
-		// Optional: return string with column information
-		// This will become the header for sample.txt
-		virtual std::string description() const;
+	public:
+		// Access to the instance
+		static Data& get_instance() { return instance; }
 };
-
-} // namespace DNest3
 
 #endif
 

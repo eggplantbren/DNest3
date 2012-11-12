@@ -22,6 +22,7 @@
 #include <iostream>
 #include <algorithm>
 #include <cmath>
+#include <cstdlib>
 
 using namespace std;
 
@@ -44,7 +45,7 @@ void Data::load(const char* filename)
 	if(!fin)
 	{
 		cerr<<"# ERROR: Cannot open file "<<filename<<"."<<endl;
-		return;
+		exit(0);
 	}
 
 	// Skip comment lines at the top of the file

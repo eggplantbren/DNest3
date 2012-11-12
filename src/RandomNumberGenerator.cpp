@@ -28,18 +28,22 @@ namespace DNest3
 {
 
 // Redeclare the static instance
+#ifndef DNest3_No_Boost
+boost::thread_specific_ptr<RandomNumberGenerator> RandomNumberGenerator::instance;
+#else
 RandomNumberGenerator RandomNumberGenerator::instance;
+#endif
 
 RandomNumberGenerator::RandomNumberGenerator()
-:rng(gsl_rng_alloc(gsl_rng_taus))
+:rng(gsl_rng_alloc(gsl_rng_mt19937))
 {
-	setSeed(-1);
+	set_seed(0);
 }
 
-RandomNumberGenerator::RandomNumberGenerator(int seed)
+RandomNumberGenerator::RandomNumberGenerator(unsigned long seed)
 :rng(gsl_rng_alloc(gsl_rng_taus))
 {
-	setSeed(seed);
+	set_seed(seed);
 }
 
 RandomNumberGenerator::~RandomNumberGenerator()
@@ -47,8 +51,9 @@ RandomNumberGenerator::~RandomNumberGenerator()
 	gsl_rng_free(rng);
 }
 
-void RandomNumberGenerator::setSeed(int seed)
+void RandomNumberGenerator::set_seed(int seed)
 {
+	this->seed = seed;
 	gsl_rng_set(rng, seed);
 }
 
@@ -65,6 +70,13 @@ double RandomNumberGenerator::randn() const
 int RandomNumberGenerator::randInt(int numPossibilities) const
 {
 	return (int)floor(numPossibilities*this->randomU());
+}
+
+void RandomNumberGenerator::initialise_instance()
+{
+	#ifndef DNest3_No_Boost
+	instance.reset(new RandomNumberGenerator);
+	#endif
 }
 
 double randomU()

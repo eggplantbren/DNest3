@@ -9,11 +9,9 @@ Relative to older DNest versions, DNest3 has improved performance
 general) and is cleaner code: implementing new models should be easier than it
 was before.
 
-DNest3 currently has almost all of the features that the older DNest versions
-had. Currently the only missing feature is parallelisation.
-
 For documentation (currently in a draft state),
-please open Docs/index.html in your browser.
+please open Docs/index.html in your browser or
+click [here](http://eggplantbren.github.com/DNest3).
 
 Dependencies
 ============
@@ -22,6 +20,7 @@ DNest3 requires that you have the following packages installed on your
 computer:
 
 * [GNU Scientific Library (GSL)](http://www.gnu.org/software/gsl/)
+* [Boost](http://www.boost.org/) (optional but highly recommended)
 * [Python 2](http://www.python.org/)
 * [NumPy](http://numpy.scipy.org/)
 * [matplotlib](http://matplotlib.sourceforge.net/)

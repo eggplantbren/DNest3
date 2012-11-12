@@ -1,8 +1,8 @@
 # Compiler settings
 CPP = g++
 # Optimized
-CFLAGS = -O2 -Wall -Wextra -ansi -pedantic -DNDEBUG
-CLIBS = -ldnest3 -lgsl -lgslcblas -lboost_thread-mt -lboost_system -L../../lib
+CFLAGS = -O2 -Wall -Wextra -ansi -pedantic -DNDEBUG -DDNest3_No_Boost
+CLIBS = -ldnest3 -lgsl -lgslcblas -L../../lib
 INCLUDES = ../../include
 
 # The default build rule

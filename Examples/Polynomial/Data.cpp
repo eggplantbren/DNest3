@@ -17,22 +17,51 @@
 * along with DNest3. If not, see <http://www.gnu.org/licenses/>.
 */
 
+#include "Data.h"
+#include <fstream>
 #include <iostream>
-#include "Start.h"
-#include "SpikeSlab.h"
+#include <algorithm>
+#include <cmath>
+#include <cstdlib>
 
 using namespace std;
-using namespace DNest3;
 
-int main(int argc, char** argv)
+Data Data::instance;
+
+Data::Data()
+:loaded(false)
 {
-	#ifndef DNest3_No_Boost
-	MTSampler<SpikeSlab> sampler = setup_mt<SpikeSlab>(argc, argv);
-	#else
-	Sampler<SpikeSlab> sampler = setup<SpikeSlab>(argc, argv);
-	#endif
 
-	sampler.run();
-	return 0;
+}
+
+void Data::load(const char* filename)
+{
+	x.clear();
+	y.clear();
+	sig.clear();
+
+	fstream fin(filename, ios::in);
+	if(!fin)
+	{
+		cerr<<"# ERROR: Cannot open file "<<filename<<"."<<endl;
+		exit(0);
+	}
+
+	// Skip comment lines at the top of the file
+	while(fin.peek() == '#')
+		fin.ignore(1000000, '\n');
+
+	// Read in data
+	double temp1, temp2, temp3;
+	while(fin>>temp1 && fin>>temp2 && fin>>temp3)
+	{
+		x.push_back(temp1);
+		y.push_back(temp2);
+		sig.push_back(temp3);
+	}
+	cout<<"# Loaded "<<x.size()<<" points from file "<<filename<<"."<<endl;
+	fin.close();
+
+	loaded = true;
 }
 

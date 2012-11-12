@@ -17,8 +17,8 @@
 * along with DNest3. If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef _Level_
-#define _Level_
+#ifndef DNest3_Level_h
+#define DNest3_Level_h
 
 #include "LikelihoodType.h"
 #include <vector>
@@ -63,6 +63,10 @@ class Level
 		static void recalculateLogX(std::vector<Level>& levels, int regularisation);
 		static void renormaliseVisits(std::vector<Level>& levels, int regularisation);
 		static std::vector<Level> loadLevels(const char* filename);
+
+		// Combine level statistics
+		Level& operator += (const Level& other);
+		Level& operator -= (const Level& other);
 
 	// Stream I/O
 	friend std::ostream& operator << (std::ostream& out, const Level& level);

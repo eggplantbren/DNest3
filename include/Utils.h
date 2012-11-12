@@ -17,21 +17,19 @@
 * along with DNest3. If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef _Utils_
-#define _Utils_
+#ifndef DNest3_Utils_h
+#define DNest3_Utils_h
 
 #include <vector>
 
 namespace DNest3
 {
 
-extern const double pi;
 double mod(double y, double x);
 int mod(int y, int x);
 double logsumexp(double* logv, int n);
-double logsumexp(std::vector<double> logv);
+double logsumexp(const std::vector<double>& logv);
 double logsumexp(double a, double b);
-int GCD(int a, int b);
 
 } //namespace DNest3
 

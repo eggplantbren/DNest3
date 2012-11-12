@@ -17,8 +17,8 @@
 * along with DNest3. If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef _CommandLineOptions_
-#define _CommandLineOptions_
+#ifndef DNest3_CommandLineOptions_h
+#define DNest3_CommandLineOptions_h
 
 #include <string>
 
@@ -36,6 +36,7 @@ class CommandLineOptions
 		std::string levelsFile;
 		std::string optionsFile;
 		std::string seed;
+		std::string dataFile;
 		int numThreads;
 
 	public:
@@ -51,11 +52,14 @@ class CommandLineOptions
 		const std::string& get_seed() const
 		{ return seed; }
 
+		const std::string& get_dataFile() const
+		{ return dataFile; }
+
 		int get_numThreads() const
 		{ return numThreads; }
 
 		// Convert seed string to an integer and return it
-		int get_seed_int() const;
+		unsigned long get_seed_long() const;
 
 		// Print help message
 		void printHelp() const;

@@ -40,7 +40,7 @@ Sampler<ModelType>::Sampler(const Options& options)
 ,initialised(false)
 ,count(0)
 {
-
+	logLKeep.reserve(2*options.newLevelInterval);
 }
 
 template<class ModelType>
@@ -92,10 +92,22 @@ void Sampler<ModelType>::run()
 }
 
 template<class ModelType>
+void Sampler<ModelType>::run(int steps)
+{
+	if(!initialised)
+		initialise();
+
+	for(int i=0; i<steps; i++)
+	{
+		bool cont = step();
+		if(!cont)
+			break;
+	}
+}
+
+template<class ModelType>
 bool Sampler<ModelType>::step()
 {
-	bool cont = true;
-
 	// Move a particle
 	int which = randInt(options.numParticles);
 	if(randomU() <= 0.5)
@@ -125,6 +137,15 @@ bool Sampler<ModelType>::step()
 	if(static_cast<int>(levels.size()) < options.maxNumLevels &&
 			levels.back().get_cutoff() < logL[which])
 		logLKeep.push_back(logL[which]);
+
+	bool cont = bookKeeping(which);
+	return cont;
+}
+
+template<class ModelType>
+bool Sampler<ModelType>::bookKeeping(int which)
+{
+	bool cont = true;
 
 	// Actually create a new level
 	if(static_cast<int>(logLKeep.size()) >= options.newLevelInterval)
@@ -294,14 +315,14 @@ void Sampler<ModelType>::deleteParticle()
 	int numBad = 0;
 	for(int i=0; i<options.numParticles; i++)
 	{
-		if(logPush(indices[i]) <= -5.)
+		if(logPush(indices[i]) < -5.)
 		{
 			good[i] = false;
 			numBad++;
 		}
 	}
 
-	if(numBad <= options.numParticles)
+	if(numBad < options.numParticles)
 	{
 		// Replace bad particles with copies of good ones
 		for(int i=0; i<options.numParticles; i++)

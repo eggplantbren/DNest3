@@ -49,7 +49,7 @@ double SpikeSlab::logLikelihood() const
 {
 	double u = 0.01;
 	double v = 0.1;
-	double C = log(1.0/sqrt(2*pi));
+	double C = log(1.0/sqrt(2*M_PI));
 	double logl1 = 0;
 	double logl2 = 0;
 

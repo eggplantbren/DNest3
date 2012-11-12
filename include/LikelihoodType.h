@@ -17,8 +17,8 @@
 * along with DNest3. If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef _LikelihoodType_
-#define _LikelihoodType_
+#ifndef DNest3_LikelihoodType_h
+#define DNest3_LikelihoodType_h
 
 #include <istream>
 #include <ostream>
@@ -42,6 +42,8 @@ class LikelihoodType
 	// Various stuff needs to be a friend
 	friend class Level;
 	template<class ModelType> friend class Sampler;
+	template<class ModelType> friend class MTSampler;
+
 	friend bool operator < (const LikelihoodType& l1, const LikelihoodType& l2);
 	friend std::ostream& operator << (std::ostream& out, const Level& level);
 	friend std::istream& operator >> (std::istream& in, Level& level);

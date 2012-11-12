@@ -17,40 +17,34 @@
 * along with DNest3. If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef DNest3_Model_h
-#define DNest3_Model_h
+#include <iostream>
+#include "Start.h"
+#include "Data.h"
+#include "Polynomial.h"
 
-#include <vector>
-#include <ostream>
+using namespace std;
+using namespace DNest3;
 
-namespace DNest3
+int main(int argc, char** argv)
 {
+	// Process command line options and load data
+	CommandLineOptions options(argc, argv);
+	string dataFile = options.get_dataFile();
+	if(dataFile.compare("") == 0)
+		Data::get_instance().load("data.txt");
+	else
+		Data::get_instance().load(dataFile.c_str());
 
-/* Abstract base class for models */
-class Model
-{
-	protected:
-		// Parameters go here
+	// Initialise the sampler
+	#ifndef DNest3_No_Boost
+	MTSampler<Polynomial> sampler = setup_mt<Polynomial>(options);
+	#else
+	Sampler<Polynomial> sampler = setup<Polynomial>(options);
+	#endif
 
-	public:
-		// Generate the point from the prior
-		virtual void fromPrior() = 0;
+	// Go!
+	sampler.run();
 
-		// Metropolis-Hastings proposals
-		virtual double perturb() = 0;
-
-		// Likelihood function
-		virtual double logLikelihood() const = 0;
-
-		// Print to stream
-		virtual void print(std::ostream& out) const = 0;
-
-		// Optional: return string with column information
-		// This will become the header for sample.txt
-		virtual std::string description() const;
-};
-
-} // namespace DNest3
-
-#endif
+	return 0;
+}
 

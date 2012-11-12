@@ -17,40 +17,35 @@
 * along with DNest3. If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef DNest3_Model_h
-#define DNest3_Model_h
+#ifndef _Polynomial_
+#define _Polynomial_
 
+#include "Model.h"
 #include <vector>
-#include <ostream>
 
-namespace DNest3
+class Polynomial:public DNest3::Model
 {
-
-/* Abstract base class for models */
-class Model
-{
-	protected:
-		// Parameters go here
+	private:
+		std::vector<double> a;
 
 	public:
+		Polynomial();
+
 		// Generate the point from the prior
-		virtual void fromPrior() = 0;
+		void fromPrior();
 
 		// Metropolis-Hastings proposals
-		virtual double perturb() = 0;
+		double perturb();
 
 		// Likelihood function
-		virtual double logLikelihood() const = 0;
+		double logLikelihood() const;
 
 		// Print to stream
-		virtual void print(std::ostream& out) const = 0;
+		void print(std::ostream& out) const;
 
-		// Optional: return string with column information
-		// This will become the header for sample.txt
-		virtual std::string description() const;
+		// Return string with column information
+		std::string description() const;
 };
-
-} // namespace DNest3
 
 #endif
 

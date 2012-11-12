@@ -31,6 +31,7 @@ namespace DNest3
 Options::Options(int numParticles,
 		 int newLevelInterval,
 		 int saveInterval,
+		 int threadSteps,
 		 int maxNumLevels,
 		 double lambda,
 		 double beta,
@@ -38,6 +39,7 @@ Options::Options(int numParticles,
 :numParticles(numParticles)
 ,newLevelInterval(newLevelInterval)
 ,saveInterval(saveInterval)
+,threadSteps(threadSteps)
 ,maxNumLevels(maxNumLevels)
 ,lambda(lambda)
 ,beta(beta)
@@ -72,6 +74,7 @@ void Options::load(const char* filename)
 	fin>>numParticles;	fin.ignore(1000000, '\n');
 	fin>>newLevelInterval;	fin.ignore(1000000, '\n');
 	fin>>saveInterval;	fin.ignore(1000000, '\n');
+	fin>>threadSteps;	fin.ignore(1000000, '\n');
 	fin>>maxNumLevels;	fin.ignore(1000000, '\n');
 	fin>>lambda;		fin.ignore(1000000, '\n');
 	fin>>beta;		fin.ignore(1000000, '\n');
@@ -80,7 +83,7 @@ void Options::load(const char* filename)
 	fin.close();
 
 	assert( numParticles > 0 && newLevelInterval > 0 &&
-	maxNumLevels > 0 && lambda > 0. &&
+	threadSteps > 0 && maxNumLevels > 0 && lambda > 0. &&
 	beta >= 0. && maxNumSamples >= 0);
 }
 

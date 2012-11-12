@@ -17,16 +17,48 @@
 * along with DNest3. If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef _Start_
-#define _Start_
+#ifndef DNest3_Start_h
+#define DNest3_Start_h
+
+#include "CommandLineOptions.h"
+#include "Sampler.h"
+
+#ifndef DNest3_No_Boost
+#include "MTSampler.h"
+#endif
 
 namespace DNest3
 {
 
 /*
+* Set up the sampler and return it
+* You'll still need to call run() on it
+*/
+#ifndef DNest3_No_Boost
+template<class ModelType>
+MTSampler<ModelType> setup_mt(int argc, char** argv);
+
+template<class ModelType>
+MTSampler<ModelType> setup_mt(const CommandLineOptions& options);
+
+/*
 * A little function that does everything
 * needed to start DNest3 running. Keeps main() clean.
 */
+template<class ModelType>
+void start_mt(int argc, char** argv);
+#endif
+
+/*
+* Versions of the above functions for the serial sampler
+*/
+
+template<class ModelType>
+Sampler<ModelType> setup(int argc, char** argv);
+
+template<class ModelType>
+Sampler<ModelType> setup(const CommandLineOptions& options);
+
 template<class ModelType>
 void start(int argc, char** argv);
 

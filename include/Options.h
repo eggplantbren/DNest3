@@ -17,8 +17,8 @@
 * along with DNest3. If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef _Options_
-#define _Options_
+#ifndef DNest3_Options_h
+#define DNest3_Options_h
 
 #include <string>
 
@@ -35,11 +35,15 @@ class Options
 	template<class ModelType>
 	friend class Sampler;
 
-	public:
+	template<class ModelType>
+	friend class MTSampler;
+
+	private:
 		// Numerical options
 		int numParticles;
 		int newLevelInterval;
 		int saveInterval;
+		int threadSteps;
 		int maxNumLevels;
 		double lambda, beta;
 		int maxNumSamples;
@@ -53,6 +57,7 @@ class Options
 		Options(int numParticles,
 			int newLevelInterval,
 			int saveInterval,
+			int threadSteps,
 			int maxNumLevels,
 			double lambda,
 			double beta,

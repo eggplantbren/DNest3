@@ -17,42 +17,64 @@
 * along with DNest3. If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef DNest3_Sampler_h
-#define DNest3_Sampler_h
+#ifndef DNest3_MTSampler_h
+#define DNest3_MTSampler_h
 
 #include <vector>
 #include "LikelihoodType.h"
 #include "Options.h"
 #include "Level.h"
+#include <boost/thread.hpp>
 
 namespace DNest3
 {
 
 template<class ModelType>
-class Sampler
+class MTSampler
 {
 	private:
+		// Boost barrier - allocate on heap
+		boost::barrier* barrier;
+
+		// Number of threads
+		int numThreads;
+
 		// Options (most useful comment ever)
 		Options options;
 
 		// Stuff pertaining to the particles
-		std::vector<ModelType> particles;
-		std::vector<LikelihoodType> logL;
-		std::vector<int> indices;
+		std::vector< std::vector<ModelType> > particles;
+		std::vector< std::vector<LikelihoodType> > logL;
+		std::vector< std::vector<int> > indices;
 
 		// Stuff pertaining to the level structure
-		std::vector<Level> levels;
-		std::vector<LikelihoodType> logLKeep;
+		std::vector< std::vector<Level> > levels;
+		std::vector< std::vector<LikelihoodType> > logLKeep;
 
-		// Whether initialise() has ever been called
-		bool initialised;
+		// Backed up levels
+		std::vector<Level> _levels;
 
 		// Number of MCMC steps ever done
-		long count;
+		std::vector<long> count;
+
+		// Number of MCMC steps since last save
+		long lastSave;
+
+		// Number of saved particles
+		int saves;
+
+		// Number of times a languishing particle has been deleted
+		int deletions;
+
+		// Flag - continue?
+		bool cont;
 
 	public:
 		// Constructor: Pass in Options object
-		Sampler(const Options& options);
+		MTSampler(int numThreads, const Options& options);
+
+		// Destructor - delete barrier
+		~MTSampler();
 
 		// Load levels from file
 		void loadLevels(const char* filename);
@@ -64,26 +86,37 @@ class Sampler
 		// These are helper methods -- not part of the public interface
 
 		// Initialise all objects from the prior
-		void initialise();
+		void initialise(int thread);
 
-		// run() but only for a certain number of steps
-		void run(int steps);
+		// The main thing to launch threads with
+		void runThread(int thread, unsigned long firstSeed);
+
+		// Like run() but only for a certain number of steps
+		void steps(int thread, int steps);
 
 		// Choose a particle and do one step with it
-		// Return a flag - whether to continue or not
-		bool step();
+		void step(int thread);
 
 		// Do a M-H step of a particle
-		void updateParticle(int which);
+		void updateParticle(int thread, int which);
 
 		// Do a M-H step of an index
-		void updateIndex(int which);
+		void updateIndex(int thread, int which);
 
 		// Check for creation of a new level, saving of particles, etc
-		bool bookKeeping(int which);
+		bool bookKeeping();
+
+		// Check for creation of a new level
+		void createLevel();
+
+		// Combine info from levels into _levels
+		void gatherLevels();
+
+		// and then set all levels to _levels
+		void broadcastLevels();
 
 		// Savers
-		void saveParticle(int which) const;
+		void saveParticle(int iWhich, int jWhich);
 		void saveLevels() const;
 
 		// Pushing function
@@ -95,7 +128,7 @@ class Sampler
 
 }
 
-#include "SamplerImpl.h"
+#include "MTSamplerImpl.h"
 
 #endif
 
