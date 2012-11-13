@@ -67,7 +67,7 @@ Ubuntu
 First, install the dependencies
 
 ```
-sudo apt-get install cmake libgsl0ldbl
+sudo apt-get install cmake libgsl0-dev
 ```
 
 and optionally
