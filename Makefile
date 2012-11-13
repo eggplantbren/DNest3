@@ -12,7 +12,7 @@ BUILD_DIR = lib
 FILENAMES = CommandLineOptions Level LikelihoodType Model Options RandomNumberGenerator Utils
 SOURCES = $(foreach f, $(FILENAMES), $(SRC_DIR)/$(f).cpp)
 OBJECTS = $(foreach f, $(FILENAMES), $(SRC_DIR)/$(f).o)
-LIB_NAME = $(BUILD_DIR)/libdnest3.a
+LIB_NAME = libdnest3
 
 # Examples
 EXAMPLE_DIR = Examples
@@ -22,15 +22,19 @@ EXAMPLES = SpikeSlab FitSine
 .cpp.o:
 	$(CPP) $(CFLAGS) -I$(INCLUDE_DIR) -o $*.o -c $*.cpp
 
-default: libdnest3 examples
+default: examples
 
 # Build the library
 libdnest3: $(OBJECTS)
 	mkdir -p $(BUILD_DIR)
-	ar rcs $(LIB_NAME) $(OBJECTS)
+	ar rcs $(BUILD_DIR)/$(LIB_NAME).a $(OBJECTS)
+
+shared: $(OBJECTS)
+	mkdir -p $(BUILD_DIR)
+	$(CPP) -shared $(CLIBS) -o $(BUILD_DIR)/$(LIB_NAME).so $(OBJECTS)
 
 # Build the examples
-examples: force_look
+examples: shared force_look
 	$(foreach e, $(EXAMPLES), (echo "Building $(e):"; cd $(EXAMPLE_DIR)/$(e); $(MAKE) $(MFLAGS));)
 
 clean:
