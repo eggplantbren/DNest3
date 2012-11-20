@@ -382,7 +382,10 @@ void MTSampler<ModelType>::updateParticle(int thread, int which)
 			other = randInt(options.numParticles);
 		}while(other == which);
 
-		double Z = 0.5*pow(1. + randomU(), 2);
+		double a = 1. - log(randomU());
+		double a1 = sqrt(a);
+		double a2 = 1./a1;
+		double Z = pow((a1 - a2)*randomU() + a2, 2);
 		logH += proposal.perturb_stretch(particles[thread][other], Z);
 		logL_proposal.logL = proposal.logLikelihood();
 		logL_proposal.tieBreaker = Z*logL_proposal.tieBreaker +
