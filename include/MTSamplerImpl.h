@@ -363,7 +363,7 @@ void MTSampler<ModelType>::updateParticle(int thread, int which)
 
 	// Perturb the proposal particle
 	double logH = 0.;
-	if(options.numParticles == 1 || randomU() <= -0.25)
+	if(true)//options.numParticles == 1 || randomU() <= -0.25)
 	{
 		// Standard Metropolis move
 		proposal.perturb();
