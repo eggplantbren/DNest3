@@ -45,7 +45,7 @@ double SpikeSlab::perturb()
 	return 0.;
 }
 
-double SpikeSlab::perturb_stretch(const SpikeSlab& other, double Z)
+/*double SpikeSlab::perturb_stretch(const SpikeSlab& other, double Z)
 {
 	double logH = 0.;
 	for(size_t i=0; i<params.size(); i++)
@@ -59,7 +59,7 @@ double SpikeSlab::perturb_stretch(const SpikeSlab& other, double Z)
 	}
 	return (params.size() - 1)*log(Z) + logH;
 }
-
+*/
 double SpikeSlab::logLikelihood() const
 {
 	double u = 0.01;

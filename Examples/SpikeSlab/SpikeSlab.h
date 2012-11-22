@@ -38,7 +38,7 @@ class SpikeSlab:public DNest3::Model
 		double perturb();
 
 		// Stretch moves
-		double perturb_stretch(const SpikeSlab& other, double Z);
+		//double perturb_stretch(const SpikeSlab& other, double Z);
 
 		// Likelihood function
 		double logLikelihood() const;
