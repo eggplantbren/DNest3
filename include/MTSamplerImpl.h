@@ -366,7 +366,7 @@ void MTSampler<ModelType>::updateParticle(int thread, int which)
 	if(true)//options.numParticles == 1 || randomU() <= -0.25)
 	{
 		// Standard Metropolis move
-		proposal.perturb();
+		logH = proposal.perturb();
 		logL_proposal.logL = proposal.logLikelihood();
 		logL_proposal.tieBreaker += pow(10., 1.5 - 6.*randomU())*randn();
 		logL_proposal.tieBreaker = mod(logL_proposal.tieBreaker, 1.);
