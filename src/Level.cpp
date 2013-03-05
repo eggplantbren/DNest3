@@ -104,17 +104,7 @@ void Level::recalculateLogX(vector<Level>& levels, int regularisation)
 void Level::renormaliseVisits(vector<Level>& levels, int regularisation)
 {
 	for(size_t i=0; i<levels.size(); i++)
-	{
-		if(i != levels.size() - 1)
-			levels[i].renormaliseVisits(regularisation);
-		else
-		{
-			levels[i].accepts = 0;
-			levels[i].exceeds = 0;
-			levels[i].tries = 0;
-			levels[i].visits = 0;
-		}
-	}
+		levels[i].renormaliseVisits(regularisation);
 }
 
 vector<Level> Level::loadLevels(const char* filename)
