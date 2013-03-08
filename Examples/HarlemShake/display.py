@@ -1,4 +1,9 @@
 from pylab import *
+import os
+
+saveFrames = True # For making movies
+if saveFrames:
+	os.system('rm Frames/*.png')
 
 img = exp(loadtxt('shake.txt'))
 sample = loadtxt('sample.txt')
@@ -8,7 +13,7 @@ print(sample.shape, weights.shape)
 
 plt.ion()
 
-for i in xrange(0, sample.shape[0]):
+for i in xrange(0, 300):#sample.shape[0]):
 	samp = sample[0:(i+1), :]
 	wht  = weights[0:(i+1)]
 
@@ -30,6 +35,10 @@ for i in xrange(0, sample.shape[0]):
 	ylim([0, 1])
 
 	draw()
+
+	if saveFrames:
+		savefig('Frames/' + '%0.4d'%(i+1) + '.png', bbox_inches='tight')
+		print('Frames/' + '%0.4d'%(i+1) + '.png')
 
 ioff()
 show()
