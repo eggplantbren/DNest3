@@ -1,3 +1,0 @@
-log(Z) = -5.19472616585 +- 0.0
-Information = 5.87240715629 +- 0.0 nats.
-Effective sample size = 173.867056034
