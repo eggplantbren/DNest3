@@ -56,7 +56,7 @@ void Sampler<ModelType>::loadLevels(const char* filename)
 	} 
 
 	Level::renormaliseVisits(levels, options.newLevelInterval);
-	Level::recalculateLogX(levels, 1000);
+	Level::recalculateLogX(levels, 100);
 	saveLevels();
 }
 
@@ -168,7 +168,7 @@ bool Sampler<ModelType>::bookKeeping(int which)
 		else
 			logLKeep.erase(logLKeep.begin(), logLKeep.begin() + ii + 1);
 
-		Level::recalculateLogX(levels, 1000);
+		Level::recalculateLogX(levels, 100);
 		saveLevels();
 		deleteParticle();
 	}
@@ -176,7 +176,7 @@ bool Sampler<ModelType>::bookKeeping(int which)
 	if(count%options.saveInterval == 0)
 	{
 		saveParticle(which);
-		Level::recalculateLogX(levels, 1000);
+		Level::recalculateLogX(levels, 100);
 		saveLevels();
 		if(options.maxNumSamples > 0 &&
 			count/options.saveInterval == options.maxNumSamples)

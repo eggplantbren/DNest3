@@ -68,7 +68,7 @@ void MTSampler<ModelType>::loadLevels(const char* filename)
 	} 
 
 	Level::renormaliseVisits(_levels, options.newLevelInterval);
-	Level::recalculateLogX(_levels, 1000);
+	Level::recalculateLogX(_levels, 100);
 	saveLevels();
 
 	for(int i=0; i<numThreads; i++)
@@ -243,7 +243,7 @@ void MTSampler<ModelType>::gatherLevels()
 			_levels[j] -= old[j];
 		}
 	}
-	Level::recalculateLogX(_levels, 1000);
+	Level::recalculateLogX(_levels, 100);
 }
 
 template<class ModelType>
