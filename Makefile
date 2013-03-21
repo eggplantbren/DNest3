@@ -16,7 +16,7 @@ LIB_NAME = libdnest3
 
 # Examples
 EXAMPLE_DIR = Examples
-EXAMPLES = SpikeSlab FitSine
+EXAMPLES = SpikeSlab FitSine HarlemShake
 
 # The default build rule
 .cpp.o:
