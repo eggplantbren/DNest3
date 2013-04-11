@@ -464,11 +464,17 @@ void MTSampler<ModelType>::deleteParticle()
 {
 	// Flag each particle as good or bad
 	std::vector< std::vector<bool> > good(numThreads, std::vector<bool>(options.numParticles, true));
+
+	// How good is the best particle?
+	double max_logPush = -1E300;
+
 	int numBad = 0;
 	for(int i=0; i<numThreads; i++)
 	{
 		for(int j=0; j<options.numParticles; j++)
 		{
+			if(logPush(indices[i][j]) > max_logPush)
+				max_logPush = logPush(indices[i][j]);
 			if(logPush(indices[i][j]) < -5.)
 			{
 				good[i][j] = false;
@@ -486,12 +492,14 @@ void MTSampler<ModelType>::deleteParticle()
 			{
 				if(!good[i][j])
 				{
+					// Choose a replacement particle. Higher prob
+					// of selecting better particles.
 					int iCopy, jCopy;
 					do
 					{
 						iCopy = randInt(numThreads);
 						jCopy = randInt(options.numParticles);
-					}while(!good[iCopy][jCopy]);
+					}while(!good[iCopy][jCopy] || randomU() >= exp(logPush(indices[i][j]) - max_logPush));
 
 					particles[i][j] = particles[iCopy][jCopy];
 					indices[i][j] = indices[iCopy][jCopy];
