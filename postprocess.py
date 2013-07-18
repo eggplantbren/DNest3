@@ -67,6 +67,7 @@ def postprocess(temperature=1., numResampleLogX=1, plot=True, loaded=[], \
 		plt.ylabel("Compression")
 		plt.xlabel("Level")
 		xlim = plt.gca().get_xlim()
+		plt.axhline(-1., color='r')
 		if numResampleLogX > 1:
 			plt.draw()
 
