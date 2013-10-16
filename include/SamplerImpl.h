@@ -30,8 +30,9 @@ namespace DNest3
 {
 
 template<class ModelType>
-Sampler<ModelType>::Sampler(const Options& options)
-:options(options)
+Sampler<ModelType>::Sampler(double compression, const Options& options)
+:compression(compression)
+,options(options)
 ,particles(options.numParticles)
 ,logL(options.numParticles)
 ,indices(options.numParticles, 0)
@@ -56,7 +57,7 @@ void Sampler<ModelType>::loadLevels(const char* filename)
 	} 
 
 	Level::renormaliseVisits(levels, options.newLevelInterval);
-	Level::recalculateLogX(levels, 100);
+	Level::recalculateLogX(levels, compression, 100);
 	saveLevels();
 }
 
@@ -151,7 +152,7 @@ bool Sampler<ModelType>::bookKeeping(int which)
 	if(static_cast<int>(logLKeep.size()) >= options.newLevelInterval)
 	{
 		sort(logLKeep.begin(), logLKeep.end());
-		int ii = static_cast<int>(0.63212056
+		int ii = static_cast<int>((1. - 1./compression)
 				*static_cast<int>(logLKeep.size()));
 		LikelihoodType cutoff = logLKeep[ii];
 		std::cout<<std::setprecision(10);
@@ -168,7 +169,7 @@ bool Sampler<ModelType>::bookKeeping(int which)
 		else
 			logLKeep.erase(logLKeep.begin(), logLKeep.begin() + ii + 1);
 
-		Level::recalculateLogX(levels, 100);
+		Level::recalculateLogX(levels, compression, 100);
 		saveLevels();
 		deleteParticle();
 	}
@@ -176,7 +177,7 @@ bool Sampler<ModelType>::bookKeeping(int which)
 	if(count%options.saveInterval == 0)
 	{
 		saveParticle(which);
-		Level::recalculateLogX(levels, 100);
+		Level::recalculateLogX(levels, compression, 100);
 		saveLevels();
 		if(options.maxNumSamples > 0 &&
 			count/options.saveInterval == options.maxNumSamples)

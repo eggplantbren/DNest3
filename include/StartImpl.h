@@ -45,6 +45,9 @@ MTSampler<ModelType> setup_mt(const CommandLineOptions& options)
 	std::cout<<"# Using "<<options.get_numThreads()<<" thread"<<
 		((options.get_numThreads() == 1)?("."):("s."))<<std::endl;
 
+	std::cout<<"# Target compression factor between levels = ";
+	std::cout<<options.get_compression()<<std::endl;
+
 	// Seed random number generator
 	std::cout<<"# Seeding random number generator with "<<
 		options.get_seed_long()<<"."<<std::endl;
@@ -55,7 +58,9 @@ MTSampler<ModelType> setup_mt(const CommandLineOptions& options)
 	Options samplerOptions(options.get_optionsFile().c_str());
 
 	// Create sampler
-	MTSampler<ModelType> sampler(options.get_numThreads(), samplerOptions);
+	MTSampler<ModelType> sampler(options.get_numThreads(),
+					options.get_compression_double(),
+					samplerOptions);
 
 	// Load levels file if requested
 	if(options.get_levelsFile().compare("") != 0)

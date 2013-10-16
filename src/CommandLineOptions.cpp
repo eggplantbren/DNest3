@@ -90,6 +90,14 @@ CommandLineOptions::CommandLineOptions(int argc, char** argv)
 	}
 }
 
+double CommandLineOptions::get_compression_double() const
+{
+	double val;
+	stringstream s(compression);
+	s>>val;
+	return val;
+}
+
 unsigned long CommandLineOptions::get_seed_long() const
 {
 	if(seed.compare("time") == 0)

@@ -31,8 +31,9 @@ namespace DNest3
 {
 
 template<class ModelType>
-MTSampler<ModelType>::MTSampler(int numThreads, const Options& options)
+MTSampler<ModelType>::MTSampler(int numThreads, double compression, const Options& options)
 :barrier(new boost::barrier(numThreads))
+,compression(compression)
 ,numThreads(numThreads)
 ,options(options)
 ,particles(numThreads, std::vector<ModelType>(options.numParticles))
@@ -68,7 +69,7 @@ void MTSampler<ModelType>::loadLevels(const char* filename)
 	} 
 
 	Level::renormaliseVisits(_levels, options.newLevelInterval);
-	Level::recalculateLogX(_levels, 100);
+	Level::recalculateLogX(_levels, compression, 100);
 	saveLevels();
 
 	for(int i=0; i<numThreads; i++)
@@ -243,7 +244,7 @@ void MTSampler<ModelType>::gatherLevels()
 			_levels[j] -= old[j];
 		}
 	}
-	Level::recalculateLogX(_levels, 100);
+	Level::recalculateLogX(_levels, compression, 100);
 }
 
 template<class ModelType>
@@ -277,7 +278,7 @@ void MTSampler<ModelType>::createLevel()
 			giant[k++] = logLKeep[i][j];
 
 	sort(giant.begin(), giant.end());
-	int ii = static_cast<int>(0.63212056
+	int ii = static_cast<int>((1. - 1./compression)
 			*static_cast<int>(giant.size()));
 	LikelihoodType cutoff = giant[ii];
 	std::cout<<std::setprecision(10);

@@ -60,7 +60,7 @@ class Level
 		void renormaliseVisits(int regularisation);
 
 		// Operations on sets of levels
-		static void recalculateLogX(std::vector<Level>& levels, int regularisation);
+		static void recalculateLogX(std::vector<Level>& levels, double compression, int regularisation);
 		static void renormaliseVisits(std::vector<Level>& levels, int regularisation);
 		static std::vector<Level> loadLevels(const char* filename);
 

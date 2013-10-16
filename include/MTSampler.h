@@ -39,6 +39,9 @@ class MTSampler
 		// Number of threads
 		int numThreads;
 
+		// Target compression value
+		double compression;
+
 		// Options (most useful comment ever)
 		Options options;
 
@@ -71,7 +74,7 @@ class MTSampler
 
 	public:
 		// Constructor: Pass in Options object
-		MTSampler(int numThreads, const Options& options);
+		MTSampler(int numThreads, double compression, const Options& options);
 
 		// Destructor - delete barrier
 		~MTSampler();

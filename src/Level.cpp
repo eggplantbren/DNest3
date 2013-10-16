@@ -90,14 +90,14 @@ istream& operator >> (istream& in, Level& level)
 }
 
 
-void Level::recalculateLogX(vector<Level>& levels, int regularisation)
+void Level::recalculateLogX(vector<Level>& levels, double compression, int regularisation)
 {
 	assert(levels.size() > 0);
 
 	levels[0].logX = 0.0;
 	for(size_t i=1; i<levels.size(); i++)
 	{
-		levels[i].logX = levels[i-1].logX + log((double)(levels[i-1].exceeds + exp(-1.0)*regularisation)/(double)(levels[i-1].visits + regularisation));
+		levels[i].logX = levels[i-1].logX + log((double)(levels[i-1].exceeds + (1./compression)*regularisation)/(double)(levels[i-1].visits + regularisation));
 	}
 }
 

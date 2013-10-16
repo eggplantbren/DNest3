@@ -35,6 +35,9 @@ class Sampler
 		// Options (most useful comment ever)
 		Options options;
 
+		// Target compression value
+		double compression;
+
 		// Stuff pertaining to the particles
 		std::vector<ModelType> particles;
 		std::vector<LikelihoodType> logL;
@@ -52,7 +55,7 @@ class Sampler
 
 	public:
 		// Constructor: Pass in Options object
-		Sampler(const Options& options);
+		Sampler(double compression, const Options& options);
 
 		// Load levels from file
 		void loadLevels(const char* filename);
