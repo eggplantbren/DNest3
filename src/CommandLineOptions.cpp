@@ -34,6 +34,7 @@ CommandLineOptions::CommandLineOptions(int argc, char** argv)
 ,optionsFile("OPTIONS")
 ,seed("time")
 ,dataFile("")
+,compression("2.7182818284590451")
 ,numThreads(1)
 {
 	// The following code is based on the example given at
@@ -43,7 +44,7 @@ CommandLineOptions::CommandLineOptions(int argc, char** argv)
 	stringstream s;
 
 	opterr = 0;
-	while((c = getopt(argc, argv, "hl:o:s:d:t:")) != -1)
+	while((c = getopt(argc, argv, "hl:o:s:d:c:t:")) != -1)
 	switch(c)
 	{
 		case 'h':
@@ -60,6 +61,9 @@ CommandLineOptions::CommandLineOptions(int argc, char** argv)
 			break;
 		case 'd':
 			dataFile = string(optarg);
+			break;
+		case 'c':
+			compression = string(optarg);
 			break;
 		case 't':
 			s<<optarg;
@@ -105,6 +109,7 @@ void CommandLineOptions::printHelp() const
 	cout<<"-o <filename>: load DNest3 options from the specified file. Default=OPTIONS"<<endl;
 	cout<<"-s <seed>: seed the random number generator with the specified value. If unspecified, the system time is used."<<endl;
 	cout<<"-d <filename>: Load data from the specified file, if required."<<endl;
+	cout<<"-c <value>: Specify a compression value (between levels) other than e."<<endl;
 	cout<<"-t <num_threads>: run on the specified number of threads. Default=1."<<endl;
 	exit(0);
 }

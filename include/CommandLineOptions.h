@@ -37,6 +37,7 @@ class CommandLineOptions
 		std::string optionsFile;
 		std::string seed;
 		std::string dataFile;
+		std::string compression;
 		int numThreads;
 
 	public:
@@ -55,11 +56,17 @@ class CommandLineOptions
 		const std::string& get_dataFile() const
 		{ return dataFile; }
 
+		const std::string& get_compression() const
+		{ return compression; }
+
 		int get_numThreads() const
 		{ return numThreads; }
 
 		// Convert seed string to an integer and return it
 		unsigned long get_seed_long() const;
+
+		// Convert compression to a double and return it
+		double get_compression_double() const;
 
 		// Print help message
 		void printHelp() const;
