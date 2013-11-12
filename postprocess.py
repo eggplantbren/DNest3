@@ -33,7 +33,7 @@ def logdiffexp(x1, x2):
 	return result
 
 def postprocess(temperature=1., numResampleLogX=1, plot=True, loaded=[], \
-			cut=0., save=True):
+			cut=0., save=True, zoom_in=True):
 	if len(loaded) == 0:
 		levels = np.atleast_2d(np.loadtxt("levels.txt"))
 		sample_info = np.atleast_2d(np.loadtxt("sample_info.txt"))
@@ -159,6 +159,17 @@ def postprocess(temperature=1., numResampleLogX=1, plot=True, loaded=[], \
 				plt.legend(numpoints=1, loc='lower left')
 				plt.ylabel('log(L)')
 				plt.title(str(z+1) + "/" + str(numResampleLogX) + ", log(Z) = " + str(logz_estimates[z][0]))
+				# Use all plotted logl values to set ylim
+				combined_logl = np.hstack([sample_info[:,1], levels[1:, 1]])
+				combined_logl = np.sort(combined_logl)
+				lower = combined_logl[int(0.1*combined_logl.size)]
+				upper = combined_logl[-1]
+				diff = upper - lower
+				lower -= 0.05*diff
+				upper += 0.05*diff
+				if zoom_in:
+					plt.ylim([lower, upper])
+
 				if numResampleLogX > 1:
 					plt.draw()
 				xlim = plt.gca().get_xlim()
