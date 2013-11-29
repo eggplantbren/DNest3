@@ -21,9 +21,9 @@
 #define DNest3_Sampler_h
 
 #include <vector>
-#include "LikelihoodType.h"
-#include "Options.h"
-#include "Level.h"
+#include "LikelihoodType.hpp"
+#include "Options.hpp"
+#include "Level.hpp"
 
 namespace DNest3
 {
@@ -98,7 +98,7 @@ class Sampler
 
 }
 
-#include "SamplerImpl.h"
+#include "SamplerImpl.hpp"
 
 #endif
 

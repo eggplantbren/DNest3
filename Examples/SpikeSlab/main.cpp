@@ -18,8 +18,8 @@
 */
 
 #include <iostream>
-#include "Start.h"
-#include "SpikeSlab.h"
+#include "Start.hpp"
+#include "SpikeSlab.hpp"
 
 using namespace std;
 using namespace DNest3;

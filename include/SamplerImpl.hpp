@@ -17,8 +17,8 @@
 * along with DNest3. If not, see <http://www.gnu.org/licenses/>.
 */
 
-#include "RandomNumberGenerator.h"
-#include "Utils.h"
+#include "RandomNumberGenerator.hpp"
+#include "Utils.hpp"
 #include <iostream>
 #include <fstream>
 #include <cassert>

@@ -20,7 +20,7 @@
 #ifndef _FitSine_
 #define _FitSine_
 
-#include "Model.h"
+#include "Model.hpp"
 #include <vector>
 
 class FitSine:public DNest3::Model

@@ -17,7 +17,7 @@
 * along with DNest3. If not, see <http://www.gnu.org/licenses/>.
 */
 
-#include "Model.h"
+#include "Model.hpp"
 
 using namespace std;
 

@@ -18,8 +18,8 @@
 */
 
 #include <iostream>
-#include "Start.h"
-#include "HarlemShake.h"
+#include "Start.hpp"
+#include "HarlemShake.hpp"
 
 using namespace std;
 using namespace DNest3;

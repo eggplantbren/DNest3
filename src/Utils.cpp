@@ -17,7 +17,7 @@
 * along with DNest3. If not, see <http://www.gnu.org/licenses/>.
 */
 
-#include "Utils.h"
+#include "Utils.hpp"
 #include <iostream>
 #include <cmath>
 #include <algorithm>

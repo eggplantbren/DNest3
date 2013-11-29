@@ -17,10 +17,10 @@
 * along with DNest3. If not, see <http://www.gnu.org/licenses/>.
 */
 
-#include "FitSine.h"
-#include "RandomNumberGenerator.h"
-#include "Utils.h"
-#include "Data.h"
+#include "FitSine.hpp"
+#include "RandomNumberGenerator.hpp"
+#include "Utils.hpp"
+#include "Data.hpp"
 #include <cmath>
 #include <iostream>
 

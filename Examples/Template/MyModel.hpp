@@ -20,7 +20,7 @@
 #ifndef _MyModel_
 #define _MyModel_
 
-#include "Model.h"
+#include "Model.hpp"
 #include <vector>
 
 class MyModel:public DNest3::Model

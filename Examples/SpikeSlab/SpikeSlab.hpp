@@ -17,25 +17,28 @@
 * along with DNest3. If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef _HarlemShake_
-#define _HarlemShake_
+#ifndef _SpikeSlab_
+#define _SpikeSlab_
 
-#include "Model.h"
+#include "Model.hpp"
 #include <vector>
 
-class HarlemShake:public DNest3::Model
+class SpikeSlab:public DNest3::Model
 {
 	private:
-		double x, y;
+		std::vector<double> params;
 
 	public:
-		HarlemShake();
-		~HarlemShake(){};
+		SpikeSlab();
+		~SpikeSlab(){};
 		// Generate the point from the prior
 		void fromPrior();
 
 		// Metropolis-Hastings proposals
 		double perturb();
+
+		// Stretch moves
+		//double perturb_stretch(const SpikeSlab& other, double Z);
 
 		// Likelihood function
 		double logLikelihood() const;
@@ -45,21 +48,6 @@ class HarlemShake:public DNest3::Model
 
 		// Return string with column information
 		std::string description() const;
-
-		// Construct letters in [0, 1]^2
-		static double H(double x, double y);
-		static double A(double x, double y);
-		static double R(double x, double y);
-		static double L(double x, double y);
-		static double O(double x, double y);
-		static double M(double x, double y);
-		static double S(double x, double y);
-		static double K(double x, double y);
-		// Evaluate a gaussian at (x, y)
-		static double gaussian(double x, double y, double xc, double yc, double w, double q, double theta);
-
-		// Write out the density
-		static void density();
 };
 
 #endif

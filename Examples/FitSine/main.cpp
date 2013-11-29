@@ -18,9 +18,9 @@
 */
 
 #include <iostream>
-#include "Start.h"
-#include "Data.h"
-#include "FitSine.h"
+#include "Start.hpp"
+#include "Data.hpp"
+#include "FitSine.hpp"
 
 using namespace std;
 using namespace DNest3;

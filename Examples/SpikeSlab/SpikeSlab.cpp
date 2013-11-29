@@ -17,9 +17,9 @@
 * along with DNest3. If not, see <http://www.gnu.org/licenses/>.
 */
 
-#include "SpikeSlab.h"
-#include "RandomNumberGenerator.h"
-#include "Utils.h"
+#include "SpikeSlab.hpp"
+#include "RandomNumberGenerator.hpp"
+#include "Utils.hpp"
 #include <cmath>
 
 using namespace std;

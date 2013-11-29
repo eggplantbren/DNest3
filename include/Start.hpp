@@ -20,11 +20,11 @@
 #ifndef DNest3_Start_h
 #define DNest3_Start_h
 
-#include "CommandLineOptions.h"
-#include "Sampler.h"
+#include "CommandLineOptions.hpp"
+#include "Sampler.hpp"
 
 #ifndef DNest3_No_Boost
-#include "MTSampler.h"
+#include "MTSampler.hpp"
 #endif
 
 namespace DNest3
@@ -64,7 +64,7 @@ void start(int argc, char** argv);
 
 } // namespace DNest3
 
-#include "StartImpl.h"
+#include "StartImpl.hpp"
 
 #endif
 
