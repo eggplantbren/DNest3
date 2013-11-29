@@ -30,7 +30,7 @@ class SpikeSlab:public DNest3::Model
 
 	public:
 		SpikeSlab();
-
+		~SpikeSlab(){};
 		// Generate the point from the prior
 		void fromPrior();
 

@@ -67,7 +67,7 @@ class FitSine:public DNest3::Model
 
 	public:
 		FitSine();
-
+		~FitSine(){};
 		// Generate the point from the prior
 		void fromPrior();
 

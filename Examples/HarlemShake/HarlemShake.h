@@ -30,7 +30,7 @@ class HarlemShake:public DNest3::Model
 
 	public:
 		HarlemShake();
-
+		~HarlemShake(){};
 		// Generate the point from the prior
 		void fromPrior();
 

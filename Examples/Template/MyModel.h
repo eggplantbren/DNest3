@@ -29,7 +29,7 @@ class MyModel:public DNest3::Model
 
 	public:
 		MyModel();
-
+		~MyModel(){};
 		// Generate the point from the prior
 		void fromPrior();
 
