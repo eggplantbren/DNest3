@@ -20,7 +20,7 @@
 #ifndef DNest3_Level_h
 #define DNest3_Level_h
 
-#include "LikelihoodType.h"
+#include "LikelihoodType.hpp"
 #include <vector>
 #include <ostream>
 #include <istream>

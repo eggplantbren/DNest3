@@ -13,7 +13,7 @@ FILENAMES = CommandLineOptions Level LikelihoodType Model Options RandomNumberGe
 SOURCES = $(foreach f, $(FILENAMES), $(SRC_DIR)/$(f).cpp)
 OBJECTS = $(foreach f, $(FILENAMES), $(SRC_DIR)/$(f).o)
 LIB_NAME = libdnest3
-
+ 
 # Examples
 EXAMPLE_DIR = Examples
 EXAMPLES = SpikeSlab FitSine HarlemShake
@@ -40,7 +40,7 @@ examples: shared force_look
 clean:
 	rm -f $(OBJECTS) $(LIB_NAME) *.pyc $(INCLUDE_DIR)/*.gch
 	$(foreach e, $(EXAMPLES), (cd $(EXAMPLE_DIR)/$(e); $(MAKE) clean);)
-
+	cd $(PYTHON_DIR); $(MAKE) clean;
 force_look:
 	true
 

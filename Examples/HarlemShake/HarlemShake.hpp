@@ -17,57 +17,20 @@
 * along with DNest3. If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef _FitSine_
-#define _FitSine_
+#ifndef _HarlemShake_
+#define _HarlemShake_
 
-#include "Model.h"
+#include "Model.hpp"
 #include <vector>
 
-class FitSine:public DNest3::Model
+class HarlemShake:public DNest3::Model
 {
 	private:
-		// The highest number of frequencies possible
-		static const int maxNumComponents;
-
-		// Number of frequencies present
-		int numComponents;
-
-		// Amplitudes hyperparameter and its limits
-		double muAmplitudes, minLogMu, maxLogMu, rangeLogMu;
-
-		// Frequency limits
-		double minLogFreq, maxLogFreq, rangeLogFreq;
-
-		// Amplitudes
-		std::vector<double> amplitudes;
-
-		// Actual frequencies
-		std::vector<double> frequencies;
-
-		// Actual phases
-		std::vector<double> phases;
-
-		// Simulated data for comparison with actual data
-		std::vector<double> mockData;
-
-		// How many times since mock data was computed from scratch
-		int staleness;
-
-		// Calculate mock data from scratch
-		void calculateMockData();
-
-		// Add one frequency to mock data
-		void addComponent(double amplitude, double frequency,
-					double phase);
-
-		// Perturbers
-		double perturb1();
-		double perturb2();
-		double perturb3();
+		double x, y;
 
 	public:
-		FitSine();
-
+		HarlemShake();
+		~HarlemShake(){};
 		// Generate the point from the prior
 		void fromPrior();
 
@@ -83,6 +46,20 @@ class FitSine:public DNest3::Model
 		// Return string with column information
 		std::string description() const;
 
+		// Construct letters in [0, 1]^2
+		static double H(double x, double y);
+		static double A(double x, double y);
+		static double R(double x, double y);
+		static double L(double x, double y);
+		static double O(double x, double y);
+		static double M(double x, double y);
+		static double S(double x, double y);
+		static double K(double x, double y);
+		// Evaluate a gaussian at (x, y)
+		static double gaussian(double x, double y, double xc, double yc, double w, double q, double theta);
+
+		// Write out the density
+		static void density();
 };
 
 #endif

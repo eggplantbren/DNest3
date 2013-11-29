@@ -93,17 +93,17 @@ ADD_LIBRARY (dnest3 STATIC ${DNEST_SRC})
 TARGET_LINK_LIBRARIES (dnest3 ${DNEST_DEPS})
 
 INSTALL (TARGETS dnest3 DESTINATION lib)
-INSTALL (FILES include/CommandLineOptions.h
-               include/Level.h
-               include/LikelihoodType.h
-               include/MTSampler.h
-               include/MTSamplerImpl.h
-               include/Model.h
-               include/Options.h
-               include/RandomNumberGenerator.h
-               include/Sampler.h
-               include/SamplerImpl.h
-               include/Start.h
-               include/StartImpl.h
-               include/Utils.h
+INSTALL (FILES include/CommandLineOptions.hpp
+               include/Level.hpp
+               include/LikelihoodType.hpp
+               include/MTSampler.hpp
+               include/MTSamplerImpl.hpp
+               include/Model.hpp
+               include/Options.hpp
+               include/RandomNumberGenerator.hpp
+               include/Sampler.hpp
+               include/SamplerImpl.hpp
+               include/Start.hpp
+               include/StartImpl.hpp
+               include/Utils.hpp
          DESTINATION include/dnest3)

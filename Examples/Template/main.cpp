@@ -18,8 +18,8 @@
 */
 
 #include <iostream>
-#include "Start.h"
-#include "MyModel.h"
+#include "Start.hpp"
+#include "MyModel.hpp"
 
 using namespace std;
 using namespace DNest3;

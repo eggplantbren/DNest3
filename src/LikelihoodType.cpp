@@ -17,7 +17,7 @@
 * along with DNest3. If not, see <http://www.gnu.org/licenses/>.
 */
 
-#include "LikelihoodType.h"
+#include "LikelihoodType.hpp"
 
 namespace DNest3
 {

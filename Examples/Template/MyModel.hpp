@@ -20,7 +20,7 @@
 #ifndef _MyModel_
 #define _MyModel_
 
-#include "Model.h"
+#include "Model.hpp"
 #include <vector>
 
 class MyModel:public DNest3::Model
@@ -29,7 +29,7 @@ class MyModel:public DNest3::Model
 
 	public:
 		MyModel();
-
+		~MyModel(){};
 		// Generate the point from the prior
 		void fromPrior();
 

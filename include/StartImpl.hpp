@@ -19,13 +19,13 @@
 
 #include <cstdlib>
 #include <iostream>
-#include "CommandLineOptions.h"
-#include "RandomNumberGenerator.h"
-#include "Sampler.h"
-#include "Options.h"
+#include "CommandLineOptions.hpp"
+#include "RandomNumberGenerator.hpp"
+#include "Sampler.hpp"
+#include "Options.hpp"
 
 #ifndef DNest3_No_Boost
-#include "MTSampler.h"
+#include "MTSampler.hpp"
 #endif
 
 namespace DNest3

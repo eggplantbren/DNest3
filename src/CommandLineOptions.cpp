@@ -17,7 +17,7 @@
 * along with DNest3. If not, see <http://www.gnu.org/licenses/>.
 */
 
-#include "CommandLineOptions.h"
+#include "CommandLineOptions.hpp"
 #include <ctime>
 #include <sstream>
 #include <iostream>

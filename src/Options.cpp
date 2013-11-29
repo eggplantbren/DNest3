@@ -17,8 +17,8 @@
 * along with DNest3. If not, see <http://www.gnu.org/licenses/>.
 */
 
-#include "Options.h"
-#include "Utils.h"
+#include "Options.hpp"
+#include "Utils.hpp"
 #include <fstream>
 #include <iostream>
 #include <cassert>

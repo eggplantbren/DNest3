@@ -17,9 +17,9 @@
 * along with DNest3. If not, see <http://www.gnu.org/licenses/>.
 */
 
-#include "HarlemShake.h"
-#include "RandomNumberGenerator.h"
-#include "Utils.h"
+#include "HarlemShake.hpp"
+#include "RandomNumberGenerator.hpp"
+#include "Utils.hpp"
 #include <cmath>
 #include <fstream>
 

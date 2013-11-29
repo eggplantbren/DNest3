@@ -21,9 +21,9 @@
 #define DNest3_MTSampler_h
 
 #include <vector>
-#include "LikelihoodType.h"
-#include "Options.h"
-#include "Level.h"
+#include "LikelihoodType.hpp"
+#include "Options.hpp"
+#include "Level.hpp"
 #include <boost/thread.hpp>
 
 namespace DNest3
@@ -134,7 +134,7 @@ class MTSampler
 
 }
 
-#include "MTSamplerImpl.h"
+#include "MTSamplerImpl.hpp"
 
 #endif
 

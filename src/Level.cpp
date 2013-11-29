@@ -17,8 +17,8 @@
 * along with DNest3. If not, see <http://www.gnu.org/licenses/>.
 */
 
-#include "Level.h"
-#include "Model.h"
+#include "Level.hpp"
+#include "Model.hpp"
 #include <cassert>
 #include <cmath>
 #include <iomanip>
