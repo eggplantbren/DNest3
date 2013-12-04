@@ -24,6 +24,11 @@ using namespace std;
 namespace DNest3
 {
 
+Model::~Model()
+{
+
+}
+
 string Model::description() const
 {
 	return string("");

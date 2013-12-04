@@ -33,6 +33,9 @@ class Model
 		// Parameters go here
 
 	public:
+		// Destructor
+		virtual ~Model();
+
 		// Generate the point from the prior
 		virtual void fromPrior() = 0;
 
