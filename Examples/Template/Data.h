@@ -7,6 +7,7 @@ class Data
 
 	public:
 		Data();
+		void load(const char* filename);
 
 	// Singleton
 	private:
