@@ -6,6 +6,8 @@
 \usepackage{natbib}   % This allows for relatively pain-free reference lists
 \usepackage[left=2cm,top=3cm,right=2cm]{geometry} % The way I like the margins
 
+\newcommand{\dnest}{{\tt DNest3}}
+
 % This helps with figure placement
 \renewcommand{\topfraction}{0.85}
 \renewcommand{\textfraction}{0.1}
@@ -24,8 +26,215 @@
 
 \section{Introduction}
 
+\dnest~is a C++ implementation of Diffusive Nested Sampling, a
+powerful Markov Chain Monte Carlo (MCMC) algorithm that is primarily
+useful for solving Bayesian Inference problems. For information about how the
+algorithm works, please see the paper, available as a preprint at the following
+URL:
+
+\begin{center}
+{\tt http://arxiv.org/abs/0912.238}
+\end{center}
+
+If you find \dnest~useful, please feel free to cite the paper.
 
 \section{Installation}
+Please note that I have only ever compiled \dnest~on GNU/Linux,
+using the GNU C++ compiler ({\tt g++}). However, I expect it to be
+straightforward to compile it on any other Unix-like operating system such as Mac
+OS X or FreeBSD. It should be possible, albeit probably more tricky,
+to compile \dnest~on Microsoft Windows. If you want to try,
+the MinGW compiler is
+probably your best bet. I'd be interested to hear from anyone who
+has tried this. I would also be interested to hear if anyone has
+compiled DNest3 with a different compiler, such as the Intel C++
+compiler.
+
+\subsection{Dependencies}
+\dnest~depends on some other software that you will need to have installed on
+your system. These should be quite easy to obtain. I highly
+recommend obtaining these programs from your OS's package manager,
+rather than installing them from source. Note that some OSs split up
+packages into binaries and "development" packages, with a -dev (e.g.
+in Debian or Ubuntu) or -devel suffix (e.g. Fedora). You will need
+both. Here's a list of dependencies:
+
+\begin{itemize}
+\item The GNU Scientific Library
+\item Python 2, along with NumPy and matplotlib
+\item The thread and system parts of the Boost C++ library.
+It may be easier to just install all of Boost.
+\end{itemize}
+
+DNest3 uses GSL's random number generator. Python, NumPy and
+matplotlib are used for the postprocessing scripts and for
+plotting. Boost is used for parallelization (I have not ported \dnest~to
+C++11).
+
+
+%    <h3>Compiling<br>
+%    </h3>
+%    To compile DNest3, simply run<br>
+%    <br>
+%    <span style="font-family: monospace;">make</span><br>
+%    <br>
+%    in the root DNest3 directory. This will create <span
+%      style="font-family: monospace;"></span>a static library <span
+%      style="font-family: monospace;">libdnest3.a</span> in the current
+%    directory. If you like, feel free to copy these to some other
+%    location on your system, for example <span style="font-family:
+%      monospace;">/usr/local/lib</span>. It will also compile the
+%    examples in the <span style="font-family: monospace;">Examples/</span>
+%    directory, creating executable files called <span
+%      style="font-family: monospace;">main</span> that you can use to
+%    run the examples.<br>
+%    <h3>Running the Examples</h3>
+%    Two examples are provided with DNest3. I will now explain how DNest3
+%    is used through the first example, <span style="font-style:
+%      italic;">SpikeSlab</span>.<br>
+%    <h4>Example 1: SpikeSlab</h4>
+%    The first example, called <span style="font-style: italic;">SpikeSlab</span>,
+%    is the demo problem from our <a
+%      href="http://arxiv.org/abs/0912.2380">paper</a>, and is a slight
+%    modification of one of the examples in <a
+%href="http://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.117.5542&amp;rep=rep1&amp;type=pdf">John
+
+
+
+
+
+
+
+
+
+
+%      Skilling's Nested Sampling Paper</a>. It is a problem with 20
+%    unknown parameters, each with a uniform prior between -0.5 and 0.5.
+%    The priors for all of the parameters are independent. The likelihood
+%    function is a mixture of two Gaussians: one is a wide "slab" and the
+%    other is a narrow "spike". The slab is centered at (0, 0, ..., 0)
+%    with a width of 0.1 in each dimension. The spike is centered at
+%    (0.031, 0.031, ..., 0.031) and has a width of 0.01 in each
+%    dimension. This problem is challenging for all sampling algorithms
+%    that are not variants of Nested Sampling.<br>
+%    <br>
+%    To run DNest3 on the <span style="font-style: italic;">SpikeSlab</span>
+%    example, simply compile DNest3, then enter the SpikeSlab directory
+%    and run <span style="font-family: monospace;">main</span>. <br>
+%    <br>
+%    <code><span style="font-family: monospace;">make<br>
+%        cd Examples/SpikeSlab<br>
+%        ./main</span></code><br style="font-family: monospace;">
+%    <br>
+%    You should see a bunch of output that looks like this:<br>
+%    <samp><br>
+%      # Using 1 thread.<br>
+%      # Seeding random number generator with -1337625108.<br>
+%      # Generating 3 particles from the prior...done.<br>
+%      # Creating level 1 with logL = -51.91599704.<br>
+%      # Creating level 2 with logL = -38.68866085.<br>
+%      # Creating level 3 with logL = -29.30928837.<br>
+%      # Creating level 4 with logL = -22.44227047.<br>
+%      # Creating level 5 with logL = -16.947356.<br>
+%      # Creating level 6 with logL = -12.19901323.<br>
+%      # Saving a particle to disk. N = 1.<br>
+%      # Creating level 7 with logL = -8.14478528.<br>
+%      # Creating level 8 with logL = -4.640384951.<br>
+%      # Creating level 9 with logL = -1.486986762.<br>
+%      # Creating level 10 with logL = 1.317628374.<br>
+%      # Saving a particle to disk. N = 2.<br>
+%      # Creating level 11 with logL = 4.137860699.<br>
+%      # Creating level 12 with logL = 6.379241865.<br>
+%      # Creating level 13 with logL = 8.447578631.<br>
+%      # Saving a particle to disk. N = 3.<br>
+%      # Creating level 14 with logL = 10.09126447.<br>
+%      # Creating level 15 with logL = 11.68745251.<span
+%        style="font-family: monospace;"></span><br style="font-family:
+%        monospace;">
+%    </samp><br>
+%    and so on. By default, this process will continue forever (this can
+%    be overridden by using different OPTIONS). At some point, you should
+%    kill it with Ctrl-C. Then, it is time to examine and process the
+%    output. The executable itself creates the following output files:<br>
+%    <br style="font-family: monospace;">
+%    <span style="font-family: monospace;">levels.txt</span><br
+%      style="font-family: monospace;">
+%    <span style="font-family: monospace;">sample.txt</span><br
+%      style="font-family: monospace;">
+%    <span style="font-family: monospace;">sample_info.txt</span><br
+%      style="font-family: monospace;">
+%    <br>
+%    Of these, <span style="font-family: monospace;">sample.txt</span>
+%    is the most important file, as it contains the samples. Each line
+%    corresponds to a sample, a point in the parameter space. However,
+%    the samples in <span style="font-family: monospace;">sample.txt</span>
+%    are <span style="font-style: italic;">not</span> posterior samples.
+%    Instead, they are samples from the mixture distribution that DNest3
+%    actually explores. To actually get posterior samples, you need to
+%    run the post-processing script <span style="font-family:
+%      monospace;">showresults.py</span>. This script produces useful
+%    plots of the sort shown in the <a
+%      href="http://arxiv.org/abs/0912.2380">paper</a>, and also creates
+%    the following additional output files that will probably be of more
+%    interest to you:<br>
+%    <br>
+%    <span style="font-family: monospace;">weights.txt</span><br
+%      style="font-family: monospace;">
+%    <span style="font-family: monospace;">posterior_sample.txt</span><span
+%      style="font-family: monospace;"></span><br style="font-family:
+%      monospace;">
+%    <br>
+%    The file <span style="font-family: monospace;">weights.txt</span>
+%    contains importance weights for the samples in <span
+%      style="font-family: monospace;">sample.txt</span>. Alternatively,
+%    if you are not used to dealing with non-equally-weighted samples,
+%    the file <span style="font-family: monospace;">posterior_sample.txt</span>
+%    is for you!<br>
+%    <br>
+%    <span style="color: rgb(0, 0, 153);">Note: You can also run <span
+%        style="font-family: monospace;">showresults.py</span> while the
+%      main process is still running. In fact, this is recommended in any
+%      non-trivial problem for monitoring the algorithm's progress. The
+%      only issue is that the main process may write to the output files
+%      while <span style="font-family: monospace;">showresults.py</span>
+%      is trying to load them. This may case an "ERROR: Size mismatch"
+%      message to be displayed. The workaround is to suspend the main
+%      process with Ctrl-Z, run <span style="font-family: monospace;">showresults.py</span>
+%      and then resume the main process with <span style="font-family:
+%        monospace;">fg</span>.</span><span style="font-weight: bold;"><br>
+%      <br>
+%    </span>
+%    <h3>Command-Line Options<br>
+%    </h3>
+%    Run <span style="color: rgb(0, 0, 153);"><span style="font-family:
+%        monospace;">./main -h </span></span>to see a list of available
+%    command-line options.<br>
+%    <h3>TODO: Tuning the Numerical Parameters in 'OPTIONS'</h3>
+%    <h3>TODO: Implementing your own Models</h3>
+%    <h3>TODO: Tips and Tricks</h3>
+%    <span style="font-family: serif;"> </span>
+%    <h3>Other Recommended Samplers</h3>
+%    While DNest3 is a very effective sampler and works on a wide range
+%    of problems (including many problems with multi-modal posterior
+%    distributions or strong correlations), there are a few situations
+%    where I would recommend alternative methods. The primary situation
+%    in which DNest3 is not recommended is where the calls to the
+%    likelihood function are expensive, yet the number of parameters is
+%    small to moderate.<br>
+%    <br>
+%    For these problems, I would recommend <a
+%      href="http://github.com/dfm/emcee">emcee</a> in the case where
+%    strong correlations may be present but multimodality is unlikely, or
+%    <a href="http://ccpforge.cse.rl.ac.uk/gf/project/multinest/">MultiNest</a>
+%    if multimodality is expected or if the value of the evidence
+%    integral is required. These samplers also have the advantage of
+%    requring less programming from the user. For example, emcee only
+%    requires a likelihood function, whereas DNest3 requires that you
+%    implement a likelihood function, a function to generate random
+%    models from the prior, and a function for generating
+%    Metropolis-Hastings proposals.<br>
+
+
 
 
 \section{Running the examples}
