@@ -47,8 +47,10 @@ def postprocess(temperature=1., numResampleLogX=1, plot=True, loaded=[], \
 	sample_info = sample_info[int(cut*sample_info.shape[0]):, :]
 
 	if sample.shape[0] != sample_info.shape[0]:
-		print('ERROR. Size mismatch. The usual cause is that you\'re still running DNest3 and it wrote to the files that showresults loads. Try suspending DNest3 temporarily.')
-		exit()
+		print('# Size mismatch. Truncating...')
+		lowest = np.min([sample.shape[0], sample_info.shape[0]])
+		sample = sample[0:lowest, :]
+		sample_info = sample_info[0:lowest, :]
 
 	if plot:
 		if numResampleLogX > 1:
