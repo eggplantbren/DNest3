@@ -34,10 +34,5 @@ string Model::description() const
 	return string("");
 }
 
-double Model::perturb_stretch(const Model& other, double Z)
-{
-	return perturb();
-}
-
 } // namespace DNest3
 

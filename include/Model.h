@@ -42,9 +42,6 @@ class Model
 		// Metropolis-Hastings proposals
 		virtual double perturb() = 0;
 
-		// Stretch moves
-		virtual double perturb_stretch(const Model& other, double Z);
-
 		// Likelihood function
 		virtual double logLikelihood() const = 0;
 

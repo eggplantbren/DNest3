@@ -36,9 +36,6 @@ class MyModel:public DNest3::Model
 		// Metropolis-Hastings proposals
 		double perturb();
 
-		// Stretch moves
-		//double perturb_stretch(const MyModel& other, double Z);
-
 		// Likelihood function
 		double logLikelihood() const;
 
