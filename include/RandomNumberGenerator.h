@@ -97,6 +97,8 @@ class RandomNumberGenerator
 // Global RNG functions using RandomNumberGenerator::instance
 double randomU();
 double randn();
+// Scale mixture of normals
+double randh();
 int randInt(int numPossibilities);
 
 } // namespace DNest3

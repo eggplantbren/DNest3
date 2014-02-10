@@ -89,6 +89,11 @@ double randn()
 	return RandomNumberGenerator::get_instance().randn();
 }
 
+double randh()
+{
+	return pow(10., 1.5 - 6.*randomU())*randn();
+}
+
 int randInt(int numPossibilities)
 {
 	return RandomNumberGenerator::get_instance()
