@@ -33,8 +33,8 @@ namespace DNest3
 template<class ModelType>
 MTSampler<ModelType>::MTSampler(int numThreads, double compression, const Options& options)
 :barrier(new boost::barrier(numThreads))
-,compression(compression)
 ,numThreads(numThreads)
+,compression(compression)
 ,options(options)
 ,particles(numThreads, std::vector<ModelType>(options.numParticles))
 ,logL(numThreads, std::vector<LikelihoodType>(options.numParticles))
