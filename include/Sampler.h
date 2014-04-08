@@ -32,11 +32,11 @@ template<class ModelType>
 class Sampler
 {
 	private:
-		// Options (most useful comment ever)
-		Options options;
-
 		// Target compression value
 		double compression;
+		
+		// Options (most useful comment ever)
+		Options options;
 
 		// Stuff pertaining to the particles
 		std::vector<ModelType> particles;
@@ -56,6 +56,7 @@ class Sampler
 	public:
 		// Constructor: Pass in Options object
 		Sampler(double compression, const Options& options);
+		Sampler(const ModelType& factory, double compression, const Options& options);
 
 		// Load levels from file
 		void loadLevels(const char* filename);
@@ -96,9 +97,31 @@ class Sampler
 		void deleteParticle();
 };
 
+
+template<class ModelType>
+Sampler<ModelType>::Sampler(const ModelType& factory,double compression,const Options& options)
+:compression(compression)
+,options(options)
+,logL(options.numParticles)
+,indices(options.numParticles, 0)
+,levels(1, Level(0., -1E300, 0.))
+,logLKeep(0)
+,initialised(false)
+,count(0)
+{
+
+  logLKeep.reserve(2*options.newLevelInterval);
+  
+  particles.reserve(options.numParticles);
+  
+  for(int i=0;i<options.numParticles;i++){
+    particles.push_back(ModelType(factory));
+  }
+
+}
+
 }
 
 #include "SamplerImpl.h"
 
 #endif
-

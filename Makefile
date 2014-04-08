@@ -9,7 +9,7 @@ INCLUDE_DIR = include
 BUILD_DIR = lib
 
 # Filenames
-FILENAMES = CommandLineOptions Level LikelihoodType Model Options RandomNumberGenerator Utils
+FILENAMES = CommandLineOptions Level LikelihoodType Model Options RandomNumberGenerator Utils api
 SOURCES = $(foreach f, $(FILENAMES), $(SRC_DIR)/$(f).cpp)
 OBJECTS = $(foreach f, $(FILENAMES), $(SRC_DIR)/$(f).o)
 LIB_NAME = libdnest3
