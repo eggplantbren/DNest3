@@ -106,9 +106,9 @@ extern "C" {
   /*Model*/
   /*Constructor*/
   CModel* CModel_new(
-		     const CModelMethods* cbfuncs,
-		     void* init_state   
-		     );
+        CModelMethods* cbfuncs,
+		void* init_state   
+		);
 
   void CModel_delete(CModel* self);
 

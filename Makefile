@@ -1,8 +1,8 @@
 # Compiler settings
 CPP = g++
 # Optimized
-CFLAGS = -fPIC -O2 -Wall -Wextra -ansi -pedantic -DNDEBUG -Wno-unused-parameter
-
+CFLAGS = -fPIC -g -O2 -Wall -Wextra -ansi -pedantic -DNDEBUG -Wno-unused-parameter
+CLIBS=-lgsl -lgslcblas -lboost_thread -lboost_system
 # Directory structure
 SRC_DIR = src
 INCLUDE_DIR = include

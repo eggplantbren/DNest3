@@ -34,3 +34,9 @@ lib
 .DS_Store
 manual.pdf
 
+#emacs auto-save files
+.\#*
+\#*
+
+#other auto-save files
+*~

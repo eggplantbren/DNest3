@@ -242,14 +242,14 @@ void Sampler<ModelType>::updateParticle(int which)
 	// Perturb the proposal particle
 	double logH = 0.;
 
-	// Standard Metropolis move
-	logH = proposal.perturb();
-	logL_proposal.logL = proposal.logLikelihood();
-	logL_proposal.tieBreaker += pow(10., 1.5 - 6.*randomU())*randn();
-	logL_proposal.tieBreaker = mod(logL_proposal.tieBreaker, 1.);
-	if(logH > 0.)
-		logH = 0.;
 
+		// Standard Metropolis move
+		logH = proposal.perturb();
+		logL_proposal.logL = proposal.logLikelihood();
+		logL_proposal.tieBreaker += pow(10., 1.5 - 6.*randomU())*randn();
+		logL_proposal.tieBreaker = mod(logL_proposal.tieBreaker, 1.);
+		if(logH > 0.)
+			logH = 0.;
 	bool accepted = false;
 	if(levels[indices[which]].get_cutoff() < logL_proposal
 		&& randomU() <= exp(logH))
@@ -352,4 +352,3 @@ void Sampler<ModelType>::deleteParticle()
 }
 
 } // namespace DNest3
-

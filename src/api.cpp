@@ -19,7 +19,7 @@ using namespace DNest3;
 struct CModel : Model {
 
   
-  CModel(const CModelMethods* cbfuncs,void* state):state(state),cbfuncs(cbfuncs) {}
+  CModel(CModelMethods* cbfuncs,void* state):state(state),cbfuncs(cbfuncs) {}
 
   CModel(const CModel& other){
     cbfuncs = other.cbfuncs;        
@@ -52,7 +52,7 @@ struct CModel : Model {
   }
 
   void* state=NULL;//place where data goes
-  const CModelMethods* cbfuncs=NULL;//place where C defined methods go
+  CModelMethods* cbfuncs=NULL;//place where C defined methods go
 
   CModel& operator=(const CModel& other){
     cbfuncs = other.cbfuncs;
@@ -216,11 +216,19 @@ void RandomNumberGenerator_set_seed(long seed){
 
 /*Model*/
 CModel* CModel_new(
-		   const CModelMethods* cbfuncs,
-		   void* init_state
+        CModelMethods* cbfuncs,
+        void* init_state
 ){ 
-  return new CModel(cbfuncs,init_state);
-
+  CModel* model=new CModel(cbfuncs,init_state);
+  model->cbfuncs=new CModelMethods();
+  model->cbfuncs->copy=cbfuncs->copy;
+  model->cbfuncs->delete_model=cbfuncs->delete_model;
+  model->cbfuncs->fromPrior=cbfuncs->fromPrior;
+  model->cbfuncs->logLikelihood=cbfuncs->logLikelihood;
+  model->cbfuncs->perturb=cbfuncs->perturb;
+  model->cbfuncs->print=cbfuncs->print;
+  model->cbfuncs->description=cbfuncs->description;
+  return model;
 }
 
 void CModel_delete(CModel* self){
