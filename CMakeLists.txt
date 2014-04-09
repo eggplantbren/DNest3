@@ -69,8 +69,7 @@ ELSE (EXISTS ${BOOST_INCLUDE})
     SET (BOOST_FOUND FALSE)
     ADD_DEFINITIONS(-DDNest3_No_Boost)
 ENDIF (EXISTS ${BOOST_INCLUDE})
-
-
+`
 # ==========================================================================
 #                                                             THE EXECUTABLE
 # ==========================================================================
@@ -87,7 +86,8 @@ SET (DNEST_SRC
      src/Model.cpp
      src/Options.cpp
      src/RandomNumberGenerator.cpp
-     src/Utils.cpp)
+     src/Utils.cpp
+     src/api.cpp)
 
 ADD_LIBRARY (dnest3 STATIC ${DNEST_SRC})
 TARGET_LINK_LIBRARIES (dnest3 ${DNEST_DEPS})
@@ -106,4 +106,5 @@ INSTALL (FILES include/CommandLineOptions.h
                include/Start.h
                include/StartImpl.h
                include/Utils.h
+	       include/DNest3.h
          DESTINATION include/dnest3)

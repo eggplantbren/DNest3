@@ -1,15 +1,15 @@
 # Compiler settings
 CPP = g++
 # Optimized
-CFLAGS = -fPIC -O2 -Wall -Wextra -ansi -pedantic -DNDEBUG -Wno-unused-parameter
-
+CFLAGS = -fPIC -g -O2 -Wall -Wextra -ansi -pedantic -DNDEBUG -Wno-unused-parameter
+CLIBS=-lgsl -lgslcblas -lboost_thread -lboost_system
 # Directory structure
 SRC_DIR = src
 INCLUDE_DIR = include
 BUILD_DIR = lib
 
 # Filenames
-FILENAMES = CommandLineOptions Level LikelihoodType Model Options RandomNumberGenerator Utils
+FILENAMES = CommandLineOptions Level LikelihoodType Model Options RandomNumberGenerator Utils api
 SOURCES = $(foreach f, $(FILENAMES), $(SRC_DIR)/$(f).cpp)
 OBJECTS = $(foreach f, $(FILENAMES), $(SRC_DIR)/$(f).o)
 LIB_NAME = libdnest3
