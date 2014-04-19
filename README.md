@@ -25,69 +25,67 @@ computer:
 * [NumPy](http://numpy.scipy.org/)
 * [matplotlib](http://matplotlib.sourceforge.net/)
 
-Building
-========
-
-You can build DNest3 using [CMake](http://www.cmake.org/).
-
 Mac
 ---
 
 If you're using a Mac, hopefully you're also using
-[Homebrew](http://mxcl.github.com/homebrew/). Please do it.
+[Homebrew](http://mxcl.github.com/homebrew/) or
+[Macports](https://www.macports.org/). Please do it.
 
 Now that we've got that out of the way, install the dependencies:
 
-
 ```
-brew install cmake gsl
-```
-
-and optionally:
-
-```
-brew install boost
+brew install cmake gsl boost
 ```
 
-Then build DNest3:
+or
 
 ```
-git clone https://github.com/eggplantbren/DNest3.git
-cd DNest3
-mkdir build
-cd build
-cmake ..
-make
-make install
+sudo port install cmake gsl boost
 ```
 
 Ubuntu
 ------
 
-First, install the dependencies
+Install the dependencies as follows:
 
 ```
-sudo apt-get install cmake libgsl0-dev
+sudo apt-get install cmake libgsl0-dev libboost-all-dev
 ```
 
-and optionally
+Building
+========
 
-```
-sudo apt-get install libboost-all-dev
-```
-
-Then build the library:
+You can build DNest3 using [CMake](http://www.cmake.org/):
 
 ```
 git clone https://github.com/eggplantbren/DNest3.git
-cd DNest3
-mkdir build
-cd build
+mkdir DNest3/build
+cd DNest3/build
 cmake ..
 make
-sudo make install
+make install
 ```
 
+This will install the DNest3 library and header files into `/usr/local`, while
+example programs are available in `DNest3/build/Examples`.  If required,
+change the installation location by giving a `-DCMAKE_INSTALL_PREFIX` option
+to CMake:
+
+```
+cmake -DCMAKE_INSTALL_PREFIX=/tmp ..
+```
+
+Other useful options include:
+
+* `-DCMAKE_BUILD_TYPE=debug`
+
+  Turn off optimization and include debugging symbols: the resulting code will
+  be much slower.
+
+* `-DBUILD_SHARED_LIBS=true`
+
+  Build `libdnest3` as a shared library.
 
 The Paper
 =========
@@ -95,8 +93,8 @@ The Paper
 If you find this software useful,
 please cite the following paper:
 
-Diffusive Nested Sampling
-Brendon J. Brewer, Livia B. Pártay, and Gábor Csányi
+Diffusive Nested Sampling  
+Brendon J. Brewer, Livia B. Pártay, and Gábor Csányi  
 Statistics and Computing, 2011, 21, 4, 649-656.
 
 The paper is [freely available online](http://arxiv.org/abs/0912.2380) at
