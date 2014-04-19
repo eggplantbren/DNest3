@@ -75,3 +75,11 @@ install (FILES ${DNEST_INCLUDES} DESTINATION include/dnest3)
 # ==========================================================================
 
 add_subdirectory (Examples)
+
+# ==========================================================================
+#                                                          THE DOCUMENTATION
+# ==========================================================================
+
+if (BUILD_MANUAL)
+    add_subdirectory (doc)
+endif (BUILD_MANUAL)

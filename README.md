@@ -87,6 +87,10 @@ Other useful options include:
 
   Build `libdnest3` as a shared library.
 
+* `-DBUILD_MANUAL=true`
+
+  Build a PDF manual in `DNest3/build/doc`. Requires pdfLaTeX.
+
 The Paper
 =========
 
