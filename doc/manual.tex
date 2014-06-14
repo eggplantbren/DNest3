@@ -36,7 +36,8 @@ URL:
 {\tt http://arxiv.org/abs/0912.238}
 \end{center}
 
-If you find \dnest~useful, please feel free to cite the paper.
+If you find \dnest~useful, please feel free to cite the paper. DNest is
+released under the terms of the GNU General Public Licence, version 3.
 
 \section{Installation}
 Please note that I have only ever compiled \dnest~on GNU/Linux,
@@ -65,6 +66,13 @@ both. Here's a list of dependencies:
 \item The thread and system parts of the Boost C++ library.
 It may be easier to just install all of Boost.
 \end{itemize}
+
+On Ubuntu, I can install these packages with the following commands:
+\begin{verbatim}
+sudo apt-get install libgsl0-dev
+sudo apt-get install python-numpy python-matplotlib
+sudo apt-get install libboost-thread-dev libboost-system-dev
+\end{verbatim}
 
 DNest3 uses GSL's random number generator. Python, NumPy and
 matplotlib are used for the postprocessing scripts and for
