@@ -78,14 +78,45 @@ DNest3 uses GSL's random number generator. Python, NumPy and
 matplotlib are used for the postprocessing scripts and for
 plotting. Boost is used for parallelization. While random number generation and
 multithreading is supported
-in the recent C++11 standard, I have not ported~\dnest to C++11 and have no
+in the recent C++11 standard, I have not ported \dnest~to C++11 and have no
 intention of doing so in the immediate future.
 
 \subsection{Compiling}
 Go into the \dnest~directory and type {\tt make}. Everything should compile. To
 verify that everything worked, go into the {\tt Examples/SpikeSlab} directory
-and see if a file called {\tt main} has been created. If so, everything should
-work.
+and see if a file called {\tt main} has been created. If so, everything worked
+correctly.
+
+\subsection{Running DNest}
+As part of the compilation process, several examples will have been compiled.
+The executable files are per-example, there is no global executable for DNest.
+To run the {\tt SpikeSlab} example, go into the {\tt Examples/Spikeslab}
+directory and execute {\tt main}. You should see some output that looks
+like this. Note that you must terminate the process manually by pressing Ctrl+C
+or in another way. If you do not terminate the process yourself, it will run
+forever.
+
+\begin{verbatim}
+$ ./main
+# Using 1 thread.
+# Target compression factor between levels = 2.7182818284590451
+# Seeding random number generator with 1402801184.
+# Thread 1: Generated 1 particles from the prior.
+# Creating level 1 with logL = -51.65058877.
+# Creating level 2 with logL = -37.67550971.
+# Creating level 3 with logL = -28.69668897.
+# Creating level 4 with logL = -21.61338509.
+# Creating level 5 with logL = -15.92331209.
+# Creating level 6 with logL = -11.291182.
+# Saving a particle to disk. N = 1.
+# Creating level 7 with logL = -7.301954778.
+# Creating level 8 with logL = -4.116771404.
+# Creating level 9 with logL = -1.19393518.
+# Creating level 10 with logL = 1.620392784.
+# Saving a particle to disk. N = 2.
+\end{verbatim}
+
+
 
 %    <h3>Compiling<br>
 %    </h3>
