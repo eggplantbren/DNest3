@@ -38,6 +38,8 @@ URL:
 
 If you find \dnest~useful, please feel free to cite the paper. DNest is
 released under the terms of the GNU General Public Licence, version 3.
+In the following I will assume that you have read the paper and have a
+reasonable understanding of how the algorithm works.
 
 \section{Installation}
 Please note that I have only ever compiled \dnest~on GNU/Linux,
@@ -87,15 +89,19 @@ verify that everything worked, go into the {\tt Examples/SpikeSlab} directory
 and see if a file called {\tt main} has been created. If so, everything worked
 correctly.
 
-\subsection{Running DNest}
+\section{Running DNest}
 As part of the compilation process, several examples will have been compiled.
 The executable files are per-example, there is no global executable for DNest.
 To run the {\tt SpikeSlab} example, go into the {\tt Examples/Spikeslab}
-directory and execute {\tt main}. You should see some output that looks
-like this. Note that you must terminate the process manually by pressing Ctrl+C
+directory and execute {\tt main}. You should see some output that looks like
+that shown in Figure~\ref{fig:output}.
+Note that you must terminate the process manually by pressing Ctrl+C
 or in another way. If you do not terminate the process yourself, it will run
-forever.
+forever. There is no hard and fast rule for how long you should run \dnest.
+It depends on the difficulty of your problem, and the number of samples you
+want.
 
+\begin{figure}[h!]
 \begin{verbatim}
 $ ./main
 # Using 1 thread.
@@ -115,7 +121,23 @@ $ ./main
 # Creating level 10 with logL = 1.620392784.
 # Saving a particle to disk. N = 2.
 \end{verbatim}
+\caption{Example \dnest~output.\label{fig:output}}
+\end{figure}
 
+The executable {\tt main} is responsible for the exploration part of the
+Diffusive Nested Sampling algorithm. It creates three output files,
+{\tt sample.txt}, {\tt sample\_info.txt}, {\tt levels.txt}.
+
+The first output
+file, {\tt sample.txt}, contains a sampling of parameter values that
+represents the {\it mixture of constrained priors}, i.e. {\bf not} the
+posterior distribution. Each line of {\tt sample.txt} represents a point in
+parameter space. Each time a point is saved to {\tt sample.txt}, \dnest~prints
+the message ``Saving a particle to disk. N = ...''.
+
+After {\tt main} has been running for
+a while, you should run the postprocessing script
+by executing {\tt python showresults.py}.
 
 
 %    <h3>Compiling<br>
