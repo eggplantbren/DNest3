@@ -154,6 +154,24 @@ plots some graphs, and creates two new output files, {\tt weights.txt} and
 {\tt posterior\_samples.txt}.
 
 
+\section{Command line options}
+\dnest~executables allow for several command line options. These options are
+quite important. You can view the available options by executing
+{\tt ./main -h}. Here is the list:
+
+\begin{verbatim}
+DNest3 Command Line Options:
+-h: display this message
+-l <filename>: load level structure from the specified file.
+-o <filename>: load DNest3 options from the specified file. Default=OPTIONS
+-s <seed>: seed the random number generator with the specified value.
+           If unspecified, the system time is used.
+-d <filename>: Load data from the specified file, if required.
+-c <value>: Specify a compression value (between levels) other than e.
+-t <num_threads>: run on the specified number of threads. Default=1.
+\end{verbatim}
+
+
 \section{The OPTIONS file}
 
 
