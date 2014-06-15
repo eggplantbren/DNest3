@@ -36,7 +36,7 @@ URL:
 {\tt http://arxiv.org/abs/0912.238}
 \end{center}
 
-If you find \dnest~useful, please feel free to cite the paper. DNest is
+If you find \dnest~useful, please feel free to cite the paper. \dnest~is
 released under the terms of the GNU General Public Licence, version 3.
 In the following I will assume that you have read the paper and have a
 reasonable understanding of how the algorithm works.
@@ -50,7 +50,7 @@ to compile \dnest~on Microsoft Windows. If you want to try,
 the MinGW compiler is
 probably your best bet. I'd be interested to hear from anyone who
 has tried this. I would also be interested to hear if anyone has
-compiled DNest3 with a different compiler, such as the Intel C++
+compiled \dnest~with a different compiler, such as the Intel C++
 compiler.
 
 \subsection{Dependencies}
@@ -63,7 +63,7 @@ in Debian or Ubuntu) or -devel suffix (e.g. Fedora). You will need
 both. Here's a list of dependencies:
 
 \begin{itemize}
-\item The GNU Scientific Library
+\item The GNU Scientific Library (GSL)
 \item Python 2, along with NumPy and matplotlib
 \item The thread and system parts of the Boost C++ library.
 It may be easier to just install all of Boost.
@@ -76,7 +76,7 @@ sudo apt-get install python-numpy python-matplotlib
 sudo apt-get install libboost-thread-dev libboost-system-dev
 \end{verbatim}
 
-DNest3 uses GSL's random number generator. Python, NumPy and
+\dnest~uses GSL's random number generator. Python, NumPy and
 matplotlib are used for the postprocessing scripts and for
 plotting. Boost is used for parallelization. While random number generation and
 multithreading is supported
@@ -91,7 +91,7 @@ correctly.
 
 \section{Running DNest}
 As part of the compilation process, several examples will have been compiled.
-The executable files are per-example, there is no global executable for DNest.
+The executable files are per-example, there is no global executable.
 To run the {\tt SpikeSlab} example, go into the {\tt Examples/Spikeslab}
 directory and execute {\tt main}. You should see some output that looks like
 that shown in Figure~\ref{fig:output}.
