@@ -133,11 +133,28 @@ file, {\tt sample.txt}, contains a sampling of parameter values that
 represents the {\it mixture of constrained priors}, i.e. {\bf not} the
 posterior distribution. Each line of {\tt sample.txt} represents a point in
 parameter space. Each time a point is saved to {\tt sample.txt}, \dnest~prints
-the message ``Saving a particle to disk. N = ...''.
+the message ``Saving a particle to disk. N = ...''. To actually get posterior
+samples, you need to run the {\tt showresults.py} script.
 
+The second output file, {\tt sample\_info.txt}, should have the same number of
+lines as {\tt sample.txt}. It contains metadata about the samples. The first
+column is the index $j$, which tells us the level the particle was in when it
+was saved. The second column is the log-likelihood, and the third column is
+the likelihood tiebreaker. The final column tells us which thread the particle
+belonged to.
+
+The third output file, {\tt levels.txt}, contains information about the levels
+that were built during the run.
+
+\section{Postprocessing with showresults.py}
 After {\tt main} has been running for
 a while, you should run the postprocessing script
-by executing {\tt python showresults.py}.
+by executing {\tt python showresults.py}. This script loads the output files,
+plots some graphs, and creates two new output files, {\tt weights.txt} and
+{\tt posterior\_samples.txt}.
+
+
+\section{The OPTIONS file}
 
 
 %    <h3>Compiling<br>
