@@ -111,7 +111,7 @@ unsigned long CommandLineOptions::get_seed_long() const
 
 void CommandLineOptions::printHelp() const
 {
-	cout<<"DNest 3 Command Line Options: "<<endl;
+	cout<<"DNest3 Command Line Options: "<<endl;
 	cout<<"-h: display this message"<<endl;
 	cout<<"-l <filename>: load level structure from the specified file."<<endl;
 	cout<<"-o <filename>: load DNest3 options from the specified file. Default=OPTIONS"<<endl;
