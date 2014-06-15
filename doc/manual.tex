@@ -26,7 +26,7 @@
 
 \section{Introduction}
 
-\dnest~is a C++ implementation of Diffusive Nested Sampling, a
+\dnest~is a multi-threaded C++ implementation of Diffusive Nested Sampling, a
 powerful Markov Chain Monte Carlo (MCMC) algorithm that is primarily
 useful for solving Bayesian Inference problems. For information about how the
 algorithm works, please see the paper, available as a preprint at the following
@@ -54,7 +54,7 @@ compiler.
 \subsection{Dependencies}
 \dnest~depends on some other software that you will need to have installed on
 your system. These should be quite easy to obtain. I highly
-recommend obtaining these programs from your OS's package manager,
+recommend obtaining these programs from your operating system's package manager,
 rather than installing them from source. Note that some OSs split up
 packages into binaries and "development" packages, with a -dev (e.g.
 in Debian or Ubuntu) or -devel suffix (e.g. Fedora). You will need
@@ -76,8 +76,9 @@ sudo apt-get install libboost-thread-dev libboost-system-dev
 
 DNest3 uses GSL's random number generator. Python, NumPy and
 matplotlib are used for the postprocessing scripts and for
-plotting. Boost is used for parallelization (I have not ported \dnest~to
-C++11).
+plotting. Boost is used for parallelization. While multithreading is supported
+in the recent C++11 standard, I have not ported~\dnest to C++11 and have no
+intention of doing so in the immediate future.
 
 \subsection{Compiling}
 Go into the \dnest~directory and type {\tt make}. Everything should compile. To
