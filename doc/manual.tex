@@ -171,9 +171,20 @@ DNest3 Command Line Options:
 -t <num_threads>: run on the specified number of threads. Default=1.
 \end{verbatim}
 The most important option is the one about the number of threads. Depending on
-your computer, you probably want to run more than one thread. To execute
-DNest with 8 threads, simply use {\tt ./main -t 8}. To execute DNest with
+your computer, you probably want to run \dnest~with more than one thread.
+Each thread will be responsible for evolving its own walker(s), and periodically
+the threads will pool their results (for example, information about the
+levels). To execute DNest with 8 threads, simply use {\tt ./main -t 8}. You can
+replace 8 with however many threads you want.
+
+In many Monte Carlo studies, it is useful to be able to set the random number
+seed, for debugging and reproducibility reasons. By default \dnest~seeds the
+random number generator with the system time. If you want to set the seed to
+something else, use the {\tt -s} option and specify a non-negative integer for
+the seed. For example, to execute \dnest~with
 8 threads and a seed of 42, use {\tt ./main -t 8 -s 42}.
+When running with multiple threads, \dnest~uses a separate generator for each
+thread, and ensures that they are seeded with different values.
 
 \section{The OPTIONS file}
 
