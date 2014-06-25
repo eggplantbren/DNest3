@@ -176,7 +176,22 @@ DNest with 8 threads, simply use {\tt ./main -t 8}. To execute DNest with
 8 threads and a seed of 42, use {\tt ./main -t 8 -s 42}.
 
 \section{The OPTIONS file}
-
+Here is an example OPTIONS file.
+\begin{verbatim}
+1	# Number of particles
+10000	# new level interval
+100000	# save interval
+200	# threadSteps
+100	# maximum number of levels
+10	# Backtracking scale length (lambda in the paper)
+10	# Strength of effect to force histogram to equal push. (beta in the paper)
+0	# Maximum number of saves (0 = infinite)
+\end{verbatim}
+The first option is the number of particles {\it per thread}. If you run
+\dnest~with 8 threads, there will actually be 8 particles. For most
+applications, 1 particle per thread is sufficient. If you use more particles
+per thread, the same amount of CPU time will be spent evolving more particles,
+so each one will not be evolved as far.
 
 %    <h3>Compiling<br>
 %    </h3>
