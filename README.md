@@ -125,6 +125,7 @@ along with DNest3. If not, see <http://www.gnu.org/licenses/>.
 Contributors
 ============
 
-Daniel Foreman-Mackey (NYU)
-John Swinbank <http://swinbank.org>
+Dan Foreman-Mackey (<http://dan.iel.fm/>)
+
+John Swinbank (<http://swinbank.org>)
 
