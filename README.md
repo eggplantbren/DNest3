@@ -32,10 +32,15 @@ Dependencies
 ============
 
 DNest3 requires that you have the following packages installed on your
-computer:
+computer. The first two will be required to compile the C++ part of DNest3
+which is responsible for the MCMC runs themselves.
 
 * [GNU Scientific Library (GSL)](http://www.gnu.org/software/gsl/)
-* [Boost](http://www.boost.org/) (optional but highly recommended)
+* [Boost](http://www.boost.org/)
+
+These extra packages will be needed to execute the postprocessing
+and plotting code, which is written in Python.
+
 * [Python 2](http://www.python.org/)
 * [NumPy](http://numpy.scipy.org/)
 * [matplotlib](http://matplotlib.sourceforge.net/)
