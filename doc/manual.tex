@@ -84,16 +84,20 @@ in the recent C++11 standard, I have not ported \dnest~to C++11 and have no
 intention of doing so in the immediate future.
 
 \subsection{Compiling}
-Go into the \dnest~directory and type {\tt make}. Everything should compile. To
+Please follow the instruction in the README to build using cmake. This is the
+recommended option.
+
+%Go into the \dnest~directory and type {\tt make}. Everything should compile.
+To
 verify that everything worked, go into the {\tt Examples/SpikeSlab} directory
-and see if a file called {\tt main} has been created. If so, everything worked
+and see if a file called {\tt SpikeSlab} has been created. If so, everything worked
 correctly.
 
 \section{Running DNest}
 As part of the compilation process, several examples will have been compiled.
 The executable files are per-example, there is no global executable.
 To run the {\tt SpikeSlab} example, go into the {\tt Examples/Spikeslab}
-directory and execute {\tt main}. You should see some output that looks like
+directory and execute {\tt SpikeSlab}. You should see some output that looks like
 that shown in Figure~\ref{fig:output}.
 Note that you must terminate the process manually by pressing Ctrl+C
 or in another way. If you do not terminate the process yourself, it will run
@@ -103,7 +107,7 @@ want.
 
 \begin{figure}[h!]
 \begin{verbatim}
-$ ./main
+$ ./SpikeSlab
 # Using 1 thread.
 # Target compression factor between levels = 2.7182818284590451
 # Seeding random number generator with 1402801184.
@@ -124,7 +128,7 @@ $ ./main
 \caption{Example \dnest~output.\label{fig:output}}
 \end{figure}
 
-The executable {\tt main} is responsible for the exploration part of the
+The executable {\tt SpikeSlab} is responsible for the exploration part of the
 Diffusive Nested Sampling algorithm. It creates three output files,
 {\tt sample.txt}, {\tt sample\_info.txt}, {\tt levels.txt}.
 
@@ -147,7 +151,7 @@ The third output file, {\tt levels.txt}, contains information about the levels
 that were built during the run.
 
 \section{Postprocessing with showresults.py}
-After {\tt main} has been running for
+After {\tt SpikeSlab} has been running for
 a while, you should run the postprocessing script
 by executing {\tt python showresults.py}. This script loads the output files,
 plots some graphs, and creates two new output files, {\tt weights.txt} and
@@ -157,7 +161,7 @@ plots some graphs, and creates two new output files, {\tt weights.txt} and
 \section{Command line options}
 \dnest~executables allow for several command line options. These options are
 quite important. You can view the available options by executing
-{\tt ./main -h}. Here is the list:
+{\tt ./SpikeSlab -h}. Here is the list:
 
 \begin{verbatim}
 DNest3 Command Line Options:
@@ -174,7 +178,7 @@ The most important option is the one about the number of threads. Depending on
 your computer, you probably want to run \dnest~with more than one thread.
 Each thread will be responsible for evolving its own walker(s), and periodically
 the threads will pool their results (for example, information about the
-levels). To execute DNest with 8 threads, simply use {\tt ./main -t 8}. You can
+levels). To execute DNest with 8 threads, simply use {\tt ./SpikeSlab -t 8}. You can
 replace 8 with however many threads you want.
 
 In many Monte Carlo studies, it is useful to be able to set the random number
@@ -182,7 +186,7 @@ seed, for debugging and reproducibility reasons. By default \dnest~seeds the
 random number generator with the system time. If you want to set the seed to
 something else, use the {\tt -s} option and specify a non-negative integer for
 the seed. For example, to execute \dnest~with
-8 threads and a seed of 42, use {\tt ./main -t 8 -s 42}.
+8 threads and a seed of 42, use {\tt ./SpikeSlab -t 8 -s 42}.
 When running with multiple threads, \dnest~uses a separate generator for each
 thread, and ensures that they are seeded with different values.
 
