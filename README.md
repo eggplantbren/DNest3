@@ -91,7 +91,7 @@ make install
 <!--DNest3 directory to your PYTHONPATH.-->
 
 This will install the DNest3 library and header files into `/usr/local`, while
-example programs are available in `DNest3/build/Examples`.  If required,
+example programs are available in `DNest3/Examples`.  If required,
 change the installation location by giving a `-DCMAKE_INSTALL_PREFIX` option
 to CMake:
 
