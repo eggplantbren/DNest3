@@ -87,8 +87,8 @@ make
 make install
 ```
 
-Then please copy postprocess.py to somewhere in your PYTHONPATH, or add the
-DNest3 directory to your PYTHONPATH.
+<!--Then please copy postprocess.py to somewhere in your PYTHONPATH, or add the-->
+<!--DNest3 directory to your PYTHONPATH.-->
 
 This will install the DNest3 library and header files into `/usr/local`, while
 example programs are available in `DNest3/build/Examples`.  If required,

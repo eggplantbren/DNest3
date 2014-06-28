@@ -34,3 +34,8 @@ lib
 .DS_Store
 manual.pdf
 
+# Executables
+SpikeSlab
+FitSine
+HarlemShake
+
