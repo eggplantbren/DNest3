@@ -126,4 +126,5 @@ Contributors
 ============
 
 Daniel Foreman-Mackey (NYU)
+John Swinbank <http://swinbank.org>
 
