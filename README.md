@@ -1,17 +1,32 @@
 Welcome to DNest3
 =================
 
-DNest3 is a C++ implementation of Diffusive Nested Sampling, a Markov Chain
+DNest3 is a free software
+C++ implementation of Diffusive Nested Sampling, a Markov Chain
 Monte Carlo (MCMC) algorithm for Bayesian Inference and Statistical Mechanics.
 
 Relative to older DNest versions, DNest3 has improved performance
 (in terms of the sampling overhead, likelihood evaluations still dominate in
 general) and is cleaner code: implementing new models should be easier than it
-was before.
+was before. In addition, DNest3 is multi-threaded, so you can run multiple
+MCMC walkers at the same time, and the results will be combined together.
 
 For documentation (currently in a draft state),
-please open Docs/index.html in your browser or
-click [here](http://eggplantbren.github.com/DNest3).
+please compile the LaTeX manual in the doc directory.
+
+The Paper
+=========
+
+Before you use DNest3, you might want to read the paper describing the
+Diffusive Nested Sampling algorithm. If you find this software useful in your
+own work, please also feel free to cite this paper.
+
+Diffusive Nested Sampling  
+Brendon J. Brewer, Livia B. Pártay, and Gábor Csányi  
+Statistics and Computing, 2011, 21, 4, 649-656.
+
+The paper is [freely available online](http://arxiv.org/abs/0912.2380) at
+the [arXiv](http://www.arxiv.org/).
 
 Dependencies
 ============
@@ -91,18 +106,6 @@ Other useful options include:
 
   Build a PDF manual in `DNest3/build/doc`. Requires pdfLaTeX.
 
-The Paper
-=========
-
-If you find this software useful,
-please cite the following paper:
-
-Diffusive Nested Sampling  
-Brendon J. Brewer, Livia B. Pártay, and Gábor Csányi  
-Statistics and Computing, 2011, 21, 4, 649-656.
-
-The paper is [freely available online](http://arxiv.org/abs/0912.2380) at
-the [arXiv](http://www.arxiv.org/).
 
 Copyright and Licence
 =====================
