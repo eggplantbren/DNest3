@@ -1,86 +1,45 @@
-# Metadata for the build
-CMAKE_MINIMUM_REQUIRED (VERSION 2.8.0)
-PROJECT (DNest3 C CXX)
-SET (THRESHER_VERSION 0.0.1)
+project (DNest3 C CXX)
+cmake_minimum_required (VERSION 2.8.0)
+
+set (CMAKE_MODULE_PATH "${PROJECT_SOURCE_DIR}/cmake")
+
+set (CMAKE_CXX_FLAGS "-Wall -Wextra -pedantic -ansi -Wno-unused-parameter")
+set (CMAKE_CXX_FLAGS_RELEASE "-O2 -DNDEBUG")
+set (CMAKE_CXX_FLAGS_DEBUG "-O0 -g")
+if (NOT CMAKE_BUILD_TYPE)
+    set (CMAKE_BUILD_TYPE "release")
+endif (NOT CMAKE_BUILD_TYPE)
 
 # Initialize the dependencies to an empty list.
-SET (DNEST_DEPS)
-
-# Default search directories.
-LIST (APPEND SEARCH_LIBS /usr/lib)
-LIST (APPEND SEARCH_LIBS /usr/local/lib)
-LIST (APPEND SEARCH_LIBS /usr/local/homebrew/lib)
-LIST (APPEND SEARCH_LIBS /opt/local/lib)
-
-LIST (APPEND SEARCH_HEADERS /usr/include)
-LIST (APPEND SEARCH_HEADERS /usr/local/include)
-LIST (APPEND SEARCH_HEADERS /usr/local/homebrew/include)
-LIST (APPEND SEARCH_HEADERS /opt/local/include)
-
+set (DNEST_DEPS)
 
 # ==========================================================================
 #                                                                        GSL
 # ==========================================================================
 
-MESSAGE ("-- Check for GSL")
-SET (GSL_FOUND TRUE)
-
-SET (GSL_SEARCH_LIBS SEARCH_LIBS)
-LIST (APPEND GSL_SEARCH_LIBS /usr/lib/gsl)
-LIST (APPEND GSL_SEARCH_LIBS /usr/local/lib/gsl)
-LIST (APPEND GSL_SEARCH_LIBS /usr/local/homebrew/lib/gsl)
-LIST (APPEND GSL_SEARCH_LIBS /opt/local/lib)
-FIND_LIBRARY (GSL_LIB NAMES gsl PATHS ${GSL_SEARCH_LIBS})
-IF (NOT EXISTS ${GSL_LIB})
-    MESSAGE(FATAL_ERROR "Can't find GSL. Try passing -DGSL_LIB=...")
-ENDIF (NOT EXISTS ${GSL_LIB})
-MESSAGE("-- Found GSL library: ${GSL_LIB}")
-LIST (APPEND DNEST_DEPS ${GSL_LIB})
-
-SET (GSL_SEARCH_HEADERS SEARCH_HEADERS)
-LIST (APPEND GSL_SEARCH_HEADERS /usr/include/gsl)
-LIST (APPEND GSL_SEARCH_HEADERS /usr/local/include/gsl)
-LIST (APPEND GSL_SEARCH_HEADERS /usr/local/homebrew/include/gsl)
-LIST (APPEND GSL_SEARCH_HEADERS /opt/local/include)
-FIND_PATH (GSL_INCLUDE NAMES gsl/gsl_randist.h gsl/gsl_rng.h PATHS ${GSL_SEARCH_HEADERS})
-IF (NOT EXISTS ${GSL_INCLUDE})
-    MESSAGE(FATAL_ERROR "Can't find GSL headers. Try passing -DGSL_INCLUDE=...")
-ENDIF (NOT EXISTS ${GSL_INCLUDE})
-MESSAGE("-- Found GSL headers: ${GSL_INCLUDE}")
-
+find_package (GSL REQUIRED)
+list (APPEND DNEST_DEPS ${GSL_LIBRARIES})
+include_directories (${GSL_INCLUDES})
 
 # ==========================================================================
 #                                                                      BOOST
 # ==========================================================================
 
-MESSAGE ("-- Check for Boost (optional)")
-SET (BOOST_FOUND TRUE)
-
-SET (BOOST_SEARCH_HEADERS SEARCH_HEADERS)
-LIST (APPEND BOOST_SEARCH_HEADERS /usr/include/boost)
-LIST (APPEND BOOST_SEARCH_HEADERS /usr/local/include/boost)
-LIST (APPEND BOOST_SEARCH_HEADERS /usr/local/homebrew/include/boost)
-LIST (APPEND BOOST_SEARCH_HEADERS /opt/local/include)
-FIND_PATH (BOOST_INCLUDE NAMES boost/thread.hpp boost/thread/tss.hpp boost/bind.hpp PATHS ${BOOST_SEARCH_HEADERS})
-IF (EXISTS ${BOOST_INCLUDE})
-    MESSAGE("-- Found Boost headers: ${BOOST_INCLUDE}")
-ELSE (EXISTS ${BOOST_INCLUDE})
-    MESSAGE("-- Didn't find Boost headers")
-    SET (BOOST_FOUND FALSE)
-    ADD_DEFINITIONS(-DDNest3_No_Boost)
-ENDIF (EXISTS ${BOOST_INCLUDE})
-
+find_package (Boost COMPONENTS thread system)
+if (Boost_FOUND)
+    list (APPEND DNEST_DEPS ${Boost_LIBRARIES})
+    include_directories (${Boost_INCLUDES})
+else (Boost_FOUND)
+    add_definitions (-DDNest3_No_Boost)
+endif (Boost_FOUND)
 
 # ==========================================================================
-#                                                             THE EXECUTABLE
+#                                                                THE LIBRARY
 # ==========================================================================
 
-INCLUDE_DIRECTORIES (include
-                     src
-                     ${GSL_INCLUDE}
-                     ${BOOST_INCLUDE})
+include_directories (include)
 
-SET (DNEST_SRC
+set (DNEST_SRC
      src/CommandLineOptions.cpp
      src/Level.cpp
      src/LikelihoodType.cpp
@@ -89,21 +48,38 @@ SET (DNEST_SRC
      src/RandomNumberGenerator.cpp
      src/Utils.cpp)
 
-ADD_LIBRARY (dnest3 STATIC ${DNEST_SRC})
-TARGET_LINK_LIBRARIES (dnest3 ${DNEST_DEPS})
+set (DNEST_INCLUDES
+     include/CommandLineOptions.h
+     include/Level.h
+     include/LikelihoodType.h
+     include/MTSampler.h
+     include/MTSamplerImpl.h
+     include/Model.h
+     include/Options.h
+     include/RandomNumberGenerator.h
+     include/Sampler.h
+     include/SamplerImpl.h
+     include/Start.h
+     include/StartImpl.h
+     include/Utils.h
+)
 
-INSTALL (TARGETS dnest3 DESTINATION lib)
-INSTALL (FILES include/CommandLineOptions.h
-               include/Level.h
-               include/LikelihoodType.h
-               include/MTSampler.h
-               include/MTSamplerImpl.h
-               include/Model.h
-               include/Options.h
-               include/RandomNumberGenerator.h
-               include/Sampler.h
-               include/SamplerImpl.h
-               include/Start.h
-               include/StartImpl.h
-               include/Utils.h
-         DESTINATION include/dnest3)
+add_library (dnest3 ${DNEST_SRC})
+target_link_libraries (dnest3 ${DNEST_DEPS})
+
+install (TARGETS dnest3 DESTINATION lib)
+install (FILES ${DNEST_INCLUDES} DESTINATION include/dnest3)
+
+# ==========================================================================
+#                                                               THE EXAMPLES
+# ==========================================================================
+
+add_subdirectory (Examples)
+
+# ==========================================================================
+#                                                          THE DOCUMENTATION
+# ==========================================================================
+
+if (BUILD_MANUAL)
+    add_subdirectory (doc)
+endif (BUILD_MANUAL)
