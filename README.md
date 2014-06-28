@@ -107,7 +107,7 @@ the [arXiv](http://www.arxiv.org/).
 Copyright and Licence
 =====================
 
-DNest3 is Copyright (c) 2009-2012 Brendon J. Brewer.
+DNest3 is Copyright (c) 2009-2014 Brendon J. Brewer.
 
 DNest3 is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
