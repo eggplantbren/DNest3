@@ -57,7 +57,7 @@ compiler.
 \dnest~depends on some other software that you will need to have installed on
 your system. These should be quite easy to obtain. I highly
 recommend obtaining these programs from your operating system's package manager,
-rather than installing them from source. Note that some OSs split up
+rather than installing them from the source code. Note that some OSs split up
 packages into binaries and "development" packages, with a -dev (e.g.
 in Debian or Ubuntu) or -devel suffix (e.g. Fedora). You will need
 both. Here's a list of dependencies:
@@ -83,8 +83,11 @@ multithreading is supported
 in the recent C++11 standard, I have not ported \dnest~to C++11 and have no
 intention of doing so in the immediate future.
 
+It is also possible to compile \dnest~without Boost, however this is not
+recommended, and you will not be able to use any of the multi-threaded options.
+
 \subsection{Compiling}
-Please follow the instruction in the README to build using cmake. This is the
+Please follow the instruction in README.md to build using cmake. This is the
 recommended option.
 
 %Go into the \dnest~directory and type {\tt make}. Everything should compile.
