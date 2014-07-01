@@ -164,6 +164,15 @@ by executing {\tt python showresults.py}. This script loads the output files,
 plots some graphs, and creates two new output files, {\tt weights.txt} and
 {\tt posterior\_samples.txt}.
 
+The plots made by {\tt showresults.py} are conceptually similar to plots in
+the DNS paper. The first plot shows the level of the saved particles vs.
+time, the equivalent of Figure 2 in the paper. The second plot produced by
+{\tt showresults.py} shows the estimated compression values of the levels,
+like in Figure 3 of the paper, along with the Metropolis acceptance fraction
+as a function of the level (as you would expect, this usually shows a
+decreasing trend). The final plot corresponds to Figure 4 from the paper, and
+shows the shape of the likelihood curve along with the posterior weights of
+the saved particles.
 
 \section{Command line options}
 \dnest~executables allow for several command line options. These options are
