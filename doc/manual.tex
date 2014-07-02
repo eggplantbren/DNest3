@@ -162,7 +162,10 @@ After {\tt main} has been running for
 a while, you should run the postprocessing script
 by executing {\tt python showresults.py}. This script loads the output files,
 plots some graphs, and creates two new output files, {\tt weights.txt} and
-{\tt posterior\_samples.txt}.
+{\tt posterior\_samples.txt}. It also prints the current estimate of the
+(log of the) marginal likelihood or evidence value (traditionally considered
+the main goal of Nested Sampling), as well as the information value (the KL
+divergence from the prior to the posterior).
 
 The plots made by {\tt showresults.py} are conceptually similar to plots in
 the DNS paper. The first plot shows the level of the saved particles vs.
