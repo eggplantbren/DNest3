@@ -34,6 +34,11 @@ double mod(double y, double x)
 	return (y/x - floor(y/x))*x;
 }
 
+void wrap(double& x, double min, double max)
+{
+	x = mod(x - min, max - min) + min;
+}
+
 int mod(int y, int x)
 {
 	if(x <= 0)

@@ -27,6 +27,7 @@ namespace DNest3
 
 double mod(double y, double x);
 int mod(int y, int x);
+void wrap(double& x, double min, double max);
 double logsumexp(double* logv, int n);
 double logsumexp(const std::vector<double>& logv);
 double logsumexp(double a, double b);
