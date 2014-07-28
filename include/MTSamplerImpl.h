@@ -285,7 +285,7 @@ void MTSampler<ModelType>::createLevel()
 	std::cout<<"# Creating level "<<_levels.size()
 			<<" with logL = "<<cutoff.logL
 			<<"."<<std::endl;
-	_levels.push_back(Level(_levels.back().get_logX() - 1., cutoff));
+	_levels.push_back(Level(_levels.back().get_logX() - log(compression), cutoff));
 
 	if(static_cast<int>(_levels.size()) == options.maxNumLevels)
 	{

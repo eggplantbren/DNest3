@@ -159,7 +159,7 @@ bool Sampler<ModelType>::bookKeeping(int which)
 		std::cout<<"# Creating level "<<levels.size()
 			<<" with logL = "<<cutoff.logL
 			<<"."<<std::endl;
-		levels.push_back(Level(levels.back().get_logX() - 1., cutoff));
+		levels.push_back(Level(levels.back().get_logX() - log(compression), cutoff));
 
 		if(static_cast<int>(levels.size()) == options.maxNumLevels)
 		{
