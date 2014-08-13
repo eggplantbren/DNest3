@@ -33,7 +33,7 @@ def logdiffexp(x1, x2):
 	return result
 
 def postprocess(temperature=1., numResampleLogX=1, plot=True, loaded=[], \
-			cut=0., save=True, zoom_in=True, compression_uncertainty=0.):
+			cut=0., save=True, zoom_in=True, compression_bias_min=1., compression_scatter=0.):
 	if len(loaded) == 0:
 		levels_orig = np.atleast_2d(np.loadtxt("levels.txt"))
 		sample_info = np.atleast_2d(np.loadtxt("sample_info.txt"))
@@ -104,7 +104,8 @@ def postprocess(temperature=1., numResampleLogX=1, plot=True, loaded=[], \
 		# Make a monte carlo perturbation of the level compressions
 		levels = levels_orig.copy()
 		compressions = -np.diff(levels[:,0])
-		compressions *= np.exp(compression_uncertainty*np.random.randn(compressions.size))
+		compressions *= compression_bias_min + (1. - compression_bias_min)*np.random.rand()
+		compressions *= np.exp(compression_scatter*np.random.randn(compressions.size))
 		levels[1:, 0] = -compressions
 		levels[:, 0] = np.cumsum(levels[:,0])
 
