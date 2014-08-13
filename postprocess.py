@@ -33,15 +33,15 @@ def logdiffexp(x1, x2):
 	return result
 
 def postprocess(temperature=1., numResampleLogX=1, plot=True, loaded=[], \
-			cut=0., save=True, zoom_in=True):
+			cut=0., save=True, zoom_in=True, compression_uncertainty=0.):
 	if len(loaded) == 0:
-		levels = np.atleast_2d(np.loadtxt("levels.txt"))
+		levels_orig = np.atleast_2d(np.loadtxt("levels.txt"))
 		sample_info = np.atleast_2d(np.loadtxt("sample_info.txt"))
 		sample = np.atleast_2d(np.loadtxt("sample.txt"))
 		#if(sample.shape[0] == 1):
 		#	sample = sample.T
 	else:
-		levels, sample_info, sample = loaded[0], loaded[1], loaded[2]
+		levels_orig, sample_info, sample = loaded[0], loaded[1], loaded[2]
 
 	sample = sample[int(cut*sample.shape[0]):, :]
 	sample_info = sample_info[int(cut*sample_info.shape[0]):, :]
@@ -65,7 +65,7 @@ def postprocess(temperature=1., numResampleLogX=1, plot=True, loaded=[], \
 
 		plt.figure(2)
 		plt.subplot(2,1,1)
-		plt.plot(np.diff(levels[:,0]))
+		plt.plot(np.diff(levels_orig[:,0]))
 		plt.ylabel("Compression")
 		plt.xlabel("Level")
 		xlim = plt.gca().get_xlim()
@@ -75,8 +75,8 @@ def postprocess(temperature=1., numResampleLogX=1, plot=True, loaded=[], \
 			plt.draw()
 
 		plt.subplot(2,1,2)
-		good = np.nonzero(levels[:,4] > 0)[0]
-		plt.plot(levels[good,3]/levels[good,4])
+		good = np.nonzero(levels_orig[:,4] > 0)[0]
+		plt.plot(levels_orig[good,3]/levels_orig[good,4])
 		plt.xlim(xlim)
 		plt.ylim([0., 1.])
 		plt.xlabel("Level")
@@ -85,7 +85,7 @@ def postprocess(temperature=1., numResampleLogX=1, plot=True, loaded=[], \
 			plt.draw()
 
 	# Convert to lists of tuples
-	logl_levels = [(levels[i,1], levels[i, 2]) for i in xrange(0, levels.shape[0])] # logl, tiebreaker
+	logl_levels = [(levels_orig[i,1], levels_orig[i, 2]) for i in xrange(0, levels_orig.shape[0])] # logl, tiebreaker
 	logl_samples = [(sample_info[i, 1], sample_info[i, 2], i) for i in xrange(0, sample.shape[0])] # logl, tiebreaker, id
 	logx_samples = np.zeros((sample_info.shape[0], numResampleLogX))
 	logp_samples = np.zeros((sample_info.shape[0], numResampleLogX))
@@ -97,10 +97,17 @@ def postprocess(temperature=1., numResampleLogX=1, plot=True, loaded=[], \
 	# Find sandwiching level for each sample
 	sandwich = sample_info[:,0].copy().astype('int')
 	for i in xrange(0, sample.shape[0]):
-		while sandwich[i] < levels.shape[0]-1 and logl_samples[i] > logl_levels[sandwich[i] + 1]:
+		while sandwich[i] < levels_orig.shape[0]-1 and logl_samples[i] > logl_levels[sandwich[i] + 1]:
 			sandwich[i] += 1
 
 	for z in xrange(0, numResampleLogX):
+		# Make a monte carlo perturbation of the level compressions
+		levels = levels_orig.copy()
+		compressions = -np.diff(levels[:,0])
+		compressions *= np.exp(compression_uncertainty*np.random.randn(compressions.size))
+		levels[1:, 0] = -compressions
+		levels[:, 0] = np.cumsum(levels[:,0])
+
 		# For each level
 		for i in range(0, levels.shape[0]):
 			# Find the samples sandwiched by this level
@@ -153,28 +160,29 @@ def postprocess(temperature=1., numResampleLogX=1, plot=True, loaded=[], \
 
 		if plot:
 			plt.figure(3)
-			if z == 0:
-				plt.subplot(2,1,1)
-				plt.plot(logx_samples[:,z], sample_info[:,1], 'b.', label='Samples')
-				plt.hold(True)
-				plt.plot(levels[1:,0], levels[1:,1], 'r.', label='Levels')
-				plt.legend(numpoints=1, loc='lower left')
-				plt.ylabel('log(L)')
-				plt.title(str(z+1) + "/" + str(numResampleLogX) + ", log(Z) = " + str(logz_estimates[z][0]))
-				# Use all plotted logl values to set ylim
-				combined_logl = np.hstack([sample_info[:,1], levels[1:, 1]])
-				combined_logl = np.sort(combined_logl)
-				lower = combined_logl[int(0.1*combined_logl.size)]
-				upper = combined_logl[-1]
-				diff = upper - lower
-				lower -= 0.05*diff
-				upper += 0.05*diff
-				if zoom_in:
-					plt.ylim([lower, upper])
 
-				if numResampleLogX > 1:
-					plt.draw()
-				xlim = plt.gca().get_xlim()
+			plt.subplot(2,1,1)
+			plt.hold(False)
+			plt.plot(logx_samples[:,z], sample_info[:,1], 'b.', label='Samples')
+			plt.hold(True)
+			plt.plot(levels[1:,0], levels[1:,1], 'r.', label='Levels')
+			plt.legend(numpoints=1, loc='lower left')
+			plt.ylabel('log(L)')
+			plt.title(str(z+1) + "/" + str(numResampleLogX) + ", log(Z) = " + str(logz_estimates[z][0]))
+			# Use all plotted logl values to set ylim
+			combined_logl = np.hstack([sample_info[:,1], levels[1:, 1]])
+			combined_logl = np.sort(combined_logl)
+			lower = combined_logl[int(0.1*combined_logl.size)]
+			upper = combined_logl[-1]
+			diff = upper - lower
+			lower -= 0.05*diff
+			upper += 0.05*diff
+			if zoom_in:
+				plt.ylim([lower, upper])
+
+			if numResampleLogX > 1:
+				plt.draw()
+			xlim = plt.gca().get_xlim()
 
 		if plot:
 			plt.subplot(2,1,2)
