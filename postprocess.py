@@ -33,7 +33,7 @@ def logdiffexp(x1, x2):
 	return result
 
 def postprocess(temperature=1., numResampleLogX=1, plot=True, loaded=[], \
-			cut=0., save=True, zoom_in=True, compression_bias_min=1., compression_scatter=0.):
+			cut=0., save=True, zoom_in=True, compression_bias_min=1., compression_scatter=0., moreSamples=1.):
 	if len(loaded) == 0:
 		levels_orig = np.atleast_2d(np.loadtxt("levels.txt"))
 		sample_info = np.atleast_2d(np.loadtxt("sample_info.txt"))
@@ -208,7 +208,7 @@ def postprocess(temperature=1., numResampleLogX=1, plot=True, loaded=[], \
 	print("Effective sample size = " + str(ESS))
 
 	# Resample to uniform weight
-	N = int(ESS)
+	N = int(moreSamples*ESS)
 	posterior_sample = np.zeros((N, sample.shape[1]))
 	w = P_samples
 	w = w/np.max(w)
