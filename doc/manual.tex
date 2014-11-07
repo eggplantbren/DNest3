@@ -5,6 +5,7 @@
 \usepackage{graphicx} % This allows you to put figures in
 \usepackage{natbib}   % This allows for relatively pain-free reference lists
 \usepackage[left=2cm,top=3cm,right=2cm]{geometry} % The way I like the margins
+\usepackage{framed}
 
 \newcommand{\dnest}{{\tt DNest3}}
 
@@ -104,13 +105,15 @@ verify that the compilation was successful,
 go into the {\tt Examples/SpikeSlab} directory
 and see if an executable file called {\tt main} has been created. If you
 execute this file, you should see a lot of output about ``levels'' and
-``particles''. You will need to manually terminate this process by using
+``particles'' (see Figure~\ref{fig:output} for example output).
+You will need to manually terminate this process by using
 Control+C, or whatever works in your operating system. If you saw this output,
 \dnest~was compiled successfully.\\
 
 \section{Running DNest}
 As part of the compilation process, several examples will have been compiled.
-The executable files are per-example, there is no global executable. The
+There is one executable file for each example: \dnest3 does not have a global
+executable. The
 following discussion will involve running the ``SpikeSlab'' example, which is
 the example used in the paper.\\
 
@@ -124,6 +127,7 @@ It depends on the difficulty of your problem, and the number of samples you
 want.\\
 
 \begin{figure}[h!]
+\begin{framed}
 \begin{verbatim}
 $ ./main
 # Using 1 thread.
@@ -143,13 +147,17 @@ $ ./main
 # Creating level 10 with logL = 1.620392784.
 # Saving a particle to disk. N = 2.
 \end{verbatim}
-\caption{Example \dnest~output.\label{fig:output}}
+\end{framed}
+\caption{\it An example of \dnest~output that is shown on the screen. More
+detailed information is saved to the three output files
+{\tt sample.txt}, {\tt sample\_info.txt}, and {\tt levels.txt}.
+\label{fig:output}}
 \end{figure}
 
 The executable {\tt main} is responsible for the exploration part of the
 Diffusive Nested Sampling algorithm (i.e. running the MCMC chain, building
 levels, and all of that). It creates three output files,
-{\tt sample.txt}, {\tt sample\_info.txt}, {\tt levels.txt}.\\
+{\tt sample.txt}, {\tt sample\_info.txt}, and {\tt levels.txt}.\\
 
 The first output
 file, {\tt sample.txt}, contains a sampling of parameter values that
