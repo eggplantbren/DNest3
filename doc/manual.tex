@@ -27,8 +27,8 @@
 
 \section{Introduction}
 
-\dnest~is a multi-threaded C++ implementation of Diffusive Nested Sampling, a
-powerful Markov Chain Monte Carlo (MCMC) algorithm that is mainly
+\dnest~is a multi-threaded C++ implementation of Diffusive Nested Sampling
+(DNS), a powerful Markov Chain Monte Carlo (MCMC) algorithm that is mainly
 useful for solving Bayesian Inference problems.
 \dnest~is free software,
 released under the terms of the GNU General Public Licence, version 3.
@@ -156,14 +156,14 @@ detailed information is saved to the three output files
 \end{figure}
 
 The executable {\tt main} is responsible for the exploration part of the
-Diffusive Nested Sampling algorithm (i.e. running the MCMC chain, building
+DNS algorithm (i.e. running the MCMC chain, building
 levels, and then exploring all the levels). It creates three output text files,
 {\tt sample.txt}, {\tt sample\_info.txt}, and {\tt levels.txt}.\\
 
 The first output
 file, {\tt sample.txt}, contains a sampling of parameter values that
 represents the {\it mixture of constrained priors} (the target distribution
-used in Diffusive Nested Sampling), {\bf not} the
+used in DNS), {\bf not} the
 posterior distribution. Each line of {\tt sample.txt} represents a point in
 parameter space. In the SpikeSlab example, there are 20 parameters, so there
 will be 20 columns in {\tt sample.txt}.
@@ -212,7 +212,7 @@ plots some graphs, and creates two new output files, {\tt weights.txt} and
 the main goal of Nested Sampling), as well as the information value (the KL
 divergence from the prior to the posterior).\\
 
-The plots made by {\tt showresults.py} are conceptually similar to plots in
+The plots made by {\tt showresults.py} are very similar to the plots in
 the DNS paper. The first plot shows the level of the saved particles vs.
 time, the equivalent of Figure 2 in the paper. The second plot produced by
 {\tt showresults.py} shows the estimated compression values of the levels,
@@ -259,6 +259,8 @@ options are quite important, while others are much less useful.
 You can view the available options by executing
 {\tt ./main -h}. Here is the list:\\
 
+\begin{figure}
+\begin{framed}
 \begin{verbatim}
 DNest3 Command Line Options:
 -h: display this message
@@ -270,6 +272,9 @@ DNest3 Command Line Options:
 -c <value>: Specify a compression value (between levels) other than e.
 -t <num_threads>: run on the specified number of threads. Default=1.
 \end{verbatim}
+\end{framed}
+\end{figure}
+
 The most important option is the one about the number of threads. Depending on
 your computer, you probably want to run \dnest~with more than one thread.
 Each thread will be responsible for evolving its own walker(s), and periodically
