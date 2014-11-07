@@ -122,9 +122,9 @@ directory and execute {\tt main}. You should see some output that looks like
 that shown in Figure~\ref{fig:output}.
 Note that you must terminate the process manually by pressing Ctrl+C
 or in another way. If you do not terminate the process yourself, it will run
-forever. There is no hard and fast rule for how long you should run \dnest.
-It depends on the difficulty of your problem, and the number of samples you
-want.\\
+forever. There is no definite rule for how long you should run \dnest.
+It depends on the difficulty of your problem, the number of posterior samples you
+want, and the accuracy you want for the marginal likelihood.\\
 
 \begin{figure}[h!]
 \begin{framed}
@@ -156,26 +156,39 @@ detailed information is saved to the three output files
 
 The executable {\tt main} is responsible for the exploration part of the
 Diffusive Nested Sampling algorithm (i.e. running the MCMC chain, building
-levels, and all of that). It creates three output files,
+levels, and then exploring all the levels). It creates three output text files,
 {\tt sample.txt}, {\tt sample\_info.txt}, and {\tt levels.txt}.\\
 
 The first output
 file, {\tt sample.txt}, contains a sampling of parameter values that
-represents the {\it mixture of constrained priors}, i.e. {\bf not} the
+represents the {\it mixture of constrained priors} (the target distribution
+used in Diffusive Nested Sampling), {\bf not} the
 posterior distribution. Each line of {\tt sample.txt} represents a point in
-parameter space. Each time a point is saved to {\tt sample.txt}, \dnest~prints
-the message ``Saving a particle to disk. N = ...''. To actually get posterior
-samples, you need to run the {\tt showresults.py} script.\\
+parameter space. In the SpikeSlab example, there are 20 parameters, so there
+will be 20 columns in {\tt sample.txt}.
+Each time a point is saved to {\tt sample.txt}, \dnest~prints
+the message ``Saving a particle to disk. N = ...''.
 
 The second output file, {\tt sample\_info.txt}, should have the same number of
-lines as {\tt sample.txt}. It contains metadata about the samples. The first
-column is the index $j$, which tells us the level the particle was in when it
-was saved. The second column is the log-likelihood, and the third column is
-the likelihood tiebreaker. The final column tells us which thread the particle
-belonged to.\\
+rows as {\tt sample.txt}, because it contains metadata about the samples in
+{\tt sample.txt}. The first
+column is the index $j$, which tells us which ``level'' the particle was in
+when it was saved. Level 0 represents the prior, and higher levels represent
+more constrained versions of the prior.
+The second column is the log-likelihood value, and the third column is
+the likelihood ``tiebreaker'', which allows Nested Sampling to work when
+there is a region in parameter space with nonzero prior probability where the
+likelihood is constant. The final column tells us which thread the particle
+belonged to: when you use \dnest~in multithreaded mode, each thread
+is responsible for evolving one or more walkers.\\
 
 The third output file, {\tt levels.txt}, contains information about the levels
-that were built during the run.\\
+that were built during the run. The first column has estimates of the $\log(X)$
+values of the levels, i.e. how compressed they are relative to the prior, in
+units of nats. The second column contains the log likelihoods of the levels.
+The first level, with a $\log(X)$ value of 0 and a log likelihood of
+$-10^{300}$ (basically ``minus infinity''), is simply the prior.
+\\
 
 \section{Postprocessing with showresults.py}
 After {\tt main} has been running for
