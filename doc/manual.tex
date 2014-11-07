@@ -69,9 +69,10 @@ for each of the dependencies. Here's a list of dependencies:
 
 \begin{itemize}
 \item The GNU Scientific Library (GSL)
-\item Python 2, along with NumPy and matplotlib
-\item The thread and system parts of the Boost C++ library.
+\item Python 2, along with the NumPy and matplotlib packages
+\item The {\tt thread} and {\tt system} parts of the Boost C++ library.
 It may be easier to just install all of Boost.
+\item To compile \dnest, you need {\tt cmake}.
 \end{itemize}
 
 On Ubuntu, I can install these packages with the following commands:
@@ -79,27 +80,33 @@ On Ubuntu, I can install these packages with the following commands:
 sudo apt-get install libgsl0-dev
 sudo apt-get install python-numpy python-matplotlib
 sudo apt-get install libboost-thread-dev libboost-system-dev
+sudo apt-get install cmake
 \end{verbatim}
 
 \dnest~uses GSL's random number generator. Python, NumPy and
 matplotlib are used for the postprocessing scripts and for
-plotting. Boost is used for parallelization. While random number generation and
+plotting. Boost is used for parallelization (multithreading).
+While random number generation and
 multithreading is supported
 in the recent C++11 standard, I have not ported \dnest~to C++11 and have no
-intention of doing so in the immediate future.
+intention of doing so in the near future.
 
 It is also possible to compile \dnest~without Boost, however this is not
 recommended, and you will not be able to use any of the multi-threaded options.
 
 \subsection{Compiling}
-Please follow the instruction in README.md to build using cmake. This is the
-recommended option.
+Please follow the instructions in README.md to compile \dnest3~using cmake.
+This is the recommended option.
 
 %Go into the \dnest~directory and type {\tt make}. Everything should compile.
 To
-verify that everything worked, go into the {\tt Examples/SpikeSlab} directory
-and see if a file called {\tt main} has been created. If so, everything worked
-correctly.
+verify that the compilation was successful,
+go into the {\tt Examples/SpikeSlab} directory
+and see if an executable file called {\tt main} has been created. If you
+execute this file, you should see a lot of output about ``levels'' and
+``particles''. You will need to manually terminate this process by using
+Control+C, or whatever works in your operating system. If you saw this output,
+\dnest~was compiled successfully.
 
 \section{Running DNest}
 As part of the compilation process, several examples will have been compiled.

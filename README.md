@@ -21,8 +21,8 @@ Before you use DNest3, you might want to read the paper describing the
 Diffusive Nested Sampling algorithm. If you find this software useful in your
 own work, please also feel free to cite this paper.
 
-Diffusive Nested Sampling  
-Brendon J. Brewer, Livia B. Pártay, and Gábor Csányi  
+Diffusive Nested Sampling
+Brendon J. Brewer, Livia B. Pártay, and Gábor Csányi
 Statistics and Computing, 2011, 21, 4, 649-656.
 
 The paper is [freely available online](http://arxiv.org/abs/0912.2380) at
@@ -70,7 +70,10 @@ Ubuntu
 Install the dependencies as follows:
 
 ```
-sudo apt-get install cmake libgsl0-dev libboost-all-dev
+sudo apt-get install libgsl0-dev
+sudo apt-get install python-numpy python-matplotlib
+sudo apt-get install libboost-thread-dev libboost-system-dev
+sudo apt-get install cmake
 ```
 
 Building
