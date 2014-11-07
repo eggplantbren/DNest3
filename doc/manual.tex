@@ -218,7 +218,12 @@ time, the equivalent of Figure 2 in the paper. The second plot produced by
 {\tt showresults.py} shows the estimated compression values of the levels,
 like in Figure 3 of the paper, along with the Metropolis acceptance fraction
 as a function of the level (as you would expect, this usually shows a
-decreasing trend). The final plot corresponds to Figure 4 from the paper, and
+decreasing trend). The red horizontal line on the level compression plot is
+at -1, and all of the actual compressions should be close to -1 if everything
+is working well (unless you've changed the target compression from $e$ to
+another value as discussed in Section~\ref{sec:commandline}).
+
+The final plot corresponds to Figure 4 from the paper, and
 shows the shape of the likelihood curve along with the posterior weights of
 the saved particles.\\
 
@@ -235,14 +240,15 @@ However, on problems with phase transitions more than one peak may occur.\\
 \begin{figure}
 \begin{center}
 \includegraphics[scale=0.5]{fig1.pdf}
-\caption{\label{fig:fig1}}
+\caption{\it \label{fig:fig1}}
 \end{center}
 \end{figure}
 
 \begin{figure}
 \begin{center}
 \includegraphics[scale=0.5]{fig2.pdf}
-\caption{\label{fig:fig2}}
+\caption{\it Top panel: Estimated compressions between adjacent levels. Ideally, these should equal -1. Bottom panel: Metropolis-Hastings acceptance ratio
+as a function of level.\label{fig:fig2}}
 \end{center}
 \end{figure}
 
@@ -253,7 +259,7 @@ However, on problems with phase transitions more than one peak may occur.\\
 \end{center}
 \end{figure}
 
-\section{Command line options}
+\section{Command line options}\label{sec:commandline}
 \dnest~executables allow for several command line options. A couple of these
 options are quite important, while others are much less useful.
 You can view the available options by executing
@@ -296,16 +302,19 @@ thread, and ensures that they are seeded with different values.\\
 
 \section{The OPTIONS file}
 Here is an example OPTIONS file.
+\begin{framed}
 \begin{verbatim}
-1	# Number of particles
-10000	# new level interval
-100000	# save interval
-200	# threadSteps
-100	# maximum number of levels
-10	# Backtracking scale length (lambda in the paper)
-10	# Strength of effect to force histogram to equal push. (beta in the paper)
-0	# Maximum number of saves (0 = infinite)
+1       # Number of particles
+10000   # new level interval
+100000  # save interval
+200     # threadSteps
+100     # maximum number of levels
+10      # Backtracking scale length (lambda in the paper)
+10      # Strength of effect to force histogram to equal push. (beta in the paper)
+0       # Maximum number of saves (0 = infinite)
 \end{verbatim}
+\end{framed}
+
 The first option is the number of particles {\it per thread}. If you run
 \dnest~with 8 threads, there will actually be 8 particles. For most
 applications, 1 particle per thread is sufficient. If you use more particles
