@@ -33,7 +33,7 @@ useful for solving Bayesian Inference problems.
 released under the terms of the GNU General Public Licence, version 3.
 For information about how the
 algorithm works, please see the paper, freely available from the following
-URL:
+URL:\\
 
 \begin{center}
 {\tt http://arxiv.org/abs/0912.238}
@@ -41,7 +41,7 @@ URL:
 
 If you find \dnest~useful, please feel free to cite the paper.
 Throughout this manual I will assume that you have read the paper and have a
-reasonable understanding of how the algorithm works.
+reasonable understanding of how the algorithm works.\\
 
 \section{Installation}
 Please note that I have only ever compiled \dnest~on GNU/Linux,
@@ -53,7 +53,7 @@ the MinGW compiler is
 probably your best bet. I'd be interested to hear from anyone who
 has tried this. I would also be interested to hear if anyone has
 compiled \dnest~with a different compiler, such as the Intel C++
-compiler.
+compiler.\\
 
 \subsection{Dependencies}
 \dnest~depends on some other software that you will need to have installed on
@@ -65,14 +65,14 @@ containing header files (part of a library's source code).
 In Ubuntu, Linux Mint, and Debian, the development packages have a -dev suffix.
 In Fedora, the development packages usually have a -devel suffix (e.g. Fedora).
 To compile \dnest, you will need both the libraries and the development packages
-for each of the dependencies. Here's a list of dependencies:
+for each of the dependencies. Here's a list of dependencies:\\
 
 \begin{itemize}
 \item The GNU Scientific Library (GSL)
 \item Python 2, along with the NumPy and matplotlib packages
 \item The {\tt thread} and {\tt system} parts of the Boost C++ library.
 It may be easier to just install all of Boost.
-\item To compile \dnest, you need {\tt cmake}.
+\item To compile \dnest, you need {\tt cmake}.\\
 \end{itemize}
 
 On Ubuntu, I can install these packages with the following commands:
@@ -89,14 +89,14 @@ plotting. Boost is used for parallelization (multithreading).
 While random number generation and
 multithreading is supported
 in the recent C++11 standard, I have not ported \dnest~to C++11 and have no
-intention of doing so in the near future.
+intention of doing so in the near future.\\
 
 It is also possible to compile \dnest~without Boost, however this is not
-recommended, and you will not be able to use any of the multi-threaded options.
+recommended, and you will not be able to use any of the multi-threaded options.\\
 
 \subsection{Compiling}
 Please follow the instructions in README.md to compile \dnest3~using cmake.
-This is the recommended option.
+This is the recommended option.\\
 
 %Go into the \dnest~directory and type {\tt make}. Everything should compile.
 To
@@ -106,13 +106,13 @@ and see if an executable file called {\tt main} has been created. If you
 execute this file, you should see a lot of output about ``levels'' and
 ``particles''. You will need to manually terminate this process by using
 Control+C, or whatever works in your operating system. If you saw this output,
-\dnest~was compiled successfully.
+\dnest~was compiled successfully.\\
 
 \section{Running DNest}
 As part of the compilation process, several examples will have been compiled.
 The executable files are per-example, there is no global executable. The
 following discussion will involve running the ``SpikeSlab'' example, which is
-the example used in the paper.
+the example used in the paper.\\
 
 To run the SpikeSlab example, go into the {\tt Examples/Spikeslab}
 directory and execute {\tt main}. You should see some output that looks like
@@ -121,7 +121,7 @@ Note that you must terminate the process manually by pressing Ctrl+C
 or in another way. If you do not terminate the process yourself, it will run
 forever. There is no hard and fast rule for how long you should run \dnest.
 It depends on the difficulty of your problem, and the number of samples you
-want.
+want.\\
 
 \begin{figure}[h!]
 \begin{verbatim}
@@ -149,7 +149,7 @@ $ ./main
 The executable {\tt main} is responsible for the exploration part of the
 Diffusive Nested Sampling algorithm (i.e. running the MCMC chain, building
 levels, and all of that). It creates three output files,
-{\tt sample.txt}, {\tt sample\_info.txt}, {\tt levels.txt}.
+{\tt sample.txt}, {\tt sample\_info.txt}, {\tt levels.txt}.\\
 
 The first output
 file, {\tt sample.txt}, contains a sampling of parameter values that
@@ -157,17 +157,17 @@ represents the {\it mixture of constrained priors}, i.e. {\bf not} the
 posterior distribution. Each line of {\tt sample.txt} represents a point in
 parameter space. Each time a point is saved to {\tt sample.txt}, \dnest~prints
 the message ``Saving a particle to disk. N = ...''. To actually get posterior
-samples, you need to run the {\tt showresults.py} script.
+samples, you need to run the {\tt showresults.py} script.\\
 
 The second output file, {\tt sample\_info.txt}, should have the same number of
 lines as {\tt sample.txt}. It contains metadata about the samples. The first
 column is the index $j$, which tells us the level the particle was in when it
 was saved. The second column is the log-likelihood, and the third column is
 the likelihood tiebreaker. The final column tells us which thread the particle
-belonged to.
+belonged to.\\
 
 The third output file, {\tt levels.txt}, contains information about the levels
-that were built during the run.
+that were built during the run.\\
 
 \section{Postprocessing with showresults.py}
 After {\tt main} has been running for
@@ -177,7 +177,7 @@ plots some graphs, and creates two new output files, {\tt weights.txt} and
 {\tt posterior\_samples.txt}. It also prints the current estimate of the
 (log of the) marginal likelihood or evidence value (traditionally considered
 the main goal of Nested Sampling), as well as the information value (the KL
-divergence from the prior to the posterior).
+divergence from the prior to the posterior).\\
 
 The plots made by {\tt showresults.py} are conceptually similar to plots in
 the DNS paper. The first plot shows the level of the saved particles vs.
@@ -187,7 +187,7 @@ like in Figure 3 of the paper, along with the Metropolis acceptance fraction
 as a function of the level (as you would expect, this usually shows a
 decreasing trend). The final plot corresponds to Figure 4 from the paper, and
 shows the shape of the likelihood curve along with the posterior weights of
-the saved particles.
+the saved particles.\\
 
 The plots are useful to diagnose the progress of your run. For example, you
 want to ensure that the Metropolis acceptance fraction doesn't drop to near
@@ -197,7 +197,7 @@ extremely narrow). The other key plot for diagnostics is the posterior
 weights. On most problems, these will peak at some point, and begin to
 come back down towards zero. Once this occurs, you probably have enough levels.
 It is wasteful to create large amounts of levels extending well beyond the peak.
-However, on problems with phase transitions more than one peak may occur.
+However, on problems with phase transitions more than one peak may occur.\\
 
 \begin{figure}
 \begin{center}
@@ -224,7 +224,7 @@ However, on problems with phase transitions more than one peak may occur.
 \dnest~executables allow for several command line options. A couple of these
 options are quite important, while others are much less useful.
 You can view the available options by executing
-{\tt ./main -h}. Here is the list:
+{\tt ./main -h}. Here is the list:\\
 
 \begin{verbatim}
 DNest3 Command Line Options:
@@ -243,7 +243,7 @@ Each thread will be responsible for evolving its own walker(s), and periodically
 the threads will pool their results (for example, information about the
 levels). To execute DNest with 8 threads, simply use {\tt ./main -t 8}. You can
 replace 8 with however many threads you want. I usually use 8 threads because
-that's how many my computer can run simultaneously at full speed.
+that's how many my computer can run simultaneously at full speed.\\
 
 In many Monte Carlo studies, it is useful to be able to set the random number
 seed, for debugging and reproducibility reasons. By default \dnest~seeds the
@@ -254,7 +254,7 @@ something else, use the {\tt -s} option and specify a non-negative integer for
 the seed. For example, to execute \dnest~with
 8 threads and a seed of 42, use {\tt ./main -t 8 -s 42}.
 When running with multiple threads, \dnest~uses a separate generator for each
-thread, and ensures that they are seeded with different values.
+thread, and ensures that they are seeded with different values.\\
 
 \section{The OPTIONS file}
 Here is an example OPTIONS file.
@@ -275,7 +275,7 @@ per thread, the same amount of CPU time will be spent evolving more particles,
 so each one will not be evolved as far. On most problems, one particle per
 thread is fine. I would only use more particles per thread when working on
 a very hard problem where it is difficult for the particles to find the
-important parts of parameter space.
+important parts of parameter space.\\
 
 The new level interval controls how quickly \dnest~creates new levels. In this
 example, this is set to 10,000, so a new level will be created once \dnest~has
@@ -284,7 +284,7 @@ the number of threads. It is difficult to give a sensible default for this
 quantity because it depends on the complexity of the problem and how good
 the Metropolis proposals are. However, 10,000
 will work for many problems (I rarely use anything less than 10,000 or greater
-than 300,000). Higher values are slower, but more fail-safe.
+than 300,000). Higher values are slower, but more fail-safe.\\
 
 %    <h3>Compiling<br>
 %    </h3>
