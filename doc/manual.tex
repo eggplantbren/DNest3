@@ -42,7 +42,8 @@ URL:\\
 
 If you find \dnest~useful, please feel free to cite the paper.
 Throughout this manual I will assume that you have read the paper and have a
-reasonable understanding of how the algorithm works.\\
+reasonable understanding of how the algorithm works, as well as some
+understanding of Nested Sampling in general, as introduced by John Skilling.\\
 
 \section{Installation}
 Please note that I have only ever compiled \dnest~on GNU/Linux,
@@ -167,7 +168,7 @@ posterior distribution. Each line of {\tt sample.txt} represents a point in
 parameter space. In the SpikeSlab example, there are 20 parameters, so there
 will be 20 columns in {\tt sample.txt}.
 Each time a point is saved to {\tt sample.txt}, \dnest~prints
-the message ``Saving a particle to disk. N = ...''.
+the message ``Saving a particle to disk. N = ...''.\\
 
 The second output file, {\tt sample\_info.txt}, should have the same number of
 rows as {\tt sample.txt}, because it contains metadata about the samples in
@@ -187,7 +188,18 @@ that were built during the run. The first column has estimates of the $\log(X)$
 values of the levels, i.e. how compressed they are relative to the prior, in
 units of nats. The second column contains the log likelihoods of the levels.
 The first level, with a $\log(X)$ value of 0 and a log likelihood of
-$-10^{300}$ (basically ``minus infinity''), is simply the prior.
+$-10^{300}$ (basically ``minus infinity''), is simply the prior. The third
+column has the ``tiebreaker'' values for the levels, which again are not
+particularly useful unless your problem has likelihood plateaus. The fourth
+and fifth columns are the number of accepted proposals and the total number
+of proposals that have occurred within each level, which are useful for
+monitoring the Metropolis acceptance ratio as a function of level.
+The final two columns, called ``exceeds'', and ``visits'', are used to refine
+the estimates of the level compressions (and hence the $\log(X)$ values of
+the levels in column 1), as discussed in Section 3 of the
+paper. The visits column counts the number of times a level (level $j$, say)
+has been visited, but only starts counting after the next level ($j+1$) has been created. The exceeds column counts the number of times a particle that was
+in level $j$ had a likelihood that exceeded that of level $j+1$.
 \\
 
 \section{Postprocessing with showresults.py}
