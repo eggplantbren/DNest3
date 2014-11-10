@@ -336,6 +336,20 @@ the Metropolis proposals are. However, 10,000
 will work for many problems (I rarely use anything less than 10,000 or greater
 than 300,000). Higher values are slower, but more fail-safe.\\
 
+The save interval controls how often \dnest~writes a model to the output
+files: this is what is usually called ``thinning''. Saving more frequently
+(i.e. a smaller save interval) is usually better, although it depends on your
+problem. If your models have a lot of parameters {\tt sample.txt} can get
+very big and take forever to process using {\tt showresults.py}. A default
+suggestion that is usually okay is to make the save interval the same as the
+new level interval.
+
+The option ``threadSteps'' controls how frequently the separate threads pool
+their information about the levels. I usually use 100 or 200. If
+(threadSteps) $\times$ (number of threads) is not much smaller than
+saveInterval or newLevelInterval, the latter won't be what you expect, because
+\dnest~only creates levels or saves particles when the threads are pooling
+information.
 
 \section{Writing your own models}
 
