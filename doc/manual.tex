@@ -233,9 +233,13 @@ zero. If it does, the proposal distributions might be too aggressive, or maybe
 you just created too many levels (and the high level distributions are just
 extremely narrow). The other key plot for diagnostics is the posterior
 weights. On most problems, these will peak at some point, and begin to
-come back down towards zero. Once this occurs, you probably have enough levels.
+come back down towards zero (See Figure~\ref{fig3}).
+Once this occurs, you probably have enough levels.
 It is wasteful to create large amounts of levels extending well beyond the peak.
-However, on problems with phase transitions more than one peak may occur.\\
+However, on problems with phase transitions more than one peak may occur.
+An example of not having enough levels is given in
+Figure~\ref{fig:not_enough_levels}. To change the number of levels, you
+can use the OPTIONS file, described in Section~\ref{sec:options}.\\
 
 \begin{figure}
 \begin{center}
@@ -259,6 +263,17 @@ as a function of level.\label{fig:fig2}}
 the standard Nested Sampling plot. Bottom panel: Posterior weights as a
 function of enclosed prior mass. If this peaks at the left of the plot,
 i.e. you can't see an entire peak, you need more levels.\label{fig:fig3}}
+\end{center}
+\end{figure}
+
+
+\begin{figure}
+\begin{center}
+\includegraphics[scale=0.5]{not_enough_levels.pdf}
+\caption{\it Top panel: Example of a DNest run where the number of levels
+was too low. The posterior weights peak at the left of the plot, and these
+would have continued to increase if we'd gone further.
+\label{fig:not_enough_levels}}
 \end{center}
 \end{figure}
 
@@ -303,7 +318,7 @@ the seed. For example, to execute \dnest~with
 When running with multiple threads, \dnest~uses a separate generator for each
 thread, and ensures that they are seeded with different values.\\
 
-\section{The OPTIONS file}
+\section{The OPTIONS file}\label{sec:options}
 Here is an example OPTIONS file.
 \begin{framed}
 \begin{verbatim}
