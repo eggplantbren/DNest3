@@ -443,6 +443,14 @@ void SpikeSlab::fromPrior()
 \end{verbatim}
 \end{framed}
 
+The next important method is {\tt perturb()}, which defines the Metropolis
+proposals that are used to explore. Since \dnest~spends some time sampling
+the prior, and some time sampling narrow distributions like the posterior,
+it's a good idea to use very heavy tailed proposal distributions. In the
+SpikeSlab example, the prior width is 1, so you shouldn't make moves much
+bigger than that, but you don't have any real idea how narrow the posterior
+distribution is until you've solved the problem. To account for this, 
+
 
 \end{document}
 
