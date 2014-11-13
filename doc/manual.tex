@@ -548,7 +548,43 @@ a data set. Since you need to access the dataset from within another class,
 it's easiest to make the C++ equivalent of a ``global variable'': a single
 static instance of the dataset which is accessible from everywhere. See
 the FitSine example if you want to see a Data class. Note that the FitSine
-example has been superseded by my other \dnest~related project, RJObject.
+example has been superseded by my other \dnest~related project, RJObject.\\
+
+Finally, the {\tt print} method defines how your parameters are printed to the
+{\tt sample.txt} (and subsequently {\tt posterior\_sample.txt}) files. In
+SpikeSlab, the {\tt print} method writes all 20 parameters, separated by
+spaces, to a single line of the stream ``out'' which is input to the method:\\
+
+\begin{framed}
+\begin{verbatim}
+void SpikeSlab::print(std::ostream& out) const
+{
+    for(size_t i=0; i<params.size(); i++)
+        out<<params[i]<<' ';
+}
+\end{verbatim}
+\end{framed}
+
+Your print method needs to output parameters on a single line, in any order
+you want. These will be the order in which they'll appear in the output files
+{\tt sample.txt} and {\tt posterior\_sample.txt}. As an example, for our
+above hypothetical model with parameters $a$ and $b$, the print function
+and the description function might look like this:
+
+\begin{framed}
+\begin{verbatim}
+void MyModel::print(std::ostream& out) const
+{
+    out<<a<<' '<<b<<' ';
+}
+
+string MyModel::description() const
+{
+    return string("a, b");
+}
+\end{verbatim}
+\end{framed}
+
 
 \end{document}
 
