@@ -357,19 +357,19 @@ files: this is what is usually called ``thinning''. Saving more frequently
 problem. If your models have a lot of parameters {\tt sample.txt} can get
 very big and take forever to process using {\tt showresults.py}. A default
 suggestion that is usually okay is to make the save interval the same as the
-new level interval.
+new level interval.\\
 
 The option ``threadSteps'' controls how frequently the separate threads pool
 their information about the levels. I usually use 100 or 200. If
 (threadSteps) $\times$ (number of threads) is not much smaller than
 saveInterval or newLevelInterval, the latter won't be what you expect, because
 \dnest~only creates levels or saves particles when the threads are pooling
-information.
+information.\\
 
 \section{Implementing models}
 \dnest~currently includes four example models: Atoms, SpikeSlab, FitSine, and
 HarlemShake. It also contains an empty Template example which you can use
-to implement your own models.
+to implement your own models.\\
 
 To use \dnest~on a particular problem, you need to implement a C++ class
 which describes the features of the model (e.g. what the parameters are,
@@ -386,14 +386,16 @@ we have the {\tt print(std::ostream\&)} method which defines how the model
 parameters are to be written to the file (i.e. which parameters are to be
 printed, and in what order). Finally, there is a method {\tt description()}
 which allows you to put a header at the top of the output files with information
-about what is in each column.
+about what is in each column. To demonstrate how these methods work, we'll go
+through the code for {\tt SpikeSlab}.\\
 
 In the SpikeSlab directory,
 the relevant class is the {\tt SpikeSlab} class which is defined in the files
 {\tt SpikeSlab.h} and {\tt SpikeSlab.cpp}. If you open {\tt SpikeSlab.h},
 you'll see that the class has only one variable, which is a C++ vector called
-{\tt params}. This contains the 20 parameter values.
+{\tt params}. This contains the 20 parameter values.\\
 
+\begin{figure}
 \begin{framed}
 \begin{verbatim}
 class SpikeSlab:public DNest3::Model
@@ -402,6 +404,45 @@ class SpikeSlab:public DNest3::Model
         std::vector<double> params;
 \end{verbatim}
 \end{framed}
+\end{figure}
+
+It's up to you whether you want to have a single vector of parameters, like
+in {\tt SpikeSlab}, or if you want to name all your parameters with names that
+make sense to you.\\
+
+In {\tt SpikeSlab.cpp}, all of the methods of the {\tt SpikeSlab} class
+are defined. First, we have the {\it constructor}, which defines what happens
+when we create an object of class {\tt SpikeSlab}:\\
+
+\begin{framed}
+\begin{verbatim}
+SpikeSlab::SpikeSlab()
+:params(20)
+{
+
+}
+\end{verbatim}
+\end{framed}
+
+This constructor does nothing except specify the size of the {\tt params}
+vector, which in this example is 20. Next we have {\tt fromPrior()}, the
+method which generates the 20 parameters from the prior. In the SpikeSlab
+example, the prior is Uniform$(-0.5, 0.5)$, so this method just has a loop
+which generates each value from this distribution. Here I'm making use of
+a function {\tt randomU()} which generates values from $U(0, 1)$. This function
+is defined in {\tt Utils.h} within \dnest, and is really just a function
+wrapping a call to GSL's random number generator.
+
+\begin{framed}
+\begin{verbatim}
+void SpikeSlab::fromPrior()
+{
+    for(size_t i=0; i<params.size(); i++)
+        params[i] = -0.5 + randomU();
+}
+\end{verbatim}
+\end{framed}
+
 
 \end{document}
 
