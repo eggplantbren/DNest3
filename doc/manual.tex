@@ -431,7 +431,7 @@ example, the prior is Uniform$(-0.5, 0.5)$, so this method just has a loop
 which generates each value from this distribution. Here I'm making use of
 a function {\tt randomU()} which generates values from $U(0, 1)$. This function
 is defined in {\tt Utils.h} within \dnest, and is really just a function
-wrapping a call to GSL's random number generator.
+wrapping a call to GSL's random number generator.\\
 
 \begin{framed}
 \begin{verbatim}
@@ -449,8 +449,95 @@ the prior, and some time sampling narrow distributions like the posterior,
 it's a good idea to use very heavy tailed proposal distributions. In the
 SpikeSlab example, the prior width is 1, so you shouldn't make moves much
 bigger than that, but you don't have any real idea how narrow the posterior
-distribution is until you've solved the problem. To account for this, 
+distribution is until you've solved the problem. In the SpikeSlab example,
+the proposal is done by choosing one of the 20 parameters to move, and making
+a move according to a scale mixture of gaussians (equivalent to ``a gaussian
+proposal with a random step size''). Finally, to prevent any proposals outside
+the prior range, I use modulo to ensure the proposed value is between -0.5
+and 0.5. The resulting proposal is:\\
 
+\begin{framed}
+\begin{verbatim}
+double SpikeSlab::perturb()
+{
+    int which = randInt(params.size());
+    params[which] += pow(10., 1.5-6*randomU())*randn();
+    params[which] = mod(params[which] + 0.5, 1.) - 0.5;
+    return 0.;
+}
+\end{verbatim}
+\end{framed}
+
+For convenience, I recently defined two useful functions {\tt randh()}
+(to generate heavy tailed proposals) and
+{\tt wrap(double\& value, double min, double max)} (to simplify the modulo
+stuff). An equivalent version of the {\tt perturb} method is then:\\
+
+\begin{framed}
+\begin{verbatim}
+double SpikeSlab::perturb()
+{
+    int which = randInt(params.size());
+    params[which] += randh();
+    wrap(params[which], -0.5, 0.5);
+    return 0.;
+}
+\end{verbatim}
+\end{framed}
+
+The last thing we need to pay attention to in the perturb method is the
+returned value. \dnest~assumes that your perturb method, if used repeatedly,
+would inherently explore the prior distribution in your problem. With
+a uniform prior, it's easy to ensure this. However, for a non-uniform prior,
+it's not so easy. One way to do it is to work in a coordinate system where
+the prior {\it is} uniform, and then transforming the parameter before using
+it in the likelihood function. Another way is to return a nonzero value from
+the {\tt perturb} method. Any value returned is added to the log of the
+acceptance probability. So if you want to explore a non-uniform prior, you
+can return the log of the ratio of the prior density at the proposed point
+to the value at the original point. For concreteness, suppose you had a
+parameter $a$ with a Uniform$(0,10)$ prior, and a parameter $b$ with a
+Normal$(20, \sigma=5)$ prior. Then the {\tt perturb} method could be implemented
+like this:\newpage
+
+\begin{framed}
+\begin{verbatim}
+double MyModel::perturb()
+{
+    int which = randInt(2);
+    double logH = 0.;
+
+    if(which == 0)
+    {
+        a += 10.*randh();
+        wrap(a, 0., 10.);
+    }
+    else
+    {
+        logH -= -0.5*pow((b - 20.)/5., 2);
+        b += 5.*randh();
+        logH += -0.5*pow((b - 20.)/5., 2);
+    }
+
+    return logH;
+}
+\end{verbatim}
+\end{framed}
+
+This proposal chooses to move either $a$ or $b$, and uses a heavy tailed
+proposal distribution (scaled by the width of the prior). Since the prior for
+$b$ is non-uniform, it returns the log of the ``Hastings factor'' that would
+be needed to explore the normal prior.\\
+
+When you write a new model for \dnest, I highly recommend sampling the prior
+and making sure you at least get that part correct. To do this, edit OPTIONS
+so the maximum number of levels is 1, and make the save interval frequent.
+Then inspect {\tt sample.txt} and make plots to ensure you're sampling the
+prior correctly. If you are, that's a necessary but not sufficient condition
+for your {\tt perturb} function being okay (your proposals need to satisfy
+detailed balance, and it's possible to have proposals that explore the prior
+well but do not satisfy detailed balance. Most simple proposals do satisfy
+detailed balance).
 
 \end{document}
 
