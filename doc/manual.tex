@@ -537,7 +537,18 @@ prior correctly. If you are, that's a necessary but not sufficient condition
 for your {\tt perturb} function being okay (your proposals need to satisfy
 detailed balance, and it's possible to have proposals that explore the prior
 well but do not satisfy detailed balance. Most simple proposals do satisfy
-detailed balance).
+detailed balance).\\
+
+The {\tt logLikelihood} method does what you'd expect: evaluates and returns
+the log likelihood based on the current setting of the parameters. In the
+SpikeSlab example, the likelihood is an invented mixture of two gaussians.
+However, in general, your likelihood will depend on a data set. When I'm using
+real data, I usually write a {\tt Data} class, an object of which represents
+a data set. Since you need to access the dataset from within another class,
+it's easiest to make the C++ equivalent of a ``global variable'': a single
+static instance of the dataset which is accessible from everywhere. See
+the FitSine example if you want to see a Data class. Note that the FitSine
+example has been superseded by my other \dnest~related project, RJObject.
 
 \end{document}
 
