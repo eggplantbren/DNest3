@@ -366,9 +366,42 @@ saveInterval or newLevelInterval, the latter won't be what you expect, because
 \dnest~only creates levels or saves particles when the threads are pooling
 information.
 
-\section{Writing your own models}
+\section{Implementing models}
+\dnest~currently includes four example models: Atoms, SpikeSlab, FitSine, and
+HarlemShake. It also contains an empty Template example which you can use
+to implement your own models.
 
+To use \dnest~on a particular problem, you need to implement a C++ class
+which describes the features of the model (e.g. what the parameters are,
+what the prior is, and what the likelihood is). Specifically, an object
+(instance) of your class represents a point in the parameter space of your
+problem. The class must define several methods (functions) which can be
+applied to any object. The first method is {\tt fromPrior()}, which when called,
+initialises the object with parameter values from the prior distribution.
+The second important method is {\tt perturb()}, which is used to propose
+a change to the parameters, as in the basic Metropolis algorithm. The third
+important method is {\tt logLikelihood()}, which returns (as you might expect)
+the log of the likelihood function evaluated at the object's position. Next,
+we have the {\tt print(std::ostream\&)} method which defines how the model
+parameters are to be written to the file (i.e. which parameters are to be
+printed, and in what order). Finally, there is a method {\tt description()}
+which allows you to put a header at the top of the output files with information
+about what is in each column.
 
+In the SpikeSlab directory,
+the relevant class is the {\tt SpikeSlab} class which is defined in the files
+{\tt SpikeSlab.h} and {\tt SpikeSlab.cpp}. If you open {\tt SpikeSlab.h},
+you'll see that the class has only one variable, which is a C++ vector called
+{\tt params}. This contains the 20 parameter values.
+
+\begin{framed}
+\begin{verbatim}
+class SpikeSlab:public DNest3::Model
+{
+    private:
+        std::vector<double> params;
+\end{verbatim}
+\end{framed}
 
 \end{document}
 
