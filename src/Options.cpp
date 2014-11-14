@@ -22,6 +22,7 @@
 #include <fstream>
 #include <iostream>
 #include <cassert>
+#include <cstdlib>
 
 using namespace std;
 
@@ -65,7 +66,10 @@ void Options::load(const char* filename)
 {
 	fstream fin(filename, ios::in);
 	if(!fin)
+	{
 		cerr<<"ERROR: Cannot open file "<<filename<<"."<<endl;
+		exit(0);
+	}
 
 	// Read past comment lines at the top of the file
 	while(fin.peek() == '#')
