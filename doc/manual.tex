@@ -37,7 +37,7 @@ algorithm works, please see the paper, freely available from the following
 URL:\\
 
 \begin{center}
-{\tt http://arxiv.org/abs/0912.238}
+{\tt http://arxiv.org/abs/0912.238}\\
 \end{center}
 
 If you find \dnest~useful, please feel free to cite the paper.
@@ -585,6 +585,19 @@ string MyModel::description() const
 \end{verbatim}
 \end{framed}
 
+\subsection{Compiling and running your model}
+Assuming you implemented your model in the Template directory, there's not
+much else for you to do. The file {\tt main.cpp} already contains all the code
+you need to construct a sampler and execute it. If your model involves a data
+set, you'll just need to make sure you load the dataset at the beginning
+of the {\tt main()} function, before doing anything else.\\
+
+The Makefile in the Template directory should allow you to compile your model
+by issuing the command {\tt make} in a terminal. If everything worked well
+then the executable {\tt main} should exist, which you can use to run
+\dnest~on your model. As always, the first time you run \dnest~on a new model,
+you should pay attention to the output plots and make sure everything is okay,
+such as the number of levels etc.
 
 \end{document}
 
