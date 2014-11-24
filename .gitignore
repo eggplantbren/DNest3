@@ -33,6 +33,7 @@ weights.txt
 lib
 .DS_Store
 manual.pdf
+texput.log
 
 # Executables
 SpikeSlab
