@@ -70,6 +70,7 @@ def postprocess(temperature=1., numResampleLogX=1, plot=True, loaded=[], \
 		plt.xlabel("Level")
 		xlim = plt.gca().get_xlim()
 		plt.axhline(-1., color='r')
+		plt.axhline(-np.log(10.), color='g')
 		plt.ylim(ymax=0.05)
 		if numResampleLogX > 1:
 			plt.draw()
