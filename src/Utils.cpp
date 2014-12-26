@@ -87,5 +87,15 @@ double logsumexp(double a, double b)
 	return logsumexp(x, 2);
 }
 
+double logdiffexp(double a, double b)
+{
+	if(a <= b)
+		cerr<<"# Error in logdiffexp."<<endl;
+	double biggest = a;
+	a -= biggest;
+	b -= biggest;
+	return log(exp(a) - exp(b)) + biggest;
+}
+
 } // namespace DNest3
 

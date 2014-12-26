@@ -31,6 +31,7 @@ void wrap(double& x, double min, double max);
 double logsumexp(double* logv, int n);
 double logsumexp(const std::vector<double>& logv);
 double logsumexp(double a, double b);
+double logdiffexp(double a, double b);
 
 } //namespace DNest3
 
