@@ -70,6 +70,10 @@ class RandomNumberGenerator
 		// for calls to other distributions
 		gsl_rng* get_rng() { return rng; }
 
+		// Restore state from a backup
+		void set_rng(gsl_rng* other)
+		{ gsl_rng_memcpy(rng, other); }
+
 	// Static stuff for a global instance
 	private:
 		#ifndef DNest3_No_Boost
