@@ -111,7 +111,7 @@ void MTSampler<ModelType>::runThread(int thread, unsigned long firstSeed)
 {
 	// Re-seed thread-local RNG
 	RandomNumberGenerator::initialise_instance();
-	RandomNumberGenerator::get_instance().set_seed(firstSeed + 100*thread);
+	RandomNumberGenerator::get_instance().set_seed(firstSeed + 100*(thread+1));
 
 	initialise(thread);
 
