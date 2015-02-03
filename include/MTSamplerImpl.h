@@ -450,7 +450,8 @@ void MTSampler<ModelType>::deleteParticle()
 		{
 			if(logPush(indices[i][j]) > max_logPush)
 				max_logPush = logPush(indices[i][j]);
-			if(logPush(indices[i][j]) < -5.)
+			if(logPush(indices[i][j]) < -5.
+				&& randomU() <= ModelType::delete_prob)
 			{
 				good[i][j] = false;
 				numBad++;

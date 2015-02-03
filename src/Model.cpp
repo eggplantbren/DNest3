@@ -24,6 +24,8 @@ using namespace std;
 namespace DNest3
 {
 
+const double Model::delete_prob = 1.;
+
 Model::~Model()
 {
 

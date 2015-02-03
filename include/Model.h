@@ -51,6 +51,8 @@ class Model
 		// Optional: return string with column information
 		// This will become the header for sample.txt
 		virtual std::string description() const;
+
+		static const double delete_prob;
 };
 
 } // namespace DNest3
