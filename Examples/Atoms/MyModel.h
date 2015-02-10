@@ -44,7 +44,6 @@ class MyModel:public DNest3::Model
 
 		int staleness;
 
-
 	public:
 		MyModel();
 
@@ -62,6 +61,8 @@ class MyModel:public DNest3::Model
 
 		// Return string with column information
 		std::string description() const;
+
+		static const double delete_prob;
 };
 
 #endif

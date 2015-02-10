@@ -6,6 +6,8 @@
 using namespace std;
 using namespace DNest3;
 
+const double MyModel::delete_prob = 0.1;
+
 MyModel::MyModel()
 :N(100)
 ,x(N), y(N)
