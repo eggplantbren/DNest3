@@ -26,17 +26,24 @@
 class MyModel:public DNest3::Model
 {
 	private:
+		// Number of particles
+		int N;
+
 		// Positions
 		std::vector<double> x, y;
 
+		// PE of pairs
+		std::vector< std::vector<double> > terms;
+		void calculate_terms();
+		double calculate_term(int i, int j);
+		long double update_terms(int i);
+
 		// Energy
 		long double PE;
-
-		// From scratch, total
 		void calculate_PE();
 
-		// Just a single pair
-		double calculate_PE(int i, int j);
+		int staleness;
+
 
 	public:
 		MyModel();
