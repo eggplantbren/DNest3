@@ -39,6 +39,7 @@ class CommandLineOptions
 		std::string dataFile;
 		std::string compression;
 		int numThreads;
+		std::string configFile;
 
 	public:
 		CommandLineOptions(int argc, char** argv);
@@ -61,6 +62,9 @@ class CommandLineOptions
 
 		int get_numThreads() const
 		{ return numThreads; }
+
+		const std::string& get_configFile() const
+		{ return configFile; }
 
 		// Convert seed string to an integer and return it
 		unsigned long get_seed_long() const;
