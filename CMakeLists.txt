@@ -24,7 +24,7 @@ set (DNEST_DEPS)
 
 find_package (GSL REQUIRED)
 list (APPEND DNEST_DEPS ${GSL_LIBRARIES})
-include_directories (${GSL_INCLUDES})
+include_directories (SYSTEM ${GSL_INCLUDES})
 
 # ==========================================================================
 #                                                                      BOOST
@@ -33,7 +33,7 @@ include_directories (${GSL_INCLUDES})
 find_package (Boost COMPONENTS thread system)
 if (Boost_FOUND)
     list (APPEND DNEST_DEPS ${Boost_LIBRARIES})
-    include_directories (${Boost_INCLUDES})
+    include_directories (SYSTEM ${Boost_INCLUDES})
 else (Boost_FOUND)
     add_definitions (-DDNest3_No_Boost)
 endif (Boost_FOUND)
