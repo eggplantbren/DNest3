@@ -1,6 +1,11 @@
 project (DNest3 C CXX)
 cmake_minimum_required (VERSION 2.8.0)
 
+# Setting this explicitly avoids warnings from versions of CMake >= 3
+# regarding policy CMP0042; it should be ignored versions of CMake which don't
+# support it. (Setting the policy explicitly will break with old CMakes.)
+set (CMAKE_MACOSX_RPATH TRUE)
+
 set (CMAKE_MODULE_PATH "${PROJECT_SOURCE_DIR}/cmake")
 
 set (CMAKE_CXX_FLAGS "-Wall -Wextra -pedantic -ansi -Wno-unused-parameter")
