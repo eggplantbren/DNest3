@@ -33,7 +33,7 @@ def logdiffexp(x1, x2):
 	return result
 
 def postprocess(temperature=1., numResampleLogX=1, plot=True, loaded=[], \
-			cut=0., save=True, zoom_in=True, compression_bias_min=1., compression_scatter=0., moreSamples=1.):
+			cut=0., save=True, zoom_in=True, compression_bias_min=1., compression_scatter=0., moreSamples=1., compression_assert=None):
 	if len(loaded) == 0:
 		levels_orig = np.atleast_2d(np.loadtxt("levels.txt"))
 		sample_info = np.atleast_2d(np.loadtxt("sample_info.txt"))
@@ -42,6 +42,10 @@ def postprocess(temperature=1., numResampleLogX=1, plot=True, loaded=[], \
 		#	sample = sample.T
 	else:
 		levels_orig, sample_info, sample = loaded[0], loaded[1], loaded[2]
+
+	# Remove regularisation from levels_orig if we asked for it
+	if compression_assert is not None:
+		levels_orig[1:,0] = -np.cumsum(compression_assert*np.ones(levels_orig.shape[0] - 1))
 
 	sample = sample[int(cut*sample.shape[0]):, :]
 	sample_info = sample_info[int(cut*sample_info.shape[0]):, :]
