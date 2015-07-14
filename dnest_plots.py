@@ -20,3 +20,17 @@ def diffusion_plot():
 	plt.ylabel('Level')
 	plt.show()
 
+def levels_plot():
+	"""
+	Plot the differences between the logl values of the levels.
+	"""
+	levels = np.loadtxt('levels.txt')
+
+	plt.plot(np.log10(np.diff(levels[:,1])))
+	plt.ylim([-1, 4])
+	plt.axhline(0., color='r')
+	plt.axhline(np.log10(np.log(10.)), color='g')
+	plt.xlabel('Level')
+	plt.ylabel('Delta log likelihood')
+	plt.show()
+
