@@ -295,6 +295,8 @@ DNest3 Command Line Options:
 -d <filename>: Load data from the specified file, if required.
 -c <value>: Specify a compression value (between levels) other than e.
 -t <num_threads>: run on the specified number of threads. Default=1.
+-f <filename>: a custom configuration file for adding problem specific
+           options if required.
 \end{verbatim}
 \end{framed}
 \end{figure}
@@ -317,6 +319,13 @@ the seed. For example, to execute \dnest~with
 8 threads and a seed of 42, use {\tt ./main -t 8 -s 42}.
 When running with multiple threads, \dnest~uses a separate generator for each
 thread, and ensures that they are seeded with different values.\\
+
+If you have any additional configuration information required by the run, e.g.\
+for setting values needed for a particular model that you don't want to hardcode,
+then they can be added through specifying a configuration file using the {\tt -f}
+option. You will have to write your own function to read in this file, so it can
+be in whatever format you are comfortable with (e.g.\ an {\tt ini} file, or {\tt
+json} file).\\
 
 \section{The OPTIONS file}\label{sec:options}
 Here is an example OPTIONS file.
