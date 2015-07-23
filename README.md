@@ -121,7 +121,7 @@ Other useful options include:
 Copyright and Licence
 =====================
 
-DNest3 is Copyright (c) 2009-2014 Brendon J. Brewer.
+DNest3 is Copyright (c) 2009-2015 Brendon J. Brewer.
 
 DNest3 is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -138,6 +138,8 @@ along with DNest3. If not, see <http://www.gnu.org/licenses/>.
 
 Contributors
 ============
+
+Matthew Pitkin (<http://www.astro.gla.ac.uk/~matthew/>)
 
 Dan Foreman-Mackey (<http://dan.iel.fm/>)
 
