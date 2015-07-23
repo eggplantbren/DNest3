@@ -36,6 +36,7 @@ CommandLineOptions::CommandLineOptions(int argc, char** argv)
 ,dataFile("")
 ,compression("2.7182818284590451")
 ,numThreads(1)
+,configFile("")
 {
 	// The following code is based on the example given at
 	// http://www.gnu.org/software/libc/manual/html_node/Example-of-Getopt.html#Example-of-Getopt
@@ -44,7 +45,7 @@ CommandLineOptions::CommandLineOptions(int argc, char** argv)
 	stringstream s;
 
 	opterr = 0;
-	while((c = getopt(argc, argv, "hl:o:s:d:c:t:")) != -1)
+	while((c = getopt(argc, argv, "hl:o:s:d:c:t:f:")) != -1)
 	switch(c)
 	{
 		case 'h':
@@ -68,6 +69,9 @@ CommandLineOptions::CommandLineOptions(int argc, char** argv)
 		case 't':
 			s<<optarg;
 			s>>numThreads;
+			break;
+		case 'f':
+			configFile = string(optarg);
 			break;
 		case '?':
 			cerr<<"# Option "<<optopt<<" requires an argument."<<endl;
@@ -119,6 +123,7 @@ void CommandLineOptions::printHelp() const
 	cout<<"-d <filename>: Load data from the specified file, if required."<<endl;
 	cout<<"-c <value>: Specify a compression value (between levels) other than e."<<endl;
 	cout<<"-t <num_threads>: run on the specified number of threads. Default=1."<<endl;
+	cout<<"-f <filename>: a custom configuration file for adding problem specific options if required."<<endl;
 	exit(0);
 }
 
