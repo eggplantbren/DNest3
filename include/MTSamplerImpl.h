@@ -26,6 +26,10 @@
 #include <algorithm>
 #include <iomanip>
 #include <boost/bind.hpp>
+#include <boost/iostreams/filtering_stream.hpp>
+#include <boost/iostreams/filtering_streambuf.hpp>
+#include <boost/iostreams/copy.hpp>
+#include <boost/iostreams/filter/gzip.hpp>
 
 namespace DNest3
 {
@@ -315,21 +319,49 @@ void MTSampler<ModelType>::saveParticle(int iWhich, int jWhich)
 {
 	std::cout<<"# Saving a particle to disk. N = "<<(++saves)<<"."<<std::endl;
 
-	// Save the particle to file
-	std::fstream fout;
-	if(saves == 1)
-	{
-		fout.open(options.sampleFile.c_str(), std::ios::out);
-		fout<<"# Samples file. One sample per line."<<std::endl;
-		fout<<"# "<<particles[0][0].description()<<std::endl;
-	}
-	else
-		fout.open(options.sampleFile.c_str(), std::ios::out|std::ios::app);
-	fout<<std::setprecision(10);
-	particles[iWhich][jWhich].print(fout); fout<<std::endl;
-	fout.close();
+	std::string sampleFile = options.sampleFile;
 
+	// Save the particle to file
+#ifdef DNest3_zlib
+	// check whether to gzip file or not
+	if ( sampleFile.find(".gz") == std::string::npos ){
+#endif
+		std::fstream sout;
+		if(saves == 1){
+			sout.open(sampleFile.c_str(), std::ios::out);
+			sout<<"# Samples file. One sample per line."<<std::endl;
+			sout<<"# "<<particles[0][0].description()<<std::endl;
+		}
+		else
+			sout.open(sampleFile.c_str(), std::ios::out|std::ios::app);
+		sout<<std::setprecision(10);
+		particles[iWhich][jWhich].print(sout); sout<<std::endl;
+		sout.close();
+#ifdef DNest3_zlib
+	}
+	else{ // gzip the output samples using boost libraries
+		std::ofstream ofile;
+		
+		boost::iostreams::filtering_ostream sout;
+		sout.push(boost::iostreams::gzip_compressor());
+
+		if(saves == 1){
+			ofile.open(sampleFile.c_str(), std::ios_base::out | std::ios_base::binary);
+			sout.push(ofile);
+			sout<<"# Samples file. One sample per line."<<std::endl;
+			sout<<"# "<<particles[0][0].description()<<std::endl;
+		}
+		else{
+			ofile.open(sampleFile.c_str(), std::ios_base::out | std::ios_base::binary | std::ios_base::app);
+			sout.push(ofile);
+		}
+		sout<<std::setprecision(10);
+		particles[iWhich][jWhich].print(sout); sout<<std::endl;
+	}
+#endif
+        
 	// Save the particle's info
+	std::fstream fout;
 	if(saves == 1)
 	{
 		fout.open(options.sampleInfoFile.c_str(), std::ios::out);
