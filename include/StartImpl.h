@@ -55,7 +55,7 @@ MTSampler<ModelType> setup_mt(const CommandLineOptions& options)
 	RandomNumberGenerator::get_instance().set_seed(options.get_seed_long());
 
 	// Load sampler options from file
-	Options samplerOptions(options.get_optionsFile().c_str());
+	Options samplerOptions(options.get_optionsFile().c_str(), options.set_gzip());
 
 	// Create sampler
 	MTSampler<ModelType> sampler(options.get_numThreads(),

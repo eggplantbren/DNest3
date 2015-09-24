@@ -30,10 +30,16 @@ include_directories (SYSTEM ${GSL_INCLUDES})
 #                                                                      BOOST
 # ==========================================================================
 
-find_package (Boost COMPONENTS thread system)
+find_package (Boost COMPONENTS thread system iostreams)
 if (Boost_FOUND)
     list (APPEND DNEST_DEPS ${Boost_LIBRARIES})
     include_directories (SYSTEM ${Boost_INCLUDES})
+
+    # try and find zlib if available
+    find_package (ZLIB)
+    if (ZLIB_FOUND)
+        add_definitions (-DDNest3_zlib)
+    endif (ZLIB_FOUND)
 else (Boost_FOUND)
     add_definitions (-DDNest3_No_Boost)
 endif (Boost_FOUND)

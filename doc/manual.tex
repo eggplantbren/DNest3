@@ -72,7 +72,9 @@ for each of the dependencies. Here's a list of dependencies:\\
 \begin{itemize}
 \item The GNU Scientific Library (GSL)
 \item Python 2, along with the NumPy and matplotlib packages
-\item The {\tt thread} and {\tt system} parts of the Boost C++ library.
+\item The {\tt zlib} library (this is only required if wanting the ability to
+output samples to a {\tt gzipped} file, otherwise it can be excluded)
+\item The {\tt thread}, {\tt system} and {\tt iostreams} parts of the Boost C++ library.
 It may be easier to just install all of Boost.
 \item To compile \dnest, you need {\tt cmake}.\\
 \end{itemize}
@@ -81,7 +83,8 @@ On Ubuntu, I can install these packages with the following commands:
 \begin{verbatim}
 sudo apt-get install libgsl0-dev
 sudo apt-get install python-numpy python-matplotlib
-sudo apt-get install libboost-thread-dev libboost-system-dev
+sudo apt-get install zlib1g-dev
+sudo apt-get install libboost-thread-dev libboost-system-dev libboost-iostreams-dev
 sudo apt-get install cmake
 \end{verbatim}
 
@@ -94,7 +97,8 @@ in the recent C++11 standard, I have not ported \dnest~to C++11 and have no
 intention of doing so in the near future.\\
 
 It is also possible to compile \dnest~without Boost, however this is not
-recommended, and you will not be able to use any of the multi-threaded options.\\
+recommended, and you will not be able to use any of the multi-threaded options
+or the {\tt gzip} option.\\
 
 \subsection{Compiling}
 Please follow the instructions in README.md to compile \dnest~using cmake.
@@ -297,6 +301,7 @@ DNest3 Command Line Options:
 -t <num_threads>: run on the specified number of threads. Default=1.
 -f <filename>: a custom configuration file for adding problem specific
            options if required.
+-z: the output "sample.txt" file will be gzipped and have the suffix ".gz".
 \end{verbatim}
 \end{framed}
 \end{figure}
@@ -319,6 +324,9 @@ the seed. For example, to execute \dnest~with
 8 threads and a seed of 42, use {\tt ./main -t 8 -s 42}.
 When running with multiple threads, \dnest~uses a separate generator for each
 thread, and ensures that they are seeded with different values.\\
+
+The {\tt -z} option is only available is you have compiled with the {\tt zlib}
+library and Boost {\tt iostreams} library installed. \\
 
 If you have any additional configuration information required by the run, e.g.\
 for setting values needed for a particular model that you don't want to hardcode,

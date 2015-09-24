@@ -54,12 +54,13 @@ Options::Options(int numParticles,
 		beta >= 0. && maxNumSamples >= 0);
 }
 
-Options::Options(const char* filename)
+Options::Options(const char* filename, bool useGzip)
 :sampleFile("sample.txt")
 ,sampleInfoFile("sample_info.txt")
 ,levelsFile("levels.txt")
 {
 	load(filename);
+	if ( useGzip ){ set_gzip_sample_file(); }
 }
 
 void Options::load(const char* filename)
@@ -89,6 +90,11 @@ void Options::load(const char* filename)
 	assert( numParticles > 0 && newLevelInterval > 0 &&
 	threadSteps > 0 && maxNumLevels > 0 && lambda > 0. &&
 	beta >= 0. && maxNumSamples >= 0);
+}
+
+void Options::set_gzip_sample_file()
+{
+	sampleFile = sampleFile + string(".gz"); 
 }
 
 } // namespace DNest3

@@ -28,7 +28,7 @@ using namespace std;
 
 namespace DNest3
 {
-
+  
 CommandLineOptions::CommandLineOptions(int argc, char** argv)
 :levelsFile("")
 ,optionsFile("OPTIONS")
@@ -37,6 +37,7 @@ CommandLineOptions::CommandLineOptions(int argc, char** argv)
 ,compression("2.7182818284590451")
 ,numThreads(1)
 ,configFile("")
+,useGzip(false)
 {
 	// The following code is based on the example given at
 	// http://www.gnu.org/software/libc/manual/html_node/Example-of-Getopt.html#Example-of-Getopt
@@ -45,7 +46,7 @@ CommandLineOptions::CommandLineOptions(int argc, char** argv)
 	stringstream s;
 
 	opterr = 0;
-	while((c = getopt(argc, argv, "hl:o:s:d:c:t:f:")) != -1)
+	while((c = getopt(argc, argv, "hl:o:s:d:c:t:f:z")) != -1)
 	switch(c)
 	{
 		case 'h':
@@ -72,6 +73,9 @@ CommandLineOptions::CommandLineOptions(int argc, char** argv)
 			break;
 		case 'f':
 			configFile = string(optarg);
+			break;
+		case 'z':
+			useGzip = true;
 			break;
 		case '?':
 			cerr<<"# Option "<<optopt<<" requires an argument."<<endl;
@@ -124,7 +128,10 @@ void CommandLineOptions::printHelp() const
 	cout<<"-c <value>: Specify a compression value (between levels) other than e."<<endl;
 	cout<<"-t <num_threads>: run on the specified number of threads. Default=1."<<endl;
 	cout<<"-f <filename>: a custom configuration file for adding problem specific options if required."<<endl;
-	exit(0);
+#ifdef DNest3_zlib
+	cout<<"-z: the output \"sample.txt\" file will be gzipped and have the suffix \".gz\"."<<endl;
+#endif
+        exit(0);
 }
 
 } // namespace DNest3

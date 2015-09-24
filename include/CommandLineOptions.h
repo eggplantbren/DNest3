@@ -40,7 +40,8 @@ class CommandLineOptions
 		std::string compression;
 		int numThreads;
 		std::string configFile;
-
+		bool useGzip;
+                
 	public:
 		CommandLineOptions(int argc, char** argv);
 
@@ -65,6 +66,9 @@ class CommandLineOptions
 
 		const std::string& get_configFile() const
 		{ return configFile; }
+
+		bool set_gzip() const
+		{ return useGzip; }
 
 		// Convert seed string to an integer and return it
 		unsigned long get_seed_long() const;
