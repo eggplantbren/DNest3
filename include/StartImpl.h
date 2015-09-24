@@ -101,7 +101,7 @@ Sampler<ModelType> setup(const CommandLineOptions& options)
 	Options samplerOptions(options.get_optionsFile().c_str());
 
 	// Create sampler
-	Sampler<ModelType> sampler(samplerOptions);
+	Sampler<ModelType> sampler(options.get_compression_double(), samplerOptions);
 
 	// Load levels file if requested
 	if(options.get_levelsFile().compare("") != 0)

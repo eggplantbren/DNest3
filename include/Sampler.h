@@ -32,11 +32,11 @@ template<class ModelType>
 class Sampler
 {
 	private:
-		// Options (most useful comment ever)
-		Options options;
-
 		// Target compression value
 		double compression;
+
+                // Options (most useful comment ever)
+		Options options;
 
 		// Stuff pertaining to the particles
 		std::vector<ModelType> particles;
