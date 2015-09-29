@@ -98,7 +98,7 @@ Sampler<ModelType> setup(const CommandLineOptions& options)
 	RandomNumberGenerator::get_instance().set_seed(options.get_seed_long());
 
 	// Load sampler options from file
-	Options samplerOptions(options.get_optionsFile().c_str());
+	Options samplerOptions(options.get_optionsFile().c_str(), options.set_gzip());
 
 	// Create sampler
 	Sampler<ModelType> sampler(options.get_compression_double(), samplerOptions);
