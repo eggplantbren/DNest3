@@ -1,0 +1,5 @@
+# Compile .cpp files to .o
+Import(['my_env', 'libs'])
+my_env.Object(Glob('*.cpp'))
+Program('main.o', LIBS=libs)
+

@@ -4,6 +4,9 @@ env = Environment(CC = 'g++')
 # Magic from stack overflow to make shared library work
 env['STATIC_AND_SHARED_OBJECTS_ARE_THE_SAME']=1
 
+# Libraries
+libs = ['dnest3', 'gsl', 'gslcblas', 'boost-system', 'boost-thread']
+
 # Optimisation arguments to g++
 opt = env.Clone(CCFLAGS = '-O3 -DNDEBUG -fPIC -Wall -Wextra -ansi -pedantic')
 
@@ -19,11 +22,13 @@ my_env.Object(Glob('*.cpp'))
 # Make shared library file
 my_env.SharedLibrary('dnest3', Glob('*.o'))
 
-# Compile examples
+# List of examples to be compiled
 examples = ['SpikeSlab']
 
 # SConscript files for examples
 examples = ['Examples/' + e + '/SConscript' for e in examples]
-print(examples)
 
+# Build the examples
+#Export('my_env')
+SConscript(examples, exports=['my_env', 'libs'])
 
