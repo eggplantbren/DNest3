@@ -19,3 +19,11 @@ my_env.Object(Glob('*.cpp'))
 # Make shared library file
 my_env.SharedLibrary('dnest3', Glob('*.o'))
 
+# Compile examples
+examples = ['SpikeSlab']
+
+# SConscript files for examples
+examples = ['Examples/' + e + '/SConscript' for e in examples]
+print(examples)
+
+
