@@ -35,8 +35,3 @@ lib
 manual.pdf
 texput.log
 
-# Executables
-SpikeSlab
-FitSine
-HarlemShake
-Template
