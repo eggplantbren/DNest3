@@ -1,5 +1,8 @@
 # Compile .cpp files to .o
-Import(['my_env', 'libs'])
-my_env.Object(Glob('*.cpp'))
-Program('main.o', LIBS=libs)
+Import(['my_env'])
+this_env = my_env.Clone()
+this_env.Append(CPPPATH='../../', LIBPATH='../../', LIBS=[
+'dnest3', 'gsl', 'gslcblas', 'boost_system', 'boost_thread'])
+this_env.Object(Glob('*.cpp'))
+this_env.Program('main', Glob('*.o'))
 
