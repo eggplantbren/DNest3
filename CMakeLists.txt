@@ -9,7 +9,7 @@ set (CMAKE_MACOSX_RPATH TRUE)
 set (CMAKE_MODULE_PATH "${PROJECT_SOURCE_DIR}/cmake")
 
 set (CMAKE_CXX_FLAGS "-Wall -Wextra -pedantic -ansi -Wno-unused-parameter")
-set (CMAKE_CXX_FLAGS_RELEASE "-O2 -DNDEBUG")
+set (CMAKE_CXX_FLAGS_RELEASE "-O3 -DNDEBUG")
 set (CMAKE_CXX_FLAGS_DEBUG "-O0 -g")
 if (NOT CMAKE_BUILD_TYPE)
     set (CMAKE_BUILD_TYPE "release")
