@@ -21,9 +21,15 @@ void MyModel::fromPrior()
 
 double MyModel::perturb()
 {
-	int which = randInt(x.size());
-	x[which] += randh();
-	wrap(x[which], 0., 1.);
+	int which;
+	int reps = static_cast<int>(pow(10., 2.*randomU()));
+	for(int i=0; i<reps; i++)
+	{
+		which = randInt(x.size());
+		x[which] += randh();
+		wrap(x[which], 0., 1.);
+	}
+
 	return 0.;
 }
 
