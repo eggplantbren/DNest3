@@ -10,7 +10,9 @@
 
 3) Open the Makefile and make sure the -L option to g++ points to the
 	directory on your computer where the Julia shared library (such
-	as libjulia.so) is stored.
+	as libjulia.so) is stored. You might also have to configure your
+	system so that it searches for libraries here at runtime, e.g.
+	by running ldconfig as root.
 
 4) Open main.cpp and edit the first argument to the function
 	jl_init_with_image to be the path to the file sys.so associated with
