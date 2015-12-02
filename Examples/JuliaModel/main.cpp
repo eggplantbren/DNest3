@@ -8,7 +8,7 @@ using namespace DNest3;
 
 int main(int argc, char** argv)
 {
-	jl_init_with_image("/usr/local/lib/julia/", "sys.so");
+	jl_init_with_image("/usr/local/lib/julia", "sys.so");
 	jl_eval_string("include(\"julia_model.jl\")");
 
 	MTSampler<MyModel> sampler = setup_mt<MyModel>(argc, argv);
