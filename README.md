@@ -115,7 +115,7 @@ Other useful options include:
 
 * `-DBUILD_MANUAL=true`
 
-  Build a PDF manual in `DNest3/build/doc`. Requires pdfLaTeX.
+  Build a PDF manual in `DNest3/doc`. Requires pdfLaTeX.
 
 
 Copyright and Licence
