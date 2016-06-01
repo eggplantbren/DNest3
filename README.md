@@ -1,6 +1,10 @@
 Welcome to DNest3
 =================
 
+**IMPORTANT**
+DNest3 is no longer supported.
+Please see [DNest4](http://github.com/eggplantbren/DNest4)
+
 DNest3 is a free software
 C++ implementation of Diffusive Nested Sampling, a Markov Chain
 Monte Carlo (MCMC) algorithm for Bayesian Inference and Statistical Mechanics.
